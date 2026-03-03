@@ -15,3 +15,40 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
         
+enum Role {
+  SUPERADMIN
+  BOSS
+  EMPLOYEE
+}
+
+model Company {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  
+  users     User[]   // Relacja: 1 firma ma wielu użytkowników
+}
+
+model User {
+  id         String   @id // Brak @default(uuid()), bo ID przyjdzie z Supabase Auth!
+  email      String   @unique
+  role       Role     @default(EMPLOYEE)
+  hourlyRate Float?   // Szef to wypełnia
+  
+  companyId  String?
+  company    Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  workLogs   WorkLog[] // Relacja: 1 użytkownik ma wiele wpisów czasu
+}
+
+model WorkLog {
+  id        String   @id @default(uuid())
+  date      DateTime 
+  hours     Float    
+  isPaid    Boolean  @default(false) 
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+}
