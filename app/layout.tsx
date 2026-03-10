@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import { supabase } from '@/lib/supabase/client'
+import { TRPCProvider } from '@/lib/trpc/provider'
 import './globals.css'
 
 const geistSans = Geist({
@@ -26,16 +26,19 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				<nav>
-					<form
-						action={async () => {
-							'use server'
-							await supabase.auth.signOut()
-						}}>
-						<button className='bg-white p-4 text-black'>Log out</button>
-					</form>
-				</nav>
-				{children}
+				<TRPCProvider>
+					<nav>
+						<form
+							action={async () => {
+								'use server'
+								// supabase.auth.signOut() nie działa w Server Action z klientem przeglądarkowym
+								// przenieś wylogowanie do osobnego miejsca
+							}}>
+							<button className='bg-white p-4 text-black'>Log out</button>
+						</form>
+					</nav>
+					{children}
+				</TRPCProvider>
 			</body>
 		</html>
 	)

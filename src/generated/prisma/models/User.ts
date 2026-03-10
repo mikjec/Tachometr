@@ -28,10 +28,12 @@ export type AggregateUser = {
 
 export type UserAvgAggregateOutputType = {
   hours: number | null
+  hourlyRate: number | null
 }
 
 export type UserSumAggregateOutputType = {
   hours: number | null
+  hourlyRate: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -40,6 +42,7 @@ export type UserMinAggregateOutputType = {
   name: string | null
   role: $Enums.Role | null
   hours: number | null
+  hourlyRate: number | null
   companyId: string | null
   createdAt: Date | null
 }
@@ -50,6 +53,7 @@ export type UserMaxAggregateOutputType = {
   name: string | null
   role: $Enums.Role | null
   hours: number | null
+  hourlyRate: number | null
   companyId: string | null
   createdAt: Date | null
 }
@@ -60,6 +64,7 @@ export type UserCountAggregateOutputType = {
   name: number
   role: number
   hours: number
+  hourlyRate: number
   companyId: number
   createdAt: number
   _all: number
@@ -68,10 +73,12 @@ export type UserCountAggregateOutputType = {
 
 export type UserAvgAggregateInputType = {
   hours?: true
+  hourlyRate?: true
 }
 
 export type UserSumAggregateInputType = {
   hours?: true
+  hourlyRate?: true
 }
 
 export type UserMinAggregateInputType = {
@@ -80,6 +87,7 @@ export type UserMinAggregateInputType = {
   name?: true
   role?: true
   hours?: true
+  hourlyRate?: true
   companyId?: true
   createdAt?: true
 }
@@ -90,6 +98,7 @@ export type UserMaxAggregateInputType = {
   name?: true
   role?: true
   hours?: true
+  hourlyRate?: true
   companyId?: true
   createdAt?: true
 }
@@ -100,6 +109,7 @@ export type UserCountAggregateInputType = {
   name?: true
   role?: true
   hours?: true
+  hourlyRate?: true
   companyId?: true
   createdAt?: true
   _all?: true
@@ -197,6 +207,7 @@ export type UserGroupByOutputType = {
   name: string
   role: $Enums.Role
   hours: number | null
+  hourlyRate: number | null
   companyId: string
   createdAt: Date
   _count: UserCountAggregateOutputType | null
@@ -230,6 +241,7 @@ export type UserWhereInput = {
   name?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   hours?: Prisma.FloatNullableFilter<"User"> | number | null
+  hourlyRate?: Prisma.FloatNullableFilter<"User"> | number | null
   companyId?: Prisma.StringFilter<"User"> | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
@@ -242,6 +254,7 @@ export type UserOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
   hours?: Prisma.SortOrderInput | Prisma.SortOrder
+  hourlyRate?: Prisma.SortOrderInput | Prisma.SortOrder
   companyId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   company?: Prisma.CompanyOrderByWithRelationInput
@@ -257,6 +270,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   hours?: Prisma.FloatNullableFilter<"User"> | number | null
+  hourlyRate?: Prisma.FloatNullableFilter<"User"> | number | null
   companyId?: Prisma.StringFilter<"User"> | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
@@ -269,6 +283,7 @@ export type UserOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
   hours?: Prisma.SortOrderInput | Prisma.SortOrder
+  hourlyRate?: Prisma.SortOrderInput | Prisma.SortOrder
   companyId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -287,6 +302,7 @@ export type UserScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   hours?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
+  hourlyRate?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
   companyId?: Prisma.StringWithAggregatesFilter<"User"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -297,6 +313,7 @@ export type UserCreateInput = {
   name: string
   role?: $Enums.Role
   hours?: number | null
+  hourlyRate?: number | null
   createdAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutUsersInput
   workEntries?: Prisma.WorkEntryCreateNestedManyWithoutUserInput
@@ -308,6 +325,7 @@ export type UserUncheckedCreateInput = {
   name: string
   role?: $Enums.Role
   hours?: number | null
+  hourlyRate?: number | null
   companyId: string
   createdAt?: Date | string
   workEntries?: Prisma.WorkEntryUncheckedCreateNestedManyWithoutUserInput
@@ -319,6 +337,7 @@ export type UserUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hours?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutUsersNestedInput
   workEntries?: Prisma.WorkEntryUpdateManyWithoutUserNestedInput
@@ -330,6 +349,7 @@ export type UserUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hours?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workEntries?: Prisma.WorkEntryUncheckedUpdateManyWithoutUserNestedInput
@@ -341,6 +361,7 @@ export type UserCreateManyInput = {
   name: string
   role?: $Enums.Role
   hours?: number | null
+  hourlyRate?: number | null
   companyId: string
   createdAt?: Date | string
 }
@@ -351,6 +372,7 @@ export type UserUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hours?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -360,6 +382,7 @@ export type UserUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hours?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -380,12 +403,14 @@ export type UserCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
   hours?: Prisma.SortOrder
+  hourlyRate?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
   hours?: Prisma.SortOrder
+  hourlyRate?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -394,6 +419,7 @@ export type UserMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
   hours?: Prisma.SortOrder
+  hourlyRate?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -404,12 +430,14 @@ export type UserMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
   hours?: Prisma.SortOrder
+  hourlyRate?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
   hours?: Prisma.SortOrder
+  hourlyRate?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -491,6 +519,7 @@ export type UserCreateWithoutCompanyInput = {
   name: string
   role?: $Enums.Role
   hours?: number | null
+  hourlyRate?: number | null
   createdAt?: Date | string
   workEntries?: Prisma.WorkEntryCreateNestedManyWithoutUserInput
 }
@@ -501,6 +530,7 @@ export type UserUncheckedCreateWithoutCompanyInput = {
   name: string
   role?: $Enums.Role
   hours?: number | null
+  hourlyRate?: number | null
   createdAt?: Date | string
   workEntries?: Prisma.WorkEntryUncheckedCreateNestedManyWithoutUserInput
 }
@@ -540,6 +570,7 @@ export type UserScalarWhereInput = {
   name?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   hours?: Prisma.FloatNullableFilter<"User"> | number | null
+  hourlyRate?: Prisma.FloatNullableFilter<"User"> | number | null
   companyId?: Prisma.StringFilter<"User"> | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
 }
@@ -550,6 +581,7 @@ export type UserCreateWithoutWorkEntriesInput = {
   name: string
   role?: $Enums.Role
   hours?: number | null
+  hourlyRate?: number | null
   createdAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutUsersInput
 }
@@ -560,6 +592,7 @@ export type UserUncheckedCreateWithoutWorkEntriesInput = {
   name: string
   role?: $Enums.Role
   hours?: number | null
+  hourlyRate?: number | null
   companyId: string
   createdAt?: Date | string
 }
@@ -586,6 +619,7 @@ export type UserUpdateWithoutWorkEntriesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hours?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutUsersNestedInput
 }
@@ -596,6 +630,7 @@ export type UserUncheckedUpdateWithoutWorkEntriesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hours?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -606,6 +641,7 @@ export type UserCreateManyCompanyInput = {
   name: string
   role?: $Enums.Role
   hours?: number | null
+  hourlyRate?: number | null
   createdAt?: Date | string
 }
 
@@ -615,6 +651,7 @@ export type UserUpdateWithoutCompanyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hours?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workEntries?: Prisma.WorkEntryUpdateManyWithoutUserNestedInput
 }
@@ -625,6 +662,7 @@ export type UserUncheckedUpdateWithoutCompanyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hours?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workEntries?: Prisma.WorkEntryUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -635,6 +673,7 @@ export type UserUncheckedUpdateManyWithoutCompanyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hours?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -675,6 +714,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   name?: boolean
   role?: boolean
   hours?: boolean
+  hourlyRate?: boolean
   companyId?: boolean
   createdAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -688,6 +728,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   role?: boolean
   hours?: boolean
+  hourlyRate?: boolean
   companyId?: boolean
   createdAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -699,6 +740,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   role?: boolean
   hours?: boolean
+  hourlyRate?: boolean
   companyId?: boolean
   createdAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -710,11 +752,12 @@ export type UserSelectScalar = {
   name?: boolean
   role?: boolean
   hours?: boolean
+  hourlyRate?: boolean
   companyId?: boolean
   createdAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "role" | "hours" | "companyId" | "createdAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "role" | "hours" | "hourlyRate" | "companyId" | "createdAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   workEntries?: boolean | Prisma.User$workEntriesArgs<ExtArgs>
@@ -739,6 +782,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     name: string
     role: $Enums.Role
     hours: number | null
+    hourlyRate: number | null
     companyId: string
     createdAt: Date
   }, ExtArgs["result"]["user"]>
@@ -1171,6 +1215,7 @@ export interface UserFieldRefs {
   readonly name: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly hours: Prisma.FieldRef<"User", 'Float'>
+  readonly hourlyRate: Prisma.FieldRef<"User", 'Float'>
   readonly companyId: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
 }
