@@ -1,9 +1,7 @@
 import { RoleSchema } from '@/src/generated/zod'
-import { supabase } from '@/lib/supabase/client'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { z } from 'zod'
-import { router, publicProcedure, managerProcedure, protectedProcedure, adminProcedure } from '../trpc'
-import { UserCreateInputSchema, UserUpdateInputSchema } from '@/src/generated/zod'
+import { router, publicProcedure, managerProcedure, adminProcedure } from '../trpc'
 import { TRPCError } from '@trpc/server'
 
 export const createUserSchema = z.object({
@@ -39,6 +37,7 @@ export const userRouter = router({
 		const { data, error } = await supabaseAdmin.auth.admin.createUser({
 			email: input.email,
 			password,
+			email_confirm: true,
 		})
 
 		if (error || !data.user)

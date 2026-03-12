@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { router, publicProcedure, managerProcedure, protectedProcedure, adminProcedure } from '../trpc'
+import { router, protectedProcedure } from '../trpc'
 import { TRPCError } from '@trpc/server'
 import { WorkLogUncheckedCreateInputSchema } from '@/src/generated/zod'
 

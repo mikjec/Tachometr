@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { trpc } from '@/lib/trpc/client'
+import { trpc } from '@/lib/trpc/provider'
 
 interface Props {
 	companies: { id: string; name: string }[]
@@ -16,6 +16,7 @@ export function CreateUserForm({ companies, onSuccess }: Props) {
 	const [companyId, setCompanyId] = useState('')
 	const [hourlyRate, setHourlyRate] = useState('')
 	const [error, setError] = useState('')
+	const [success, setSuccess] = useState(false)
 
 	const { mutate, isPending } = trpc.user.create.useMutation({
 		onSuccess: () => {
@@ -26,6 +27,8 @@ export function CreateUserForm({ companies, onSuccess }: Props) {
 			setCompanyId('')
 			setHourlyRate('')
 			setError('')
+			setSuccess(true)
+			setTimeout(() => setSuccess(false), 2000)
 			onSuccess?.()
 		},
 		onError: e => setError(String(e.message)),
@@ -55,6 +58,7 @@ export function CreateUserForm({ companies, onSuccess }: Props) {
 			onSubmit={handleSubmit}
 			className='flex flex-col gap-4 max-w-md'>
 			{error && <p className='text-red-500 text-sm'>{error}</p>}
+			{success && <p className='text-green-500 text-sm'>Dodano użytkownika</p>}
 
 			<input
 				type='email'
