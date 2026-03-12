@@ -11,6 +11,10 @@ export async function middleware(request: NextRequest) {
 		},
 	})
 
+	if (pathname.startsWith('/api')) {
+		return response
+	}
+
 	const supabase = createServerClient(
 		process.env.NEXT_PUBLIC_SUPABASE_URL!,
 		process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY!,

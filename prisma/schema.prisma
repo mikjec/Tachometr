@@ -38,7 +38,7 @@ model User {
   companyId  String
   company    Company     @relation(fields: [companyId], references: [id])
   createdAt  DateTime    @default(now())
-  workEntries WorkEntry[]
+  workLogs WorkLog[]
 }
 
 enum Role {
@@ -47,12 +47,12 @@ enum Role {
   EMPLOYEE 
 }
 
-model WorkEntry {
+model WorkLog {
   id        String   @id @default(uuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   date      DateTime
-  hours     Float
+  hours     Float 
   paid      Boolean  @default(false)
   note      String?
   createdAt DateTime @default(now())

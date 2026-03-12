@@ -55,7 +55,7 @@ export type Company = Prisma.CompanyModel
  */
 export type User = Prisma.UserModel
 /**
- * Model WorkEntry
+ * Model WorkLog
  * 
  */
-export type WorkEntry = Prisma.WorkEntryModel
+export type WorkLog = Prisma.WorkLogModel

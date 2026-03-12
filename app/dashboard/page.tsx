@@ -1,7 +1,7 @@
 'use client'
 
 import { supabase } from '@/lib/supabase/client'
-import { trpc } from '@/lib/trpc/client'
+import { trpc } from '@/lib/trpc/provider'
 import { useEffect, useState } from 'react'
 
 export default function Page() {

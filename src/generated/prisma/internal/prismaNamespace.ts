@@ -392,7 +392,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Company: 'Company',
   User: 'User',
-  WorkEntry: 'WorkEntry'
+  WorkLog: 'WorkLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -408,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "company" | "user" | "workEntry"
+    modelProps: "company" | "user" | "workLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -560,77 +560,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    WorkEntry: {
-      payload: Prisma.$WorkEntryPayload<ExtArgs>
-      fields: Prisma.WorkEntryFieldRefs
+    WorkLog: {
+      payload: Prisma.$WorkLogPayload<ExtArgs>
+      fields: Prisma.WorkLogFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.WorkEntryFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkEntryPayload> | null
+          args: Prisma.WorkLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkLogPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.WorkEntryFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkEntryPayload>
+          args: Prisma.WorkLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkLogPayload>
         }
         findFirst: {
-          args: Prisma.WorkEntryFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkEntryPayload> | null
+          args: Prisma.WorkLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkLogPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.WorkEntryFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkEntryPayload>
+          args: Prisma.WorkLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkLogPayload>
         }
         findMany: {
-          args: Prisma.WorkEntryFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkEntryPayload>[]
+          args: Prisma.WorkLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkLogPayload>[]
         }
         create: {
-          args: Prisma.WorkEntryCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkEntryPayload>
+          args: Prisma.WorkLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkLogPayload>
         }
         createMany: {
-          args: Prisma.WorkEntryCreateManyArgs<ExtArgs>
+          args: Prisma.WorkLogCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.WorkEntryCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkEntryPayload>[]
+          args: Prisma.WorkLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkLogPayload>[]
         }
         delete: {
-          args: Prisma.WorkEntryDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkEntryPayload>
+          args: Prisma.WorkLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkLogPayload>
         }
         update: {
-          args: Prisma.WorkEntryUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkEntryPayload>
+          args: Prisma.WorkLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkLogPayload>
         }
         deleteMany: {
-          args: Prisma.WorkEntryDeleteManyArgs<ExtArgs>
+          args: Prisma.WorkLogDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.WorkEntryUpdateManyArgs<ExtArgs>
+          args: Prisma.WorkLogUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.WorkEntryUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkEntryPayload>[]
+          args: Prisma.WorkLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkLogPayload>[]
         }
         upsert: {
-          args: Prisma.WorkEntryUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkEntryPayload>
+          args: Prisma.WorkLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkLogPayload>
         }
         aggregate: {
-          args: Prisma.WorkEntryAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateWorkEntry>
+          args: Prisma.WorkLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWorkLog>
         }
         groupBy: {
-          args: Prisma.WorkEntryGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.WorkEntryGroupByOutputType>[]
+          args: Prisma.WorkLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WorkLogGroupByOutputType>[]
         }
         count: {
-          args: Prisma.WorkEntryCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.WorkEntryCountAggregateOutputType> | number
+          args: Prisma.WorkLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WorkLogCountAggregateOutputType> | number
         }
       }
     }
@@ -696,7 +696,7 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-export const WorkEntryScalarFieldEnum = {
+export const WorkLogScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   date: 'date',
@@ -706,7 +706,7 @@ export const WorkEntryScalarFieldEnum = {
   createdAt: 'createdAt'
 } as const
 
-export type WorkEntryScalarFieldEnum = (typeof WorkEntryScalarFieldEnum)[keyof typeof WorkEntryScalarFieldEnum]
+export type WorkLogScalarFieldEnum = (typeof WorkLogScalarFieldEnum)[keyof typeof WorkLogScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -904,7 +904,7 @@ export interface PrismaClientOptions {
 export type GlobalOmitConfig = {
   company?: Prisma.CompanyOmit
   user?: Prisma.UserOmit
-  workEntry?: Prisma.WorkEntryOmit
+  workLog?: Prisma.WorkLogOmit
 }
 
 /* Types for Logging */

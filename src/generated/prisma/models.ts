@@ -10,5 +10,5 @@
  */
 export type * from './models/Company'
 export type * from './models/User'
-export type * from './models/WorkEntry'
+export type * from './models/WorkLog'
 export type * from './commonInputTypes'

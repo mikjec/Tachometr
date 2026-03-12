@@ -245,7 +245,7 @@ export type UserWhereInput = {
   companyId?: Prisma.StringFilter<"User"> | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
-  workEntries?: Prisma.WorkEntryListRelationFilter
+  workLogs?: Prisma.WorkLogListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -258,7 +258,7 @@ export type UserOrderByWithRelationInput = {
   companyId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   company?: Prisma.CompanyOrderByWithRelationInput
-  workEntries?: Prisma.WorkEntryOrderByRelationAggregateInput
+  workLogs?: Prisma.WorkLogOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -274,7 +274,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   companyId?: Prisma.StringFilter<"User"> | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
-  workEntries?: Prisma.WorkEntryListRelationFilter
+  workLogs?: Prisma.WorkLogListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -316,7 +316,7 @@ export type UserCreateInput = {
   hourlyRate?: number | null
   createdAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutUsersInput
-  workEntries?: Prisma.WorkEntryCreateNestedManyWithoutUserInput
+  workLogs?: Prisma.WorkLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -328,7 +328,7 @@ export type UserUncheckedCreateInput = {
   hourlyRate?: number | null
   companyId: string
   createdAt?: Date | string
-  workEntries?: Prisma.WorkEntryUncheckedCreateNestedManyWithoutUserInput
+  workLogs?: Prisma.WorkLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -340,7 +340,7 @@ export type UserUpdateInput = {
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutUsersNestedInput
-  workEntries?: Prisma.WorkEntryUpdateManyWithoutUserNestedInput
+  workLogs?: Prisma.WorkLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -352,7 +352,7 @@ export type UserUncheckedUpdateInput = {
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workEntries?: Prisma.WorkEntryUncheckedUpdateManyWithoutUserNestedInput
+  workLogs?: Prisma.WorkLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -499,18 +499,18 @@ export type NullableFloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type UserCreateNestedOneWithoutWorkEntriesInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutWorkEntriesInput, Prisma.UserUncheckedCreateWithoutWorkEntriesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWorkEntriesInput
+export type UserCreateNestedOneWithoutWorkLogsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWorkLogsInput, Prisma.UserUncheckedCreateWithoutWorkLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWorkLogsInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutWorkEntriesNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutWorkEntriesInput, Prisma.UserUncheckedCreateWithoutWorkEntriesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWorkEntriesInput
-  upsert?: Prisma.UserUpsertWithoutWorkEntriesInput
+export type UserUpdateOneRequiredWithoutWorkLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWorkLogsInput, Prisma.UserUncheckedCreateWithoutWorkLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWorkLogsInput
+  upsert?: Prisma.UserUpsertWithoutWorkLogsInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWorkEntriesInput, Prisma.UserUpdateWithoutWorkEntriesInput>, Prisma.UserUncheckedUpdateWithoutWorkEntriesInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWorkLogsInput, Prisma.UserUpdateWithoutWorkLogsInput>, Prisma.UserUncheckedUpdateWithoutWorkLogsInput>
 }
 
 export type UserCreateWithoutCompanyInput = {
@@ -521,7 +521,7 @@ export type UserCreateWithoutCompanyInput = {
   hours?: number | null
   hourlyRate?: number | null
   createdAt?: Date | string
-  workEntries?: Prisma.WorkEntryCreateNestedManyWithoutUserInput
+  workLogs?: Prisma.WorkLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCompanyInput = {
@@ -532,7 +532,7 @@ export type UserUncheckedCreateWithoutCompanyInput = {
   hours?: number | null
   hourlyRate?: number | null
   createdAt?: Date | string
-  workEntries?: Prisma.WorkEntryUncheckedCreateNestedManyWithoutUserInput
+  workLogs?: Prisma.WorkLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCompanyInput = {
@@ -575,7 +575,7 @@ export type UserScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
 }
 
-export type UserCreateWithoutWorkEntriesInput = {
+export type UserCreateWithoutWorkLogsInput = {
   id: string
   email: string
   name: string
@@ -586,7 +586,7 @@ export type UserCreateWithoutWorkEntriesInput = {
   company: Prisma.CompanyCreateNestedOneWithoutUsersInput
 }
 
-export type UserUncheckedCreateWithoutWorkEntriesInput = {
+export type UserUncheckedCreateWithoutWorkLogsInput = {
   id: string
   email: string
   name: string
@@ -597,23 +597,23 @@ export type UserUncheckedCreateWithoutWorkEntriesInput = {
   createdAt?: Date | string
 }
 
-export type UserCreateOrConnectWithoutWorkEntriesInput = {
+export type UserCreateOrConnectWithoutWorkLogsInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutWorkEntriesInput, Prisma.UserUncheckedCreateWithoutWorkEntriesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWorkLogsInput, Prisma.UserUncheckedCreateWithoutWorkLogsInput>
 }
 
-export type UserUpsertWithoutWorkEntriesInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutWorkEntriesInput, Prisma.UserUncheckedUpdateWithoutWorkEntriesInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutWorkEntriesInput, Prisma.UserUncheckedCreateWithoutWorkEntriesInput>
+export type UserUpsertWithoutWorkLogsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWorkLogsInput, Prisma.UserUncheckedUpdateWithoutWorkLogsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWorkLogsInput, Prisma.UserUncheckedCreateWithoutWorkLogsInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutWorkEntriesInput = {
+export type UserUpdateToOneWithWhereWithoutWorkLogsInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutWorkEntriesInput, Prisma.UserUncheckedUpdateWithoutWorkEntriesInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWorkLogsInput, Prisma.UserUncheckedUpdateWithoutWorkLogsInput>
 }
 
-export type UserUpdateWithoutWorkEntriesInput = {
+export type UserUpdateWithoutWorkLogsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -624,7 +624,7 @@ export type UserUpdateWithoutWorkEntriesInput = {
   company?: Prisma.CompanyUpdateOneRequiredWithoutUsersNestedInput
 }
 
-export type UserUncheckedUpdateWithoutWorkEntriesInput = {
+export type UserUncheckedUpdateWithoutWorkLogsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -653,7 +653,7 @@ export type UserUpdateWithoutCompanyInput = {
   hours?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workEntries?: Prisma.WorkEntryUpdateManyWithoutUserNestedInput
+  workLogs?: Prisma.WorkLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -664,7 +664,7 @@ export type UserUncheckedUpdateWithoutCompanyInput = {
   hours?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workEntries?: Prisma.WorkEntryUncheckedUpdateManyWithoutUserNestedInput
+  workLogs?: Prisma.WorkLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -683,11 +683,11 @@ export type UserUncheckedUpdateManyWithoutCompanyInput = {
  */
 
 export type UserCountOutputType = {
-  workEntries: number
+  workLogs: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  workEntries?: boolean | UserCountOutputTypeCountWorkEntriesArgs
+  workLogs?: boolean | UserCountOutputTypeCountWorkLogsArgs
 }
 
 /**
@@ -703,8 +703,8 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountWorkEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.WorkEntryWhereInput
+export type UserCountOutputTypeCountWorkLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WorkLogWhereInput
 }
 
 
@@ -718,7 +718,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   companyId?: boolean
   createdAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  workEntries?: boolean | Prisma.User$workEntriesArgs<ExtArgs>
+  workLogs?: boolean | Prisma.User$workLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -760,7 +760,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "role" | "hours" | "hourlyRate" | "companyId" | "createdAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  workEntries?: boolean | Prisma.User$workEntriesArgs<ExtArgs>
+  workLogs?: boolean | Prisma.User$workLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -774,7 +774,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     company: Prisma.$CompanyPayload<ExtArgs>
-    workEntries: Prisma.$WorkEntryPayload<ExtArgs>[]
+    workLogs: Prisma.$WorkLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1180,7 +1180,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  workEntries<T extends Prisma.User$workEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$workEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  workLogs<T extends Prisma.User$workLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$workLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1614,27 +1614,27 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.workEntries
+ * User.workLogs
  */
-export type User$workEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$workLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the WorkEntry
+   * Select specific fields to fetch from the WorkLog
    */
-  select?: Prisma.WorkEntrySelect<ExtArgs> | null
+  select?: Prisma.WorkLogSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the WorkEntry
+   * Omit specific fields from the WorkLog
    */
-  omit?: Prisma.WorkEntryOmit<ExtArgs> | null
+  omit?: Prisma.WorkLogOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.WorkEntryInclude<ExtArgs> | null
-  where?: Prisma.WorkEntryWhereInput
-  orderBy?: Prisma.WorkEntryOrderByWithRelationInput | Prisma.WorkEntryOrderByWithRelationInput[]
-  cursor?: Prisma.WorkEntryWhereUniqueInput
+  include?: Prisma.WorkLogInclude<ExtArgs> | null
+  where?: Prisma.WorkLogWhereInput
+  orderBy?: Prisma.WorkLogOrderByWithRelationInput | Prisma.WorkLogOrderByWithRelationInput[]
+  cursor?: Prisma.WorkLogWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.WorkEntryScalarFieldEnum | Prisma.WorkEntryScalarFieldEnum[]
+  distinct?: Prisma.WorkLogScalarFieldEnum | Prisma.WorkLogScalarFieldEnum[]
 }
 
 /**
