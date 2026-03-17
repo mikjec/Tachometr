@@ -4,9 +4,9 @@ import LogOut from '@/app/components/LogOut'
 
 function Navigation() {
 	return (
-		<nav className='fixed top-0 left-0 bg-white h-[100vh]'>
+		<nav className='fixed top-0 left-0 bg-white h-[100vh] p-4'>
 			<NavLink href={'/employee/workLogs'}>Moje godziny</NavLink>
-			<LogOut />
+			<LogOut className='absolute bottom-5' />
 		</nav>
 	)
 }
