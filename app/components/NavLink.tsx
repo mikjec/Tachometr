@@ -9,7 +9,7 @@ export default function NavLink({ href, children }: { href: string; children: Re
 	return (
 		<Link
 			href={href}
-			className={`px-3 py-2 rounded ${isActive ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100'}`}>
+			className={`${isActive ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100'}`}>
 			{children}
 		</Link>
 	)
