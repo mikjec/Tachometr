@@ -11,11 +11,20 @@ export const updateWorkLogSchema = z.object({
 })
 
 export const workLogsRouter = router({
-	getAll: protectedProcedure.query(async ({ ctx }) => {
+	getAll: protectedProcedure.input(z.number()).query(async ({ input, ctx }) => {
 		return ctx.prisma.workLog.findMany({
 			where: { userId: ctx.profile.id },
 			select: { id: true, date: true, hours: true, paid: true, note: true },
 			orderBy: { date: 'desc' },
+			take: 10,
+			skip: input - 10,
+		})
+	}),
+
+	getById: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
+		return ctx.prisma.workLog.findFirst({
+			where: { id: input },
+			select: { id: true, date: true, hours: true, paid: true, note: true },
 		})
 	}),
 
@@ -36,6 +45,16 @@ export const workLogsRouter = router({
 			select: { id: true, date: true, hours: true, paid: true, note: true },
 			orderBy: { date: 'desc' },
 		})
+	}),
+
+	getPages: protectedProcedure.input(z.string().optional()).query(async ({ input, ctx }) => {
+		const id = input ? ctx.profile.id : input
+
+		const count = await ctx.prisma.workLog.count({
+			where: { userId: id },
+		})
+
+		return Math.ceil(count / 10)
 	}),
 
 	create: protectedProcedure.input(WorkLogUncheckedCreateInputSchema).mutation(async ({ ctx, input }) => {

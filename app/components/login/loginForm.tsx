@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase/client'
 
 export default function LoginForm() {
@@ -21,10 +21,26 @@ export default function LoginForm() {
 			password,
 		})
 
+		function translateAuthError(message: string): string {
+			const errors: Record<string, string> = {
+				'Invalid login credentials': 'Nieprawidłowy email lub hasło',
+				'Email not confirmed': 'Email nie został potwierdzony',
+				'User already registered': 'Użytkownik z tym emailem już istnieje',
+				'Password should be at least 6 characters': 'Hasło musi mieć co najmniej 6 znaków',
+				'Too many requests': 'Zbyt wiele prób logowania, spróbuj później',
+				'User not found': 'Nie znaleziono użytkownika',
+				'Email rate limit exceeded': 'Przekroczono limit emaili, spróbuj później',
+			}
+
+			return errors[message] ?? message
+		}
+
 		if (error) {
-			setError(error.message)
+			setError(translateAuthError(error.message))
 			setLoading(false)
 			return
+		} else {
+			redirect('/')
 		}
 	}
 

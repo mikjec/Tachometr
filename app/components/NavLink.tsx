@@ -9,7 +9,8 @@ export default function NavLink({ href, children }: { href: string; children: Re
 	return (
 		<Link
 			href={href}
-			className={`${isActive ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100'}`}>
+			className={`flex items-center gap-2 px-4 py-2 w-full text-xl font-medium transition-all duration-150 text-gray-500
+        ${isActive ? 'shadow-sm border-t ' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'}`}>
 			{children}
 		</Link>
 	)

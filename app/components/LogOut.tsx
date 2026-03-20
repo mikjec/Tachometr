@@ -1,14 +1,13 @@
 'use client'
 import { supabase } from '@/lib/supabase/client'
 import { redirect } from 'next/navigation'
-import { Button } from '@/components/ui/button'
 import { LogOutIcon } from 'lucide-react'
 
 export function LogOut({ ...props }) {
 	return (
 		<div>
 			<button
-				className='border rounded-lg text-black'
+				className='border rounded-lg text-black cursor-pointer'
 				{...props}
 				onClick={() => {
 					supabase.auth.signOut()
