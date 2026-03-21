@@ -9,7 +9,7 @@ import TopPanel from '@/app/components/TopPanel'
 async function Page() {
 	return (
 		<div>
-			<TopPanel>Biblioteka &gt; Wpisy</TopPanel>
+			<TopPanel>Moje wpisy</TopPanel>
 			<WorkLogs />
 		</div>
 	)

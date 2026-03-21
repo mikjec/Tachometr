@@ -11,7 +11,7 @@ function Navigation() {
 				<Logo />
 			</div>
 
-			<div className='flex flex-col flex-1 my-4'>
+			<div className='flex flex-col flex-1'>
 				<NavLink href='/employee'>
 					<LayoutDashboard className='w-4 h-4' />
 					Strona główna

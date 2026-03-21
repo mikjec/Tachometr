@@ -27,10 +27,12 @@ export default function RootLayout({
 	return (
 		<html lang='pl-PL'>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased ms-nav-width relative`}>
-				<TRPCProvider>
-					<Navigation />
-					{children}
-				</TRPCProvider>
+				<div className='max-w-[1200px]'>
+					<TRPCProvider>
+						<Navigation />
+						{children}
+					</TRPCProvider>
+				</div>
 			</body>
 		</html>
 	)

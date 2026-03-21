@@ -17,7 +17,7 @@ function WorkLogs() {
 	if (isLoading) return <Spinner />
 
 	return (
-		<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-2 w-[70vw] bg-white p-4 rounded-lg h-[80vh]'>
+		<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-2 w-[70vw] bg-white p-4 rounded-lg h-[80vh] max-w-300 max-h-250 '>
 			<div className='grid grid-cols-[1fr_1fr_3fr_1fr] px-6 py-2 text-sm'>
 				<span className=' text-gray-400 uppercase tracking-wide'>Data</span>
 				<span className=' text-gray-400 uppercase tracking-wide'>Godziny</span>
