@@ -1,15 +1,20 @@
-import React from 'react'
-import { trpc } from '@/lib/trpc/provider'
-import WelcomeHeading from '@/app/components/welcomeHeading'
-import WorkLogs from '../_components/WorkLogs'
-import { Suspense } from 'react'
-import { Spinner } from '@/components/ui/spinner'
-import TopPanel from '@/app/components/TopPanel'
+'use client'
 
-async function Page() {
+import React from 'react'
+import WorkLogs from '../_components/WorkLogs'
+import TopPanel from '@/app/components/TopPanel'
+import Link from 'next/link'
+import { Plus } from 'lucide-react'
+
+function Page() {
 	return (
 		<div>
-			<TopPanel>Moje wpisy</TopPanel>
+			<TopPanel>
+				<div className='flex items-center justify-between w-full'>
+					<span>moje wpisy</span>
+				</div>
+			</TopPanel>
+
 			<WorkLogs />
 		</div>
 	)

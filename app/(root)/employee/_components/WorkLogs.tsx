@@ -4,9 +4,8 @@ import React from 'react'
 import { trpc } from '@/lib/trpc/provider'
 import { Spinner } from '@/components/ui/spinner'
 import { useState } from 'react'
+import Pagination from '@/app/components/Pagination'
 import Link from 'next/link'
-import { ChevronRight, ChevronLeft } from 'lucide-react'
-import clsx from 'clsx'
 
 function WorkLogs() {
 	const [page, setPage] = useState(1)
@@ -63,28 +62,11 @@ function WorkLogs() {
 					<p className='mx-auto text-gray-500'>Nie znaleziono danych</p>
 				)}
 			</div>
-			<div className='w-full flex items-center justify-center text-gray-400 text-xl'>
-				<button
-					onClick={() => {
-						if (page > 1) setPage(page - 1)
-					}}>
-					<ChevronLeft />
-				</button>
-				{Array.from({ length: pages.data ?? 0 }, (_, i) => (
-					<button
-						key={i}
-						className={clsx(`px-4 py-2 m-1 cursor-pointer ${page == i + 1 ? 'text-gray-700' : 'text-gray-400'}`)}
-						onClick={() => setPage(i + 1)}>
-						{i + 1}
-					</button>
-				))}
-				<button
-					onClick={() => {
-						if (page < (pages?.data ?? 0)) setPage(page + 1)
-					}}>
-					<ChevronRight />
-				</button>
-			</div>
+			<Pagination
+				page={page}
+				setPage={setPage}
+				pages={pages.data}
+			/>
 		</div>
 	)
 }

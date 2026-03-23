@@ -13,7 +13,7 @@ async function page(props: { params: Promise<{ id: string }> }) {
 					breadcrumbs={[
 						{ label: 'Moje wpisy', href: '/employee/workLogs' },
 						{
-							label: `${params.id}`,
+							label: 'Szczegóły wpisu',
 							href: `/employee/workLogs/${params.id}`,
 							active: true,
 						},

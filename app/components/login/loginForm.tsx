@@ -1,17 +1,17 @@
 'use client'
 
 import { useState } from 'react'
-import { redirect, useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { supabase } from '@/lib/supabase/client'
+import { Spinner } from '@/components/ui/spinner'
 
 export default function LoginForm() {
-	const router = useRouter()
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [error, setError] = useState<string | null>(null)
 	const [loading, setLoading] = useState(false)
 
-	const handleLogin = async (e: React.FormEvent) => {
+	const handleLogin = async (e: React.SubmitEvent) => {
 		e.preventDefault()
 		setLoading(true)
 		setError(null)
@@ -73,7 +73,7 @@ export default function LoginForm() {
 					type='submit'
 					aria-disabled={loading}
 					className='w-full bg-gray-400 hover:bg-gray-600 cursor-pointer text-white p-2 rounded'>
-					{loading ? 'Logowanie...' : 'Zaloguj się'}
+					{loading ? <Spinner /> : 'Zaloguj się'}
 				</button>
 			</form>
 		</div>

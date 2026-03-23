@@ -7,7 +7,7 @@ function TopPanel({ children }: { children: React.ReactNode }) {
 	return (
 		<>
 			<div className='fixed  top-0  w-screen h-topPanel-height bg-white text-xl ps-6 z-40 border-gray-100 shadow-sm pe-nav-width'>
-				<div className='w-full max-w-700 flex items-center justify-between mx-auto'>
+				<div className='w-full h-full max-w-700 flex items-center justify-between mx-auto uppercase'>
 					<span>{children}</span>
 
 					<button className='m-4 flex items-center'>

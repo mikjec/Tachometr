@@ -1,13 +1,18 @@
 import { z } from 'zod'
 import { router, protectedProcedure } from '../trpc'
 import { TRPCError } from '@trpc/server'
-import { WorkLogUncheckedCreateInputSchema } from '@/src/generated/zod'
 
 export const updateWorkLogSchema = z.object({
 	id: z.string(),
 	date: z.coerce.date(),
 	hours: z.number().min(0.5).max(24),
 	note: z.string().optional(),
+})
+
+export const createWorkLogSchema = z.object({
+	hours: z.number().min(0.5).max(24),
+	note: z.string().optional(),
+	date: z.coerce.date(),
 })
 
 export const workLogsRouter = router({
@@ -57,7 +62,7 @@ export const workLogsRouter = router({
 		return Math.ceil(count / 10)
 	}),
 
-	create: protectedProcedure.input(WorkLogUncheckedCreateInputSchema).mutation(async ({ ctx, input }) => {
+	create: protectedProcedure.input(createWorkLogSchema).mutation(async ({ ctx, input }) => {
 		const { hours, note, date } = input
 
 		if (date > new Date()) {
