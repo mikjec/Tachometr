@@ -5,18 +5,15 @@ import { LogOutIcon } from 'lucide-react'
 
 export function LogOut({ ...props }) {
 	return (
-		<div>
-			<button
-				className='border rounded-lg text-black cursor-pointer'
-				{...props}
-				onClick={() => {
-					supabase.auth.signOut()
-					redirect('/login')
-				}}>
-				<LogOutIcon className='inline-block me-2' />
-				Wyloguj
-			</button>
-		</div>
+		<button
+			{...props}
+			onClick={() => {
+				supabase.auth.signOut()
+				redirect('/login')
+			}}>
+			<LogOutIcon className='w-7 h-7' />
+			<span className='hidden 2xl:inline lg:ms-2 lg:text-lg'>Wyloguj</span>
+		</button>
 	)
 }
 

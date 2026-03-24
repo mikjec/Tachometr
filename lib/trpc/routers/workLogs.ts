@@ -115,6 +115,13 @@ export const workLogsRouter = router({
 				message: 'Nie odnaleziono wpisu',
 			})
 
+		if (existing.paid) {
+			throw new TRPCError({
+				code: 'CONFLICT',
+				message: 'Nie można edytować opłaconego wpisu',
+			})
+		}
+
 		const conflict = await ctx.prisma.workLog.findFirst({
 			where: {
 				userId: ctx.profile.id,
@@ -156,6 +163,13 @@ export const workLogsRouter = router({
 				code: 'CONFLICT',
 				message: 'Nie można usunąć wpisu',
 			})
+
+		if (existing.paid) {
+			throw new TRPCError({
+				code: 'CONFLICT',
+				message: 'Nie można usunąć opłaconego wpisu',
+			})
+		}
 
 		return ctx.prisma.workLog.delete({
 			where: {

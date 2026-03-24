@@ -7,8 +7,9 @@ export default function Logo({ ...props }) {
 			<Image
 				src={logo}
 				alt='Logo Dutly'
-				width={100}
-				height={100}
+				width={80}
+				height={80}
+				className='2xl:w-25'
 				{...props}
 			/>
 		</div>

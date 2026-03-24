@@ -26,13 +26,14 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='pl-PL'>
-			<body className={`${geistSans.variable} ${geistMono.variable} antialiased ms-nav-width relative`}>
-				<div className='max-w-[1200px]'>
-					<TRPCProvider>
-						<Navigation />
-						{children}
-					</TRPCProvider>
-				</div>
+			<body
+				className={`${geistSans.variable} ${geistMono.variable} antialiased pb-16
+		lg:pb-0
+		lg:ms-nav-width relative`}>
+				<TRPCProvider>
+					<Navigation />
+					{children}
+				</TRPCProvider>
 			</body>
 		</html>
 	)
