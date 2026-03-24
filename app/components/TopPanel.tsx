@@ -1,5 +1,4 @@
 import React from 'react'
-import { CircleUserRound } from 'lucide-react'
 import Image from 'next/image'
 import userIcon from '@/public/userIcon.svg'
 

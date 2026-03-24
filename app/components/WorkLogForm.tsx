@@ -18,7 +18,9 @@ interface WorkLogFormProps {
 
 export default function WorkLogForm({ mode = 'create', workLogId, initialData, onSuccess }: WorkLogFormProps) {
 	const router = useRouter()
-	const [date, setDate] = useState(initialData?.date ? new Date(initialData.date).toISOString().split('T')[0] : '')
+	const [date, setDate] = useState(
+		initialData?.date ? new Date(initialData.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+	)
 	const [hours, setHours] = useState(initialData?.hours?.toString() ?? '')
 	const [note, setNote] = useState(initialData?.note ?? '')
 	const [error, setError] = useState<string | null>(null)
@@ -113,7 +115,7 @@ export default function WorkLogForm({ mode = 'create', workLogId, initialData, o
 					placeholder='np. 8'
 					min='0.5'
 					max='24'
-					step='0.5'
+					step='0.25'
 					className='w-full border-2 border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent text-gray-700'
 					required
 				/>
