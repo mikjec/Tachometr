@@ -6,15 +6,12 @@ export async function createContext() {
 
 	const { data } = await supabase.auth.getUser()
 
-	console.log('User: ', data.user)
-
 	let profile = null
 
 	if (data.user) {
 		profile = await prisma.user.findUnique({
 			where: { id: data.user.id },
 		})
-		console.log('Profile', profile)
 	}
 
 	return {

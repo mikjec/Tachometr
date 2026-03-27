@@ -5,9 +5,8 @@ import WorkLogForm from '@/app/components/WorkLogForm'
 
 export default function CreateWorkLogPage() {
 	const breadcrumbs = [
-		{ label: 'Pracownik', href: '/employee' },
 		{ label: 'Moje wpisy', href: '/employee/workLogs' },
-		{ label: 'Dodaj wpis', href: '/employee/workLogs/create', active: true },
+		{ label: 'Utwórz nowy', href: '/employee/workLogs/create', active: true },
 	]
 
 	return (
@@ -16,7 +15,7 @@ export default function CreateWorkLogPage() {
 				<Breadcrumbs breadcrumbs={breadcrumbs} />
 			</TopPanel>
 
-			<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg mx-4 bg-white rounded-2xl shadow-sm p-8'>
+			<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen max-h-[80vh] sm:max-w-lg bg-white sm:rounded-2xl shadow-sm p-5 lg:p-8 flex flex-col justify-between'>
 				{/* Header */}
 				<div className='mb-6'>
 					<h2 className='text-2xl font-semibold text-gray-800'>Dodaj nowy wpis</h2>

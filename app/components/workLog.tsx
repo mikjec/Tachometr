@@ -14,7 +14,7 @@ function WorkLog({ id }: { id: string }) {
 	const [error, setError] = useState<string | null>(null)
 	const [deleteConfirm, setDeleteConfirm] = useState(false)
 
-	const query = trpc.workLog.getById.useQuery(id)
+	const query = trpc.workLog.getById.useQuery(id, { staleTime: 1000 * 60 })
 
 	const deleteMutation = trpc.workLog.delete.useMutation({
 		onSuccess: () => {
@@ -44,12 +44,12 @@ function WorkLog({ id }: { id: string }) {
 
 	if (isEditing) {
 		return (
-			<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg mx-4 bg-white rounded-2xl shadow-sm p-8'>
-				<div className='flex items-center justify-between mb-6'>
-					<h2 className='text-2xl font-semibold text-gray-800'>Edytuj wpis</h2>
+			<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen max-h-[80vh] sm:h-fit  lg:w-full sm:max-w-lg bg-white sm:rounded-2xl shadow-sm p-5 lg:p-8 flex flex-col justify-between'>
+				<div className='flex items-center justify-between mb-6 h-[10%]'>
+					<h2 className='text-xl lg:text-2xl font-semibold text-gray-800'>Edytuj wpis</h2>
 					<button
 						onClick={() => setIsEditing(false)}
-						className='text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-200 transition-colors bg-gray-100 p-3 rounded-4xl'>
+						className='text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-200 transition-colors bg-gray-100 p-2 lg:p-3 rounded-4xl'>
 						<ArrowLeft />
 					</button>
 				</div>
@@ -73,9 +73,9 @@ function WorkLog({ id }: { id: string }) {
 	}
 
 	return (
-		<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-8 w-[60vw] h-[60vh] bg-white p-8 rounded-2xl shadow-sm max-w-300'>
+		<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-5 md:gap-8 w-screen h-[80vh] md:w-[60vw] md:h-[60vh] bg-white p-5 md:p-8 md:rounded-2xl shadow-sm max-w-300'>
 			<div className='flex items-center justify-between'>
-				<h1 className='text-3xl font-semibold text-gray-800'>
+				<h1 className='text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-800'>
 					{new Date(workLog.date).toLocaleDateString('pl-PL', {
 						day: 'numeric',
 						month: 'long',
@@ -85,70 +85,74 @@ function WorkLog({ id }: { id: string }) {
 
 				<Link
 					href='/employee/workLogs'
-					className='text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-200 transition-colors bg-gray-100 p-3 rounded-4xl'>
+					className='text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-200 transition-colors bg-gray-100 p-2 lg:p-3 rounded-4xl'>
 					<ArrowLeft />
 				</Link>
 			</div>
 
 			{error && <div className='p-3 rounded-xl bg-red-50 text-red-600 text-sm'>{error}</div>}
 
-			<div className='grid grid-cols-3 gap-8'>
+			{/* Responsywny Grid */}
+			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8'>
 				<div className='flex flex-col gap-1'>
 					<span className='text-xs text-gray-400 uppercase tracking-wide'>Godziny</span>
-					<span className='text-2xl font-semibold text-gray-800'>{workLog.hours}h</span>
+					<span className='text-xl lg:text-2xl font-semibold text-gray-800'>{workLog.hours}h</span>
 				</div>
 				<div className='flex flex-col gap-1'>
 					<span className='text-xs text-gray-400 uppercase tracking-wide'>ID wpisu</span>
-					<span className='text-lg font-medium text-gray-700 break-all'>{workLog.id}</span>
+					<span className='text-base lg:text-lg font-medium text-gray-700 break-all'>{workLog.id}</span>
 				</div>
 				<div className='flex flex-col gap-1'>
 					<span className='text-xs text-gray-400 uppercase tracking-wide'>Status</span>
 					{workLog.paid ? (
-						<span className='w-fit px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700'>
+						<span className='w-fit px-3 py-1 rounded-full text-xs lg:text-sm font-medium bg-green-100 text-green-700'>
 							Opłacone
 						</span>
 					) : (
-						<span className='w-fit px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-700'>
+						<span className='w-fit px-3 py-1 rounded-full text-xs lg:text-sm font-medium bg-yellow-100 text-yellow-700'>
 							Oczekuje
 						</span>
 					)}
 				</div>
 			</div>
 
-			<div className='flex flex-col gap-2 flex-1'>
+			<div className='flex flex-col gap-2 flex-1 min-h-0'>
 				<span className='text-xs text-gray-400 uppercase tracking-wide'>Notatka</span>
-				<div className='border border-gray-100 rounded-xl p-6 text-gray-700 bg-gray-50 h-full overflow-y-auto'>
+				<div className='border border-gray-100 rounded-xl p-4 lg:p-6 text-sm lg:text-base text-gray-700 bg-gray-50 h-full overflow-y-auto'>
 					{workLog.note ?? 'Brak notatki'}
 				</div>
 			</div>
 
+			{/* Responsywne przyciski na dole */}
 			{workLog.paid ? null : deleteConfirm ? (
-				<div className='flex justify-end gap-3 pt-2 border-t border-gray-100'>
-					<span className='flex-1 flex items-center text-sm text-gray-600'>Czy na pewno chcesz usunąć ten wpis?</span>
+				<div className='flex flex-col lg:flex-row lg:justify-end gap-3 pt-4 border-t border-gray-100'>
+					<span className='flex-1 flex items-center justify-center lg:justify-start text-sm text-gray-600 text-center lg:text-left mb-2 lg:mb-0'>
+						Czy na pewno chcesz usunąć ten wpis?
+					</span>
 					<button
 						onClick={() => setDeleteConfirm(false)}
-						className='px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer'>
+						className='w-full lg:w-auto px-4 py-3 lg:py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer'>
 						Anuluj
 					</button>
 					<button
 						onClick={() => deleteMutation.mutate(workLog.id)}
 						disabled={deleteMutation.isPending}
-						className='px-4 py-2 rounded-lg text-sm font-medium bg-red-600 text-white hover:bg-red-700 transition-colors cursor-pointer flex items-center gap-2'>
+						className='w-full lg:w-auto px-4 py-3 lg:py-2 rounded-lg text-sm font-medium bg-red-600 text-white hover:bg-red-700 transition-colors cursor-pointer flex items-center justify-center gap-2'>
 						{deleteMutation.isPending && <Spinner className='size-4' />}
 						Usuń
 					</button>
 				</div>
 			) : (
-				<div className='flex justify-end gap-3 pt-2 border-t border-gray-100'>
+				<div className='flex lg:flex-row justify-end gap-3 pt-4 border-t border-gray-100'>
 					<button
 						onClick={() => setIsEditing(true)}
-						className='px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer flex items-center gap-2'>
+						className='w-full lg:w-auto px-4 py-3 lg:py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer flex items-center justify-center lg:justify-start gap-2'>
 						<Pencil className='size-4' />
 						Edytuj
 					</button>
 					<button
 						onClick={() => setDeleteConfirm(true)}
-						className='px-4 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-700 hover:bg-red-200 transition-colors cursor-pointer flex items-center gap-2'>
+						className='w-full lg:w-auto px-4 py-3 lg:py-2 rounded-lg text-sm font-medium bg-red-100 text-red-700 hover:bg-red-200 transition-colors cursor-pointer flex items-center justify-center lg:justify-start gap-2'>
 						<Trash2 className='size-4' />
 						Usuń
 					</button>

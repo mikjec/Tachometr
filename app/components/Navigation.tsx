@@ -12,7 +12,8 @@ function Navigation() {
 		bottom-0
 		left-0
 		right-0
-		h-16
+		h-13
+		sm:h-17
 		bg-white
 		border-t
 		border-gray-100
@@ -63,7 +64,7 @@ function Navigation() {
 
 			{/* LOGOUT */}
 			<div className='flex w-full h-full lg:h-fit'>
-				<LogOut className='w-full py-2 px-4 h-full flex items-center justify-center 2xl:justify-start text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition-all cursor-pointer' />
+				<LogOut className='w-full py-2 lg:py-6 px-4 h-full flex items-center justify-center 2xl:justify-start text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition-all cursor-pointer' />
 			</div>
 		</nav>
 	)

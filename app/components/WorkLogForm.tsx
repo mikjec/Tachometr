@@ -81,7 +81,7 @@ export default function WorkLogForm({ mode = 'create', workLogId, initialData, o
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className='flex flex-col gap-5'>
+			className='flex flex-col  gap-4 lg:gap-5 w-full'>
 			{/* Date */}
 			<div className='flex flex-col gap-2'>
 				<label
@@ -141,18 +141,18 @@ export default function WorkLogForm({ mode = 'create', workLogId, initialData, o
 			{/* Error Message */}
 			{error && <div className='p-3 rounded-xl bg-red-50 text-red-600 text-sm'>{error}</div>}
 
-			{/* Buttons */}
-			<div className='flex gap-3 pt-2'>
+			{/* Responsywne Przyciski (na telefonie w kolumnie, od rozmiaru 'sm' w wierszu) */}
+			<div className='flex sm:flex-row gap-3 pt-2'>
 				<button
 					type='button'
 					onClick={() => router.back()}
-					className='flex-1 px-4 py-3 rounded-xl text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer'>
+					className='w-full sm:flex-1 px-4 py-3 rounded-xl text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer'>
 					Anuluj
 				</button>
 				<button
 					type='submit'
 					disabled={isPending}
-					className='flex-1 bg-gray-800 hover:bg-gray-900 disabled:bg-gray-400 text-white font-medium p-4 rounded-xl transition-colors cursor-pointer flex items-center justify-center gap-2'>
+					className='w-full sm:flex-1 bg-gray-800 hover:bg-gray-900 disabled:bg-gray-400 text-white font-medium p-3 lg:p-4 rounded-xl transition-colors cursor-pointer flex items-center justify-center gap-2'>
 					{isPending ? (
 						<>
 							<Spinner className='size-5' />

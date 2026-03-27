@@ -6,22 +6,22 @@ import { Plus } from 'lucide-react'
 
 function Page() {
 	return (
-		<div>
-			<TopPanel>
-				<div className='flex items-center justify-between w-full'>
-					<span>moje wpisy</span>
+		<>
+			<TopPanel>Moje wpisy</TopPanel>
+			<main className='flex flex-col items-center py-4'>
+				<div className='w-full lg:w-[70vw] lg:max-w-300 pt-topPanel-height max-h-[60vh]'>
+					<div className='flex justify-end my-2'>
+						<Link
+							href='/employee/workLogs/create'
+							className='flex items-center gap-2 bg-white shadow-sm text-gray-500 px-4 py-4 rounded-2xl text-sm lg:text-xl font-medium hover:bg-gray-300 mt-4 hover:text-gray-700 transition-colors'>
+							<Plus />
+							Dodaj wpis
+						</Link>
+					</div>
+					<WorkLogs />
 				</div>
-			</TopPanel>
-			<div>
-				<Link
-					href='/employee/workLogs/create'
-					className='flex items-center gap-2 text-sm text-gray-600 hover:text-gray-800 transition-colors'>
-					<Plus />
-					Dodaj wpis
-				</Link>
-			</div>
-			<WorkLogs />
-		</div>
+			</main>
+		</>
 	)
 }
 

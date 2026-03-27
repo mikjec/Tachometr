@@ -19,10 +19,10 @@ async function TopPanel({ children }: { children: React.ReactNode }) {
 
 	return (
 		<>
-			<div className='fixed top-0 w-screen h-topPanel-height bg-white text-xl ps-6 py-8 z-40 border-gray-100 shadow-sm pe-nav-width'>
-				<div className='w-full h-full max-w-700 flex items-center justify-between mx-auto uppercase'>
-					<span className='text-sm'>{children}</span>
-					<button className='m-4 flex items-center'>
+			<div className='fixed top-0 w-screen h-topPanel-height bg-white ps-6 py-8 z-40 border-gray-100 shadow-sm lg:pe-nav-width'>
+				<div className='w-full h-full max-w-400 flex items-center justify-between mx-auto uppercase'>
+					<span className='text-md lg:text-lg'>{children}</span>
+					<span className='m-4 flex items-center hidden md:flex'>
 						{name}
 						<Image
 							src={userIcon}
@@ -30,7 +30,7 @@ async function TopPanel({ children }: { children: React.ReactNode }) {
 							width={40}
 							className='ms-2'
 						/>
-					</button>
+					</span>
 				</div>
 			</div>
 		</>
