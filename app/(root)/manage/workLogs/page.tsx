@@ -1,10 +1,9 @@
 import TopPanel from '@/app/components/TopPanel'
-import Breadcrumbs from '@/app/components/breadcrumbs'
 
 function Page() {
 	return (
 		<>
-			<TopPanel>Strona główna</TopPanel>
+			<TopPanel>Wpisy Pracowników</TopPanel>
 		</>
 	)
 }

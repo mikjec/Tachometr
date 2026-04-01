@@ -1,5 +1,5 @@
 import React from 'react'
-import WorkLog from '../../../../components/workLog'
+import WorkLog from '../../../../components/employee/workLog'
 import TopPanel from '@/app/components/TopPanel'
 import Breadcrumbs from '@/app/components/breadcrumbs'
 

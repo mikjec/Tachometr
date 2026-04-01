@@ -14,10 +14,17 @@ export const createUserSchema = z.object({
 })
 
 export const createEmployeeSchema = z.object({
-	email: z.email(),
+	email: z.string().email(),
 	name: z.string().min(2),
 	hourlyRate: z.number().optional().nullable(),
 	password: z.string().min(8),
+})
+
+export const updateEmployeeSchema = z.object({
+	id: z.string(),
+	email: z.string().email().optional(),
+	name: z.string().min(2).optional(),
+	hourlyRate: z.number().optional().nullable().optional(),
 })
 
 export const userRouter = router({
