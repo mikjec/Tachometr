@@ -6,7 +6,7 @@ import { Spinner } from '@/components/ui/spinner'
 import Link from 'next/link'
 import { ArrowLeft, Pencil, Trash2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import WorkLogForm from '@/app/components/WorkLogForm'
+import WorkLogForm from '@/app/(root)/employee/components/WorkLogForm'
 
 function WorkLog({ id }: { id: string }) {
 	const router = useRouter()

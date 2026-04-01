@@ -1,7 +1,7 @@
 import React from 'react'
 import TopPanel from '@/app/components/TopPanel'
 import Breadcrumbs from '@/app/components/breadcrumbs'
-import WorkLogForm from '@/app/components/WorkLogForm'
+import WorkLogForm from '@/app/(root)/employee/components/WorkLogForm'
 
 export default function CreateWorkLogPage() {
 	const breadcrumbs = [

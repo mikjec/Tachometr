@@ -1,5 +1,5 @@
 import React from 'react'
-import WorkLogs from '../../../components/WorkLogs'
+import WorkLogs from '../components/WorkLogs'
 import TopPanel from '@/app/components/TopPanel'
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
