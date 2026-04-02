@@ -25,7 +25,7 @@ export default function LoginForm() {
 	const [error, setError] = useState<string | null>(null)
 	const [loading, setLoading] = useState(false)
 
-	const handleLogin = async (e: React.FormEvent) => {
+	const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		setLoading(true)
 		setError(null)

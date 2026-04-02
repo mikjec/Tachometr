@@ -16,6 +16,44 @@ export const createWorkLogSchema = z.object({
 })
 
 export const workLogsRouter = router({
+	getAllForCompany: protectedProcedure.input(z.number()).query(async ({ input, ctx }) => {
+		return ctx.prisma.workLog.findMany({
+			where: {
+				user: {
+					companyId: ctx.profile.companyId,
+				},
+			},
+			select: {
+				id: true,
+				date: true,
+				hours: true,
+				paid: true,
+				note: true,
+				user: {
+					select: {
+						id: true,
+						name: true,
+					},
+				},
+			},
+			orderBy: { date: 'desc' },
+			take: 10,
+			skip: input - 10,
+		})
+	}),
+
+	getPagesForCompany: protectedProcedure.query(async ({ ctx }) => {
+		const count = await ctx.prisma.workLog.count({
+			where: {
+				user: {
+					companyId: ctx.profile.companyId,
+				},
+			},
+		})
+
+		return Math.ceil(count / 10)
+	}),
+
 	getAll: protectedProcedure.input(z.number()).query(async ({ input, ctx }) => {
 		return ctx.prisma.workLog.findMany({
 			where: { userId: ctx.profile.id },
@@ -176,6 +214,40 @@ export const workLogsRouter = router({
 				id: input,
 				userId: ctx.profile.id,
 			},
+		})
+	}),
+
+	setPaid: protectedProcedure.input(z.array(z.string())).mutation(async ({ ctx, input }) => {
+		if (input.length === 0) {
+			throw new TRPCError({
+				code: 'BAD_REQUEST',
+				message: 'Nie wybrano żadnych wpisów',
+			})
+		}
+
+		const workLogs = await ctx.prisma.workLog.findMany({
+			where: { id: { in: input } },
+			include: { user: true },
+		})
+
+		if (workLogs.length !== input.length) {
+			throw new TRPCError({
+				code: 'NOT_FOUND',
+				message: 'Niektóre wpisy nie zostały znalezione',
+			})
+		}
+
+		const invalidLogs = workLogs.filter(log => log.user.companyId !== ctx.profile.companyId)
+		if (invalidLogs.length > 0) {
+			throw new TRPCError({
+				code: 'FORBIDDEN',
+				message: 'Nie masz uprawnień do oznaczania tych wpisów jako opłacone',
+			})
+		}
+
+		return ctx.prisma.workLog.updateMany({
+			where: { id: { in: input } },
+			data: { paid: true },
 		})
 	}),
 })

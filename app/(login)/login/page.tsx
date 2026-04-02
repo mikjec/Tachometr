@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase/client'
-import LoginForm from '@/app/components/auth/loginForm'
+import LoginForm from '@/app/components/loginForm'
 import { redirect } from 'next/navigation'
 
 export default async function LoginPage() {
