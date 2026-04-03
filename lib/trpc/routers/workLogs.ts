@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { router, protectedProcedure } from '../trpc'
+import { router, protectedProcedure, managerProcedure } from '../trpc'
 import { TRPCError } from '@trpc/server'
 
 export const updateWorkLogSchema = z.object({
@@ -248,6 +248,24 @@ export const workLogsRouter = router({
 		return ctx.prisma.workLog.updateMany({
 			where: { id: { in: input } },
 			data: { paid: true },
+		})
+	}),
+
+	togglePaid: managerProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+		const workLog = await ctx.prisma.workLog.findFirst({
+			where: { id: input },
+		})
+
+		if (!workLog) {
+			throw new TRPCError({
+				code: 'NOT_FOUND',
+				message: 'Nie znaleziono wpisu',
+			})
+		}
+
+		return ctx.prisma.workLog.update({
+			where: { id: input },
+			data: { paid: !workLog.paid },
 		})
 	}),
 })

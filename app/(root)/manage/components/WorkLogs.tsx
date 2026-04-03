@@ -5,6 +5,7 @@ import { trpc } from '@/lib/trpc/provider'
 import { Spinner } from '@/components/ui/spinner'
 import Pagination from '@/app/components/Pagination'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 function WorkLogs() {
 	const [page, setPage] = useState(1)
@@ -58,8 +59,8 @@ function WorkLogs() {
 	const allUnpaidSelected = unpaidLogs.length > 0 && unpaidLogs.every(log => selectedIds.has(log.id))
 
 	return (
-		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg h-[70vh] md:h-[80vh] lg:max-w-300 lg:max-h-250 '>
-			<div className='flex items-center justify-between mb-2'>
+		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 pb-6 lg:rounded-lg h-[70vh] md:h-[80vh] lg:max-w-300 lg:max-h-250 mt-topPanel-height'>
+			<div className='flex items-center justify-between mb-2 ps-4'>
 				<div className='flex items-center gap-2'>
 					<input
 						type='checkbox'
@@ -102,49 +103,51 @@ function WorkLogs() {
 					<ul className='list-none p-0 m-0'>
 						{data.map(log => (
 							<li key={log.id}>
-								<div className='flex flex-col gap-2 lg:grid lg:grid-cols-[1fr_2fr_1fr_1fr_1fr_50px] lg:gap-0 lg:items-center bg-white border border-gray-100 rounded-xl px-6 py-4 shadow-sm hover:shadow-md hover:bg-gray-50 transition-all my-2 cursor-pointer'>
-									<span className='text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium text-gray-800'>
-										{log.user.name ?? 'Nieznany'}
-									</span>
+								<Link href={`./workLogs/${log.id}`}>
+									<div className='flex flex-col gap-2 lg:grid lg:grid-cols-[1fr_2fr_1fr_1fr_1fr_50px] lg:gap-0 lg:items-center bg-white border border-gray-100 rounded-xl px-6 py-4 shadow-sm hover:shadow-md hover:bg-gray-50 transition-all my-2 cursor-pointer'>
+										<span className='text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium text-gray-800'>
+											{log.user.name ?? 'Nieznany'}
+										</span>
 
-									<span className='text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium text-gray-800'>
-										{new Date(log.date).toLocaleDateString('pl-PL', {
-											day: 'numeric',
-											month: 'short',
-											year: 'numeric',
-										})}
-									</span>
+										<span className='text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium text-gray-800'>
+											{new Date(log.date).toLocaleDateString('pl-PL', {
+												day: 'numeric',
+												month: 'short',
+												year: 'numeric',
+											})}
+										</span>
 
-									<span className='text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-800'>
-										{log.hours}h
-									</span>
+										<span className='text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-800'>
+											{log.hours}h
+										</span>
 
-									<span className='text-sm sm:text-md md:text-base lg:text-lg xl:text-xl text-gray-600 truncate lg:pr-4 mt-2 lg:mt-0'>
-										{log.note ?? '—'}
-									</span>
+										<span className='text-sm sm:text-md md:text-base lg:text-lg xl:text-xl text-gray-600 truncate lg:pr-4 mt-2 lg:mt-0'>
+											{log.note ?? '—'}
+										</span>
 
-									<div className='mt-3 lg:mt-0 flex justify-end lg:justify-start'>
-										{log.paid ? (
-											<span className='px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg font-medium bg-green-100 text-green-700'>
-												Opłacone
-											</span>
-										) : (
-											<span className='px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg font-medium bg-yellow-100 text-yellow-700'>
-												Oczekuje
-											</span>
-										)}
+										<div className='mt-3 lg:mt-0 flex justify-end lg:justify-start'>
+											{log.paid ? (
+												<span className='px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg font-medium bg-green-100 text-green-700'>
+													Opłacone
+												</span>
+											) : (
+												<span className='px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg font-medium bg-yellow-100 text-yellow-700'>
+													Oczekuje
+												</span>
+											)}
+										</div>
+
+										<div className='mt-3 lg:mt-0 flex justify-center'>
+											<input
+												type='checkbox'
+												checked={selectedIds.has(log.id)}
+												onChange={() => handleSelectOne(log.id)}
+												disabled={log.paid}
+												className='w-5 h-5 rounded-lg border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 accent-green-600 color-white'
+											/>
+										</div>
 									</div>
-
-									<div className='mt-3 lg:mt-0 flex justify-center'>
-										<input
-											type='checkbox'
-											checked={selectedIds.has(log.id)}
-											onChange={() => handleSelectOne(log.id)}
-											disabled={log.paid}
-											className='w-5 h-5 rounded-lg border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 accent-green-600 color-white'
-										/>
-									</div>
-								</div>
+								</Link>
 							</li>
 						))}
 					</ul>

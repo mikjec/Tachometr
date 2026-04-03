@@ -5,7 +5,6 @@ import Logo from '@/app/components/Logo'
 import { Users, LayoutDashboard, Clock } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { prisma } from '@/lib/prisma/prisma'
-import { Role } from '@/src/generated/prisma/enums'
 
 const employeeNavLinks = [
 	{
@@ -49,7 +48,7 @@ async function Navigation() {
 		select: { role: true },
 	})
 
-	const links = profile?.role === Role.MANAGER ? managerNavLinks : employeeNavLinks
+	const links = profile?.role == 'MANAGER' ? managerNavLinks : employeeNavLinks
 
 	return (
 		<nav
