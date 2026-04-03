@@ -4,14 +4,14 @@ import { useState, useRef, useEffect } from 'react'
 import { trpc } from '@/lib/trpc/provider'
 import { Spinner } from '@/components/ui/spinner'
 import Pagination from '@/app/components/Pagination'
-import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { ChevronRight } from 'lucide-react'
 
 function WorkLogs() {
 	const [page, setPage] = useState(1)
 	const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
-	const { data, isLoading, isFetching, refetch } = trpc.workLog.getAllForCompany.useQuery(page * 10, {
+	const { data, isLoading, isFetching, refetch } = trpc.workLog.getAllForCompany.useQuery(page * 20, {
 		staleTime: 1000 * 60 * 5,
 	})
 	const pages = trpc.workLog.getPagesForCompany.useQuery()
@@ -59,29 +59,31 @@ function WorkLogs() {
 	const allUnpaidSelected = unpaidLogs.length > 0 && unpaidLogs.every(log => selectedIds.has(log.id))
 
 	return (
-		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 pb-6 lg:rounded-lg h-[70vh] md:h-[80vh] lg:max-w-300 lg:max-h-250 mt-topPanel-height'>
-			<div className='flex items-center justify-between mb-2 ps-4'>
+		<div className='w-full h-[80vh] mt-topPanel-height flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg md:h-[80vh] lg:max-w-300 lg:max-h-250'>
+			<div className='flex items-center justify-between mb-2 ps-4 pb-2 border-b border-gray-100'>
 				<div className='flex items-center gap-2'>
 					<input
 						type='checkbox'
 						checked={allUnpaidSelected || false}
 						onChange={handleSelectAll}
-						className='w-5 h-5 rounded border-gray-300 focus:ring-2   accent-green-600       focus:ring-blue-500 cursor-pointer'
+						className='w-5 h-5 rounded border-gray-300 focus:ring-2 accent-green-600 focus:ring-blue-500 cursor-pointer'
 						disabled={isLoading || !data || data.filter(log => !log.paid).length === 0}
 					/>
-					<span className='text-sm text-gray-600'>
+					<span className='text-xs sm:text-sm text-gray-600'>
 						{selectedIds.size > 0 ? `Wybrano ${selectedIds.size} wpisów` : 'Zaznacz wszystkie nieopłacone'}
 					</span>
 				</div>
-				<Button
+				<button
 					onClick={handleMarkAsPaid}
 					disabled={selectedIds.size === 0 || setPaidMutation.isPending}
-					className='bg-green-500 hover:bg-green-700 text-white cursor-pointer py-6 rounded-lg transition-colors'>
-					{setPaidMutation.isPending ? <Spinner className='size-4' /> : 'Oznacz jako opłacone'}
-				</Button>
+					className='px-4 py-2 rounded-lg text-sm font-medium bg-green-100 text-green-700 hover:bg-green-200 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2'>
+					{setPaidMutation.isPending && <Spinner className='size-4' />}
+					Oznacz jako opłacone
+				</button>
 			</div>
 
-			<div className='hidden lg:grid grid-cols-[1fr_2fr_1fr_1fr_1fr_50px] px-6 py-2 lg:text-sm xl:text-base'>
+			<div className='hidden lg:grid grid-cols-[50px_1fr_1fr_1fr_2fr_1fr_50px] px-6 py-2 lg:text-sm xl:text-base'>
+				<span className='text-gray-400 uppercase tracking-wide'></span>
 				<span className='text-gray-400 uppercase tracking-wide'>Użytkownik</span>
 				<span className='text-gray-400 uppercase tracking-wide'>Data</span>
 				<span className='text-gray-400 uppercase tracking-wide'>Godziny</span>
@@ -103,13 +105,28 @@ function WorkLogs() {
 					<ul className='list-none p-0 m-0'>
 						{data.map(log => (
 							<li key={log.id}>
-								<Link href={`./workLogs/${log.id}`}>
-									<div className='flex flex-col gap-2 lg:grid lg:grid-cols-[1fr_2fr_1fr_1fr_1fr_50px] lg:gap-0 lg:items-center bg-white border border-gray-100 rounded-xl px-6 py-4 shadow-sm hover:shadow-md hover:bg-gray-50 transition-all my-2 cursor-pointer'>
-										<span className='text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium text-gray-800'>
-											{log.user.name ?? 'Nieznany'}
-										</span>
+								<div className='flex flex-col gap-3 lg:grid lg:grid-cols-[50px_1fr_1fr_1fr_2fr_1fr_50px] lg:gap-0 lg:items-center bg-white border border-gray-100 rounded-xl px-5 py-4 shadow-sm hover:shadow-md hover:bg-gray-50 transition-all my-2'>
+									<div className='hidden lg:flex justify-center'>
+										<input
+											type='checkbox'
+											checked={selectedIds.has(log.id)}
+											onChange={e => {
+												e.preventDefault()
+												handleSelectOne(log.id)
+											}}
+											onClick={e => e.stopPropagation()}
+											disabled={log.paid}
+											className='w-5 h-5 rounded border-gray-300 accent-green-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50'
+										/>
+									</div>
 
-										<span className='text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium text-gray-800'>
+									<span className='text-xs sm:text-sm md:text-base lg:text-base xl:text-lg font-medium text-gray-800'>
+										{log.user.name ?? 'Nieznany'}
+									</span>
+
+									<div className='flex justify-between items-center lg:contents'>
+										<span className='text-xs sm:text-sm md:text-base lg:text-base xl:text-lg font-medium text-gray-800 flex items-center gap-2'>
+											<span className='text-gray-400 text-[10px] sm:text-xs md:text-sm uppercase lg:hidden'>Data:</span>
 											{new Date(log.date).toLocaleDateString('pl-PL', {
 												day: 'numeric',
 												month: 'short',
@@ -117,37 +134,51 @@ function WorkLogs() {
 											})}
 										</span>
 
-										<span className='text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-800'>
+										<span className='text-xs sm:text-sm md:text-base lg:text-base xl:text-lg font-semibold text-gray-800 flex items-center gap-2'>
+											<span className='text-gray-400 text-[10px] sm:text-xs md:text-sm uppercase lg:hidden'>Czas:</span>
 											{log.hours}h
 										</span>
-
-										<span className='text-sm sm:text-md md:text-base lg:text-lg xl:text-xl text-gray-600 truncate lg:pr-4 mt-2 lg:mt-0'>
-											{log.note ?? '—'}
-										</span>
-
-										<div className='mt-3 lg:mt-0 flex justify-end lg:justify-start'>
-											{log.paid ? (
-												<span className='px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg font-medium bg-green-100 text-green-700'>
-													Opłacone
-												</span>
-											) : (
-												<span className='px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg font-medium bg-yellow-100 text-yellow-700'>
-													Oczekuje
-												</span>
-											)}
-										</div>
-
-										<div className='mt-3 lg:mt-0 flex justify-center'>
-											<input
-												type='checkbox'
-												checked={selectedIds.has(log.id)}
-												onChange={() => handleSelectOne(log.id)}
-												disabled={log.paid}
-												className='w-5 h-5 rounded-lg border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 accent-green-600 color-white'
-											/>
-										</div>
 									</div>
-								</Link>
+
+									<span className='text-sm sm:text-md md:text-base lg:text-base xl:text-lg text-gray-600 truncate lg:pr-4'>
+										{log.note ?? '—'}
+									</span>
+
+									<div className='flex justify-end lg:justify-start'>
+										{log.paid ? (
+											<span className='px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg font-medium bg-green-100 text-green-700'>
+												Opłacone
+											</span>
+										) : (
+											<span className='px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg font-medium bg-yellow-100 text-yellow-700'>
+												Oczekuje
+											</span>
+										)}
+									</div>
+
+									<div className='lg:hidden flex justify-between items-center mt-2 gap-2'>
+										<input
+											type='checkbox'
+											checked={selectedIds.has(log.id)}
+											onChange={() => handleSelectOne(log.id)}
+											disabled={log.paid}
+											className='w-5 h-5 rounded border-gray-300 accent-green-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50'
+										/>
+										<Link
+											href={`/manage/workLogs/${log.id}`}
+											className='text-gray-400 hover:text-gray-600 transition-colors'>
+											<ChevronRight className='size-5' />
+										</Link>
+									</div>
+
+									<div className='hidden lg:flex justify-center'>
+										<Link
+											href={`/manage/workLogs/${log.id}`}
+											className='text-gray-400 hover:text-gray-600 transition-colors'>
+											<ChevronRight className='size-5' />
+										</Link>
+									</div>
+								</div>
 							</li>
 						))}
 					</ul>

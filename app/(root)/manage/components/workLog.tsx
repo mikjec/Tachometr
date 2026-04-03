@@ -5,6 +5,7 @@ import { trpc } from '@/lib/trpc/provider'
 import { Spinner } from '@/components/ui/spinner'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+import { refreshPath } from '@/lib/actions/actions'
 
 function WorkLog({ id }: { id: string }) {
 	const [error, setError] = useState<string | null>(null)
@@ -12,8 +13,9 @@ function WorkLog({ id }: { id: string }) {
 	const query = trpc.workLog.getById.useQuery(id, { staleTime: 1000 * 60 })
 
 	const updatePaidMutation = trpc.workLog.togglePaid.useMutation({
-		onSuccess: () => {
+		onSuccess: async () => {
 			query.refetch()
+			await refreshPath('/manage/workLogs')
 			setError(null)
 		},
 		onError: err => {

@@ -37,8 +37,8 @@ export const workLogsRouter = router({
 				},
 			},
 			orderBy: { date: 'desc' },
-			take: 10,
-			skip: input - 10,
+			take: 20,
+			skip: input - 20,
 		})
 	}),
 
@@ -51,7 +51,7 @@ export const workLogsRouter = router({
 			},
 		})
 
-		return Math.ceil(count / 10)
+		return Math.ceil(count / 20)
 	}),
 
 	getAll: protectedProcedure.input(z.number()).query(async ({ input, ctx }) => {
