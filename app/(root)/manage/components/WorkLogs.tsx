@@ -11,6 +11,11 @@ function WorkLogs() {
 	const [page, setPage] = useState(1)
 	const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
+	const handlePageChange = (newPage: number) => {
+		setSelectedIds(new Set())
+		setPage(newPage)
+	}
+
 	const { data, isLoading, isFetching, refetch } = trpc.workLog.getAllForCompany.useQuery(page * 20, {
 		staleTime: 1000 * 60 * 5,
 	})
@@ -111,7 +116,6 @@ function WorkLogs() {
 											type='checkbox'
 											checked={selectedIds.has(log.id)}
 											onChange={e => {
-												e.preventDefault()
 												handleSelectOne(log.id)
 											}}
 											onClick={e => e.stopPropagation()}
@@ -192,7 +196,7 @@ function WorkLogs() {
 
 				<Pagination
 					page={page}
-					setPage={setPage}
+					setPage={handlePageChange}
 					pages={pages.data}
 				/>
 			</div>
