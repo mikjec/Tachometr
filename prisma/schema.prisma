@@ -19,8 +19,9 @@ generator zod {
 
 datasource db {
   provider  = "postgresql"
-
-}      
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
 model Company {
   id        String   @id @default(uuid())
   name      String
@@ -33,7 +34,6 @@ model User {
   email      String      @unique
   name       String
   role       Role        @default(EMPLOYEE)
-  hours Float?
   hourlyRate Float?
   companyId  String
   company    Company     @relation(fields: [companyId], references: [id])

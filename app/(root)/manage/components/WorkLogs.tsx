@@ -7,7 +7,11 @@ import Pagination from '@/app/components/Pagination'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 
-function WorkLogs() {
+interface WorkLogsProps {
+	userId?: string
+}
+
+function WorkLogs({ userId }: WorkLogsProps) {
 	const [page, setPage] = useState(1)
 	const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
@@ -16,10 +20,25 @@ function WorkLogs() {
 		setPage(newPage)
 	}
 
-	const { data, isLoading, isFetching, refetch } = trpc.workLog.getAllForCompany.useQuery(page * 20, {
+	const allForCompanyQuery = trpc.workLog.getAllForCompany.useQuery(page * 20, {
 		staleTime: 1000 * 60 * 5,
+		enabled: !userId,
 	})
-	const pages = trpc.workLog.getPagesForCompany.useQuery()
+
+	const byUserIdQuery = trpc.workLog.getByUserId.useQuery(userId!, {
+		staleTime: 1000 * 60 * 5,
+		enabled: !!userId,
+	})
+
+	const pages = trpc.workLog.getPagesForCompany.useQuery(undefined, { enabled: !userId })
+
+	const activeQuery = userId ? byUserIdQuery : allForCompanyQuery
+	const data = userId
+		? byUserIdQuery.data?.map(log => ({ ...log, user: undefined }))
+		: allForCompanyQuery.data
+	const isLoading = activeQuery.isLoading
+	const refetch = activeQuery.refetch
+
 	const setPaidMutation = trpc.workLog.setPaid.useMutation({
 		onSuccess: () => {
 			setSelectedIds(new Set())
@@ -63,6 +82,8 @@ function WorkLogs() {
 
 	const allUnpaidSelected = unpaidLogs.length > 0 && unpaidLogs.every(log => selectedIds.has(log.id))
 
+
+
 	return (
 		<div className='w-full h-[80vh] mt-topPanel-height flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg md:h-[80vh] lg:max-w-300 lg:max-h-250'>
 			<div className='flex items-center justify-between mb-2 ps-4 pb-2 border-b border-gray-100'>
@@ -87,9 +108,9 @@ function WorkLogs() {
 				</button>
 			</div>
 
-			<div className='hidden lg:grid grid-cols-[50px_1fr_1fr_1fr_2fr_1fr_50px] px-6 py-2 lg:text-sm xl:text-base'>
+			<div className={`hidden lg:grid ${userId ? 'grid-cols-[50px_1fr_1fr_2fr_1fr_50px]' : 'grid-cols-[50px_1fr_1fr_1fr_2fr_1fr_50px]'} px-6 py-2 lg:text-sm xl:text-base`}>
 				<span className='text-gray-400 uppercase tracking-wide'></span>
-				<span className='text-gray-400 uppercase tracking-wide'>Użytkownik</span>
+				{!userId && <span className='text-gray-400 uppercase tracking-wide'>Użytkownik</span>}
 				<span className='text-gray-400 uppercase tracking-wide'>Data</span>
 				<span className='text-gray-400 uppercase tracking-wide'>Godziny</span>
 				<span className='text-gray-400 uppercase tracking-wide'>Notatka</span>
@@ -110,23 +131,23 @@ function WorkLogs() {
 					<ul className='list-none p-0 m-0'>
 						{data.map(log => (
 							<li key={log.id}>
-								<div className='flex flex-col gap-3 lg:grid lg:grid-cols-[50px_1fr_1fr_1fr_2fr_1fr_50px] lg:gap-0 lg:items-center bg-white border border-gray-100 rounded-xl px-5 py-4 shadow-sm hover:shadow-md hover:bg-gray-50 transition-all my-2'>
+								<div className={`flex flex-col gap-3 lg:grid lg:gap-0 lg:items-center bg-white border border-gray-100 rounded-xl px-5 py-4 shadow-sm hover:shadow-md hover:bg-gray-50 transition-all my-2 ${userId ? 'lg:grid-cols-[50px_1fr_1fr_2fr_1fr_50px]' : 'lg:grid-cols-[50px_1fr_1fr_1fr_2fr_1fr_50px]'}`}>
 									<div className='hidden lg:flex justify-center'>
 										<input
 											type='checkbox'
 											checked={selectedIds.has(log.id)}
-											onChange={e => {
-												handleSelectOne(log.id)
-											}}
+											onChange={() => handleSelectOne(log.id)}
 											onClick={e => e.stopPropagation()}
 											disabled={log.paid}
 											className='w-5 h-5 rounded border-gray-300 accent-green-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50'
 										/>
 									</div>
 
-									<span className='text-xs sm:text-sm md:text-base lg:text-base xl:text-lg font-medium text-gray-800'>
-										{log.user.name ?? 'Nieznany'}
-									</span>
+									{'user' in log && log.user && (
+										<span className='text-xs sm:text-sm md:text-base lg:text-base xl:text-lg font-medium text-gray-800'>
+											{(log.user as { name?: string | null }).name ?? 'Nieznany'}
+										</span>
+									)}
 
 									<div className='flex justify-between items-center lg:contents'>
 										<span className='text-xs sm:text-sm md:text-base lg:text-base xl:text-lg font-medium text-gray-800 flex items-center gap-2'>
@@ -194,11 +215,13 @@ function WorkLogs() {
 					</p>
 				)}
 
-				<Pagination
-					page={page}
-					setPage={handlePageChange}
-					pages={pages.data}
-				/>
+				{!userId && (
+					<Pagination
+						page={page}
+						setPage={handlePageChange}
+						pages={pages.data}
+					/>
+				)}
 			</div>
 		</div>
 	)

@@ -14,7 +14,7 @@ export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCo
 
 export const CompanyScalarFieldEnumSchema = z.enum(['id','name','createdAt']);
 
-export const UserScalarFieldEnumSchema = z.enum(['id','email','name','role','hours','hourlyRate','companyId','createdAt']);
+export const UserScalarFieldEnumSchema = z.enum(['id','email','name','role','hourlyRate','companyId','createdAt']);
 
 export const WorkLogScalarFieldEnumSchema = z.enum(['id','userId','date','hours','paid','note','createdAt']);
 
@@ -53,7 +53,6 @@ export const UserSchema = z.object({
   id: z.string(),
   email: z.string(),
   name: z.string(),
-  hours: z.number().nullable(),
   hourlyRate: z.number().nullable(),
   companyId: z.string(),
   createdAt: z.coerce.date(),
@@ -137,7 +136,6 @@ export const UserSelectSchema: z.ZodType<Prisma.UserSelect> = z.object({
   email: z.boolean().optional(),
   name: z.boolean().optional(),
   role: z.boolean().optional(),
-  hours: z.boolean().optional(),
   hourlyRate: z.boolean().optional(),
   companyId: z.boolean().optional(),
   createdAt: z.boolean().optional(),
@@ -230,7 +228,6 @@ export const UserWhereInputSchema: z.ZodType<Prisma.UserWhereInput> = z.strictOb
   email: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   name: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   role: z.union([ z.lazy(() => EnumRoleFilterSchema), z.lazy(() => RoleSchema) ]).optional(),
-  hours: z.union([ z.lazy(() => FloatNullableFilterSchema), z.number() ]).optional().nullable(),
   hourlyRate: z.union([ z.lazy(() => FloatNullableFilterSchema), z.number() ]).optional().nullable(),
   companyId: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema), z.coerce.date() ]).optional(),
@@ -243,7 +240,6 @@ export const UserOrderByWithRelationInputSchema: z.ZodType<Prisma.UserOrderByWit
   email: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
   role: z.lazy(() => SortOrderSchema).optional(),
-  hours: z.union([ z.lazy(() => SortOrderSchema), z.lazy(() => SortOrderInputSchema) ]).optional(),
   hourlyRate: z.union([ z.lazy(() => SortOrderSchema), z.lazy(() => SortOrderInputSchema) ]).optional(),
   companyId: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
@@ -271,7 +267,6 @@ export const UserWhereUniqueInputSchema: z.ZodType<Prisma.UserWhereUniqueInput> 
   NOT: z.union([ z.lazy(() => UserWhereInputSchema), z.lazy(() => UserWhereInputSchema).array() ]).optional(),
   name: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   role: z.union([ z.lazy(() => EnumRoleFilterSchema), z.lazy(() => RoleSchema) ]).optional(),
-  hours: z.union([ z.lazy(() => FloatNullableFilterSchema), z.number() ]).optional().nullable(),
   hourlyRate: z.union([ z.lazy(() => FloatNullableFilterSchema), z.number() ]).optional().nullable(),
   companyId: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema), z.coerce.date() ]).optional(),
@@ -284,7 +279,6 @@ export const UserOrderByWithAggregationInputSchema: z.ZodType<Prisma.UserOrderBy
   email: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
   role: z.lazy(() => SortOrderSchema).optional(),
-  hours: z.union([ z.lazy(() => SortOrderSchema), z.lazy(() => SortOrderInputSchema) ]).optional(),
   hourlyRate: z.union([ z.lazy(() => SortOrderSchema), z.lazy(() => SortOrderInputSchema) ]).optional(),
   companyId: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
@@ -303,7 +297,6 @@ export const UserScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.UserScal
   email: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
   name: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
   role: z.union([ z.lazy(() => EnumRoleWithAggregatesFilterSchema), z.lazy(() => RoleSchema) ]).optional(),
-  hours: z.union([ z.lazy(() => FloatNullableWithAggregatesFilterSchema), z.number() ]).optional().nullable(),
   hourlyRate: z.union([ z.lazy(() => FloatNullableWithAggregatesFilterSchema), z.number() ]).optional().nullable(),
   companyId: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema), z.coerce.date() ]).optional(),
@@ -430,7 +423,6 @@ export const UserCreateInputSchema: z.ZodType<Prisma.UserCreateInput> = z.strict
   email: z.string(),
   name: z.string(),
   role: z.lazy(() => RoleSchema).optional(),
-  hours: z.number().optional().nullable(),
   hourlyRate: z.number().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   company: z.lazy(() => CompanyCreateNestedOneWithoutUsersInputSchema),
@@ -442,7 +434,6 @@ export const UserUncheckedCreateInputSchema: z.ZodType<Prisma.UserUncheckedCreat
   email: z.string(),
   name: z.string(),
   role: z.lazy(() => RoleSchema).optional(),
-  hours: z.number().optional().nullable(),
   hourlyRate: z.number().optional().nullable(),
   companyId: z.string(),
   createdAt: z.coerce.date().optional(),
@@ -454,7 +445,6 @@ export const UserUpdateInputSchema: z.ZodType<Prisma.UserUpdateInput> = z.strict
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   role: z.union([ z.lazy(() => RoleSchema), z.lazy(() => EnumRoleFieldUpdateOperationsInputSchema) ]).optional(),
-  hours: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hourlyRate: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   company: z.lazy(() => CompanyUpdateOneRequiredWithoutUsersNestedInputSchema).optional(),
@@ -466,7 +456,6 @@ export const UserUncheckedUpdateInputSchema: z.ZodType<Prisma.UserUncheckedUpdat
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   role: z.union([ z.lazy(() => RoleSchema), z.lazy(() => EnumRoleFieldUpdateOperationsInputSchema) ]).optional(),
-  hours: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hourlyRate: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   companyId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
@@ -478,7 +467,6 @@ export const UserCreateManyInputSchema: z.ZodType<Prisma.UserCreateManyInput> = 
   email: z.string(),
   name: z.string(),
   role: z.lazy(() => RoleSchema).optional(),
-  hours: z.number().optional().nullable(),
   hourlyRate: z.number().optional().nullable(),
   companyId: z.string(),
   createdAt: z.coerce.date().optional(),
@@ -489,7 +477,6 @@ export const UserUpdateManyMutationInputSchema: z.ZodType<Prisma.UserUpdateManyM
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   role: z.union([ z.lazy(() => RoleSchema), z.lazy(() => EnumRoleFieldUpdateOperationsInputSchema) ]).optional(),
-  hours: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hourlyRate: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 });
@@ -499,7 +486,6 @@ export const UserUncheckedUpdateManyInputSchema: z.ZodType<Prisma.UserUncheckedU
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   role: z.union([ z.lazy(() => RoleSchema), z.lazy(() => EnumRoleFieldUpdateOperationsInputSchema) ]).optional(),
-  hours: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hourlyRate: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   companyId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
@@ -703,14 +689,12 @@ export const UserCountOrderByAggregateInputSchema: z.ZodType<Prisma.UserCountOrd
   email: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
   role: z.lazy(() => SortOrderSchema).optional(),
-  hours: z.lazy(() => SortOrderSchema).optional(),
   hourlyRate: z.lazy(() => SortOrderSchema).optional(),
   companyId: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
 });
 
 export const UserAvgOrderByAggregateInputSchema: z.ZodType<Prisma.UserAvgOrderByAggregateInput> = z.strictObject({
-  hours: z.lazy(() => SortOrderSchema).optional(),
   hourlyRate: z.lazy(() => SortOrderSchema).optional(),
 });
 
@@ -719,7 +703,6 @@ export const UserMaxOrderByAggregateInputSchema: z.ZodType<Prisma.UserMaxOrderBy
   email: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
   role: z.lazy(() => SortOrderSchema).optional(),
-  hours: z.lazy(() => SortOrderSchema).optional(),
   hourlyRate: z.lazy(() => SortOrderSchema).optional(),
   companyId: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
@@ -730,14 +713,12 @@ export const UserMinOrderByAggregateInputSchema: z.ZodType<Prisma.UserMinOrderBy
   email: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
   role: z.lazy(() => SortOrderSchema).optional(),
-  hours: z.lazy(() => SortOrderSchema).optional(),
   hourlyRate: z.lazy(() => SortOrderSchema).optional(),
   companyId: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
 });
 
 export const UserSumOrderByAggregateInputSchema: z.ZodType<Prisma.UserSumOrderByAggregateInput> = z.strictObject({
-  hours: z.lazy(() => SortOrderSchema).optional(),
   hourlyRate: z.lazy(() => SortOrderSchema).optional(),
 });
 
@@ -1229,7 +1210,6 @@ export const UserCreateWithoutCompanyInputSchema: z.ZodType<Prisma.UserCreateWit
   email: z.string(),
   name: z.string(),
   role: z.lazy(() => RoleSchema).optional(),
-  hours: z.number().optional().nullable(),
   hourlyRate: z.number().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   workLogs: z.lazy(() => WorkLogCreateNestedManyWithoutUserInputSchema).optional(),
@@ -1240,7 +1220,6 @@ export const UserUncheckedCreateWithoutCompanyInputSchema: z.ZodType<Prisma.User
   email: z.string(),
   name: z.string(),
   role: z.lazy(() => RoleSchema).optional(),
-  hours: z.number().optional().nullable(),
   hourlyRate: z.number().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   workLogs: z.lazy(() => WorkLogUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
@@ -1280,7 +1259,6 @@ export const UserScalarWhereInputSchema: z.ZodType<Prisma.UserScalarWhereInput> 
   email: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   name: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   role: z.union([ z.lazy(() => EnumRoleFilterSchema), z.lazy(() => RoleSchema) ]).optional(),
-  hours: z.union([ z.lazy(() => FloatNullableFilterSchema), z.number() ]).optional().nullable(),
   hourlyRate: z.union([ z.lazy(() => FloatNullableFilterSchema), z.number() ]).optional().nullable(),
   companyId: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema), z.coerce.date() ]).optional(),
@@ -1388,7 +1366,6 @@ export const UserCreateWithoutWorkLogsInputSchema: z.ZodType<Prisma.UserCreateWi
   email: z.string(),
   name: z.string(),
   role: z.lazy(() => RoleSchema).optional(),
-  hours: z.number().optional().nullable(),
   hourlyRate: z.number().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   company: z.lazy(() => CompanyCreateNestedOneWithoutUsersInputSchema),
@@ -1399,7 +1376,6 @@ export const UserUncheckedCreateWithoutWorkLogsInputSchema: z.ZodType<Prisma.Use
   email: z.string(),
   name: z.string(),
   role: z.lazy(() => RoleSchema).optional(),
-  hours: z.number().optional().nullable(),
   hourlyRate: z.number().optional().nullable(),
   companyId: z.string(),
   createdAt: z.coerce.date().optional(),
@@ -1426,7 +1402,6 @@ export const UserUpdateWithoutWorkLogsInputSchema: z.ZodType<Prisma.UserUpdateWi
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   role: z.union([ z.lazy(() => RoleSchema), z.lazy(() => EnumRoleFieldUpdateOperationsInputSchema) ]).optional(),
-  hours: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hourlyRate: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   company: z.lazy(() => CompanyUpdateOneRequiredWithoutUsersNestedInputSchema).optional(),
@@ -1437,7 +1412,6 @@ export const UserUncheckedUpdateWithoutWorkLogsInputSchema: z.ZodType<Prisma.Use
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   role: z.union([ z.lazy(() => RoleSchema), z.lazy(() => EnumRoleFieldUpdateOperationsInputSchema) ]).optional(),
-  hours: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hourlyRate: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   companyId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
@@ -1448,7 +1422,6 @@ export const UserCreateManyCompanyInputSchema: z.ZodType<Prisma.UserCreateManyCo
   email: z.string(),
   name: z.string(),
   role: z.lazy(() => RoleSchema).optional(),
-  hours: z.number().optional().nullable(),
   hourlyRate: z.number().optional().nullable(),
   createdAt: z.coerce.date().optional(),
 });
@@ -1458,7 +1431,6 @@ export const UserUpdateWithoutCompanyInputSchema: z.ZodType<Prisma.UserUpdateWit
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   role: z.union([ z.lazy(() => RoleSchema), z.lazy(() => EnumRoleFieldUpdateOperationsInputSchema) ]).optional(),
-  hours: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hourlyRate: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   workLogs: z.lazy(() => WorkLogUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -1469,7 +1441,6 @@ export const UserUncheckedUpdateWithoutCompanyInputSchema: z.ZodType<Prisma.User
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   role: z.union([ z.lazy(() => RoleSchema), z.lazy(() => EnumRoleFieldUpdateOperationsInputSchema) ]).optional(),
-  hours: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hourlyRate: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   workLogs: z.lazy(() => WorkLogUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -1480,7 +1451,6 @@ export const UserUncheckedUpdateManyWithoutCompanyInputSchema: z.ZodType<Prisma.
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   role: z.union([ z.lazy(() => RoleSchema), z.lazy(() => EnumRoleFieldUpdateOperationsInputSchema) ]).optional(),
-  hours: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hourlyRate: z.union([ z.number(),z.lazy(() => NullableFloatFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 });

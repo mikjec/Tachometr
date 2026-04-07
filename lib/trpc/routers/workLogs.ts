@@ -15,6 +15,15 @@ export const createWorkLogSchema = z.object({
 	date: z.coerce.date(),
 })
 
+function assertNotFutureDate(date: Date) {
+	if (date > new Date()) {
+		throw new TRPCError({
+			code: 'BAD_REQUEST',
+			message: 'Nie można dodać wpisu z przyszłą datą',
+		})
+	}
+}
+
 export const workLogsRouter = router({
 	getAllForCompany: protectedProcedure.input(z.number()).query(async ({ input, ctx }) => {
 		return ctx.prisma.workLog.findMany({
@@ -91,7 +100,7 @@ export const workLogsRouter = router({
 	}),
 
 	getPages: protectedProcedure.input(z.string().optional()).query(async ({ input, ctx }) => {
-		const id = input ? ctx.profile.id : input
+		const id = input ?? ctx.profile.id
 
 		const count = await ctx.prisma.workLog.count({
 			where: { userId: id },
@@ -103,12 +112,7 @@ export const workLogsRouter = router({
 	create: protectedProcedure.input(createWorkLogSchema).mutation(async ({ ctx, input }) => {
 		const { hours, note, date } = input
 
-		if (date > new Date()) {
-			throw new TRPCError({
-				code: 'BAD_REQUEST',
-				message: 'Nie można dodać wpisu z przyszłą datą',
-			})
-		}
+		assertNotFutureDate(date)
 
 		const existing = await ctx.prisma.workLog.findFirst({
 			where: {
@@ -136,12 +140,7 @@ export const workLogsRouter = router({
 	update: protectedProcedure.input(updateWorkLogSchema).mutation(async ({ ctx, input }) => {
 		const { hours, note, id, date } = input
 
-		if (date > new Date()) {
-			throw new TRPCError({
-				code: 'BAD_REQUEST',
-				message: 'Nie można dodać wpisu z przyszłą datą',
-			})
-		}
+		assertNotFutureDate(date)
 
 		const existing = await ctx.prisma.workLog.findFirst({
 			where: { userId: ctx.profile.id, id: id },

@@ -69,10 +69,109 @@ export const userRouter = router({
 	getUserById: managerProcedure.input(z.string()).query(async ({ ctx, input }) => {
 		const user = await ctx.prisma.user.findUnique({
 			where: { id: input },
+			select: {
+				id: true,
+				email: true,
+				name: true,
+				hourlyRate: true,
+			},
 		})
 
 		if (!user) throw new TRPCError({ code: 'NOT_FOUND', message: 'Nie znaleziono użytkownika' })
 
 		return user
+	}),
+
+	createEmployee: managerProcedure.input(createEmployeeSchema).mutation(async ({ ctx, input }) => {
+		const { password, ...userData } = input
+
+		const existing = await ctx.prisma.user.findUnique({
+			where: { email: input.email },
+		})
+
+		if (existing)
+			throw new TRPCError({
+				code: 'CONFLICT',
+				message: 'Użytkownik z tym emailem już istnieje',
+			})
+
+		const { data, error } = await supabaseAdmin.auth.admin.createUser({
+			email: input.email,
+			password,
+			email_confirm: true,
+		})
+
+		if (error || !data.user)
+			throw new TRPCError({
+				code: 'INTERNAL_SERVER_ERROR',
+				message: 'Błąd podczas tworzenia użytkownika, spróbuj ponownie później',
+			})
+
+		return ctx.prisma.user.create({
+			data: {
+				...userData,
+				id: data.user.id,
+				company: { connect: { id: ctx.profile.companyId } },
+			},
+		})
+	}),
+
+	updateEmployee: managerProcedure.input(updateEmployeeSchema).mutation(async ({ ctx, input }) => {
+		const { id, ...data } = input
+
+		const existing = await ctx.prisma.user.findFirst({
+			where: { id, companyId: ctx.profile.companyId },
+		})
+
+		if (!existing) throw new TRPCError({ code: 'NOT_FOUND', message: 'Nie znaleziono pracownika' })
+
+		return ctx.prisma.user.update({
+			where: { id },
+			data,
+		})
+	}),
+
+	deleteEmployee: managerProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+		const existing = await ctx.prisma.user.findFirst({
+			where: { id: input, companyId: ctx.profile.companyId },
+		})
+
+		if (!existing) throw new TRPCError({ code: 'NOT_FOUND', message: 'Nie znaleziono pracownika' })
+
+		await ctx.prisma.user.delete({ where: { id: input } })
+
+		const { error } = await supabaseAdmin.auth.admin.deleteUser(input)
+
+		if (error)
+			throw new TRPCError({
+				code: 'INTERNAL_SERVER_ERROR',
+				message: 'Błąd podczas usuwania użytkownika z systemu autoryzacji',
+			})
+
+		return { success: true }
+	}),
+
+	getAllEmployees: managerProcedure.query(async ({ ctx }) => {
+		const employees = await ctx.prisma.user.findMany({
+			where: { companyId: ctx.profile.companyId, role: 'EMPLOYEE' },
+			select: {
+				id: true,
+				name: true,
+				email: true,
+				hourlyRate: true,
+				workLogs: {
+					where: { paid: false },
+					select: { hours: true },
+				},
+			},
+		})
+
+		return employees.map(e => ({
+			id: e.id,
+			name: e.name,
+			email: e.email,
+			hourlyRate: e.hourlyRate,
+			unpaidHours: e.workLogs.reduce((sum, log) => sum + log.hours, 0),
+		}))
 	}),
 })
