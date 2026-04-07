@@ -12,7 +12,7 @@ function EmployeesTable() {
 	})
 
 	return (
-		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg h-[70vh] md:h-[80vh] lg:max-w-300 lg:max-h-250'>
+		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg h-[70vh]  lg:max-w-300 lg:max-h-250'>
 			<div className='hidden lg:grid grid-cols-[2fr_2fr_1fr_1fr_50px] px-6 py-2 lg:text-sm xl:text-base'>
 				<span className='text-gray-400 uppercase tracking-wide'>Imię i nazwisko</span>
 				<span className='text-gray-400 uppercase tracking-wide'>Email</span>
@@ -35,22 +35,22 @@ function EmployeesTable() {
 								<div
 									className='flex flex-col gap-3 lg:grid lg:grid-cols-[2fr_2fr_1fr_1fr_50px] lg:gap-0 lg:items-center bg-white border border-gray-100 rounded-xl px-5 py-3 shadow-sm hover:shadow-md hover:bg-gray-50 transition-all my-2 cursor-pointer'
 									onClick={() => router.push(`/manage/employees/${employee.id}`)}>
-									<span className='text-xs sm:text-sm md:text-base lg:text-base xl:text-lg font-medium text-gray-800'>
+									<span className='text-sm sm:text-sm md:text-base lg:text-base xl:text-lg font-medium text-gray-800'>
 										{employee.name ?? 'Brak nazwy'}
 									</span>
 
-									<span className='text-xs sm:text-sm md:text-base lg:text-base xl:text-lg text-gray-600 truncate'>
+									<span className='text-sm sm:text-sm md:text-base lg:text-base xl:text-lg text-gray-600 truncate'>
 										{employee.email}
 									</span>
 
 									<div className='flex justify-between items-center lg:contents'>
-										<span className='text-gray-400 text-[10px] sm:text-xs uppercase lg:hidden'>Stawka:</span>
-										<span className='text-xs sm:text-sm md:text-base lg:text-base xl:text-lg font-medium text-gray-800'>
+										<span className='text-gray-400 text-xs sm:text-xs uppercase lg:hidden'>Stawka:</span>
+										<span className='text-sm sm:text-sm md:text-base lg:text-base xl:text-lg font-medium text-gray-800'>
 											{employee.hourlyRate != null ? `${employee.hourlyRate} zł/h` : '—'}
 										</span>
 
-										<span className='text-gray-400 text-[10px] sm:text-xs uppercase lg:hidden'>Nieopł. godz.:</span>
-										<span className='text-xs sm:text-sm md:text-base lg:text-base xl:text-lg font-semibold text-gray-800'>
+										<span className='text-gray-400 text-xs sm:text-xs uppercase lg:hidden'>Godziny: </span>
+										<span className='text-sm sm:text-sm md:text-base lg:text-base xl:text-lg font-semibold text-gray-800'>
 											{employee.unpaidHours}h
 										</span>
 									</div>

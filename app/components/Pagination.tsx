@@ -62,10 +62,10 @@ function Pagination({
 
 		document.addEventListener('keydown', handler)
 		return () => document.removeEventListener('keydown', handler) // sprzątanie!
-	}, [page, totalPages])
+	}, [page, totalPages, setPage])
 
 	return (
-		<div className='w-full flex items-center justify-center text-gray-400 text-xl'>
+		<div className='w-full flex items-center justify-center text-gray-400 text-xl rounded-b-lg bg-white md:bg-white md:shadow-lg md:border-t md:border-gray-100'>
 			<button
 				onClick={() => {
 					if (page > 1) setPage(page - 1)

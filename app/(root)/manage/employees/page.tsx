@@ -8,9 +8,7 @@ function Page() {
 	return (
 		<>
 			<TopPanel>
-				<Breadcrumbs
-					breadcrumbs={[{ label: 'Pracownicy', href: '/manage/employees', active: true }]}
-				/>
+				<Breadcrumbs breadcrumbs={[{ label: 'Pracownicy', href: '/manage/employees', active: true }]} />
 			</TopPanel>
 
 			<main className='flex flex-col items-center py-4'>
@@ -20,7 +18,7 @@ function Page() {
 							href='/manage/employees/create'
 							className='flex items-center gap-2 bg-white shadow-sm text-gray-500 px-4 py-4 rounded-2xl text-sm lg:text-xl font-medium hover:bg-gray-300 mt-4 hover:text-gray-700 transition-colors'>
 							<Plus />
-							Dodaj pracownika
+							Dodaj
 						</Link>
 					</div>
 					<EmployeesTable />

@@ -24,7 +24,7 @@ function WorkLogs() {
 	}, [page])
 
 	return (
-		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg h-[70vh] md:h-[80vh] lg:max-w-300 lg:max-h-250 '>
+		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg h-[70vh] lg:max-w-300 lg:max-h-250 relative'>
 			<div className='hidden lg:grid grid-cols-[1fr_1fr_3fr_1fr] px-6 py-2 lg:text-sm xl:text-base'>
 				<span className='text-gray-400 uppercase tracking-wide'>Data</span>
 				<span className='text-gray-400 uppercase tracking-wide'>Godziny</span>
@@ -33,7 +33,7 @@ function WorkLogs() {
 			</div>
 
 			<div
-				className='overflow-y-scroll h-full flex flex-col justify-between'
+				className='overflow-y-scroll flex-1 flex flex-col md:pb-20'
 				ref={scrollContainerRef}>
 				{isLoading && (
 					<div className='flex w-full h-full items-center justify-center min-h-[100px]'>
@@ -96,7 +96,8 @@ function WorkLogs() {
 						Nie znaleziono danych
 					</p>
 				)}
-
+			</div>
+			<div className='absolute bottom-0 left-0 right-0 bg-white border-t rounded-b-lg border-gray-100 p-4 md:p-0'>
 				<Pagination
 					page={page}
 					setPage={setPage}

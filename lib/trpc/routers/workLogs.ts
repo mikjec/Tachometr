@@ -80,7 +80,40 @@ export const workLogsRouter = router({
 		})
 	}),
 
-	getByUserId: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
+	getByUserId: protectedProcedure
+		.input(z.object({ userId: z.string(), offset: z.number() }))
+		.query(async ({ ctx, input }) => {
+			const user = await ctx.prisma.user.findFirst({
+				where: { id: input.userId, companyId: ctx.profile.companyId },
+			})
+
+			if (!user) {
+				throw new TRPCError({
+					code: 'NOT_FOUND',
+					message: 'Użytkownik nie istnieje',
+				})
+			}
+
+			return ctx.prisma.workLog.findMany({
+				where: { userId: input.userId },
+				select: { id: true, date: true, hours: true, paid: true, note: true },
+				orderBy: { date: 'desc' },
+				take: 20,
+				skip: input.offset - 20,
+			})
+		}),
+
+	getPages: protectedProcedure.input(z.string().optional()).query(async ({ input, ctx }) => {
+		const id = input ?? ctx.profile.id
+
+		const count = await ctx.prisma.workLog.count({
+			where: { userId: id },
+		})
+
+		return Math.ceil(count / 10)
+	}),
+
+	getPagesForUserId: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
 		const user = await ctx.prisma.user.findFirst({
 			where: { id: input, companyId: ctx.profile.companyId },
 		})
@@ -92,21 +125,11 @@ export const workLogsRouter = router({
 			})
 		}
 
-		return ctx.prisma.workLog.findMany({
-			where: { userId: input },
-			select: { id: true, date: true, hours: true, paid: true, note: true },
-			orderBy: { date: 'desc' },
-		})
-	}),
-
-	getPages: protectedProcedure.input(z.string().optional()).query(async ({ input, ctx }) => {
-		const id = input ?? ctx.profile.id
-
 		const count = await ctx.prisma.workLog.count({
-			where: { userId: id },
+			where: { userId: input },
 		})
 
-		return Math.ceil(count / 10)
+		return Math.ceil(count / 20)
 	}),
 
 	create: protectedProcedure.input(createWorkLogSchema).mutation(async ({ ctx, input }) => {

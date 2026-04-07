@@ -15,34 +15,38 @@ function WorkLogs({ userId }: WorkLogsProps) {
 	const [page, setPage] = useState(1)
 	const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
-	const handlePageChange = (newPage: number) => {
-		setSelectedIds(new Set())
-		setPage(newPage)
-	}
+	const utils = trpc.useUtils()
 
 	const allForCompanyQuery = trpc.workLog.getAllForCompany.useQuery(page * 20, {
 		staleTime: 1000 * 60 * 5,
 		enabled: !userId,
 	})
 
-	const byUserIdQuery = trpc.workLog.getByUserId.useQuery(userId!, {
-		staleTime: 1000 * 60 * 5,
-		enabled: !!userId,
-	})
+	const byUserIdQuery = trpc.workLog.getByUserId.useQuery(
+		{ userId: userId!, offset: page * 20 },
+		{
+			staleTime: 1000 * 60 * 5,
+			enabled: !!userId,
+		},
+	)
 
-	const pages = trpc.workLog.getPagesForCompany.useQuery(undefined, { enabled: !userId })
+	const pagesForCompanyQuery = trpc.workLog.getPagesForCompany.useQuery(undefined, { enabled: !userId })
+	const pagesForUserQuery = trpc.workLog.getPagesForUserId.useQuery(userId!, { enabled: !!userId })
 
 	const activeQuery = userId ? byUserIdQuery : allForCompanyQuery
-	const data = userId
-		? byUserIdQuery.data?.map(log => ({ ...log, user: undefined }))
-		: allForCompanyQuery.data
+	const data = userId ? byUserIdQuery.data?.map(log => ({ ...log, user: undefined })) : allForCompanyQuery.data
 	const isLoading = activeQuery.isLoading
-	const refetch = activeQuery.refetch
 
 	const setPaidMutation = trpc.workLog.setPaid.useMutation({
-		onSuccess: () => {
+		onSuccess: async () => {
 			setSelectedIds(new Set())
-			refetch()
+			if (userId) {
+				await utils.workLog.getByUserId.invalidate()
+				await utils.workLog.getPagesForUserId.invalidate()
+			} else {
+				await utils.workLog.getAllForCompany.invalidate()
+				await utils.workLog.getPagesForCompany.invalidate()
+			}
 		},
 	})
 
@@ -82,10 +86,8 @@ function WorkLogs({ userId }: WorkLogsProps) {
 
 	const allUnpaidSelected = unpaidLogs.length > 0 && unpaidLogs.every(log => selectedIds.has(log.id))
 
-
-
 	return (
-		<div className='w-full h-[80vh] mt-topPanel-height flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg md:h-[80vh] lg:max-w-300 lg:max-h-250'>
+		<div className='w-full h-[80vh] mt-topPanel-height flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg md:h-[80vh] lg:max-w-300 lg:max-h-250 relative'>
 			<div className='flex items-center justify-between mb-2 ps-4 pb-2 border-b border-gray-100'>
 				<div className='flex items-center gap-2'>
 					<input
@@ -108,7 +110,8 @@ function WorkLogs({ userId }: WorkLogsProps) {
 				</button>
 			</div>
 
-			<div className={`hidden lg:grid ${userId ? 'grid-cols-[50px_1fr_1fr_2fr_1fr_50px]' : 'grid-cols-[50px_1fr_1fr_1fr_2fr_1fr_50px]'} px-6 py-2 lg:text-sm xl:text-base`}>
+			<div
+				className={`hidden lg:grid ${userId ? 'grid-cols-[50px_1fr_1fr_2fr_1fr_50px]' : 'grid-cols-[50px_1fr_1fr_1fr_2fr_1fr_50px]'} px-6 py-2 lg:text-sm xl:text-base`}>
 				<span className='text-gray-400 uppercase tracking-wide'></span>
 				{!userId && <span className='text-gray-400 uppercase tracking-wide'>Użytkownik</span>}
 				<span className='text-gray-400 uppercase tracking-wide'>Data</span>
@@ -119,7 +122,7 @@ function WorkLogs({ userId }: WorkLogsProps) {
 			</div>
 
 			<div
-				className='overflow-y-scroll h-full flex flex-col justify-between'
+				className='overflow-y-scroll flex-1 flex flex-col md:pb-20'
 				ref={scrollContainerRef}>
 				{isLoading && (
 					<div className='flex w-full h-full items-center justify-center min-h-[100px]'>
@@ -131,7 +134,8 @@ function WorkLogs({ userId }: WorkLogsProps) {
 					<ul className='list-none p-0 m-0'>
 						{data.map(log => (
 							<li key={log.id}>
-								<div className={`flex flex-col gap-3 lg:grid lg:gap-0 lg:items-center bg-white border border-gray-100 rounded-xl px-5 py-4 shadow-sm hover:shadow-md hover:bg-gray-50 transition-all my-2 ${userId ? 'lg:grid-cols-[50px_1fr_1fr_2fr_1fr_50px]' : 'lg:grid-cols-[50px_1fr_1fr_1fr_2fr_1fr_50px]'}`}>
+								<div
+									className={`flex flex-col gap-3 lg:grid lg:gap-0 lg:items-center bg-white border border-gray-100 rounded-xl px-5 py-4 shadow-sm hover:shadow-md hover:bg-gray-50 transition-all my-2 ${userId ? 'lg:grid-cols-[50px_1fr_1fr_2fr_1fr_50px]' : 'lg:grid-cols-[50px_1fr_1fr_1fr_2fr_1fr_50px]'}`}>
 									<div className='hidden lg:flex justify-center'>
 										<input
 											type='checkbox'
@@ -214,15 +218,25 @@ function WorkLogs({ userId }: WorkLogsProps) {
 						Nie znaleziono danych
 					</p>
 				)}
-
-				{!userId && (
+			</div>
+			{!userId && (
+				<div className='absolute bottom-0 left-0 right-0 bg-white border-t rounded-lg border-gray-100 p-4 md:p-0'>
 					<Pagination
 						page={page}
-						setPage={handlePageChange}
-						pages={pages.data}
+						setPage={setPage}
+						pages={pagesForCompanyQuery.data}
 					/>
-				)}
-			</div>
+				</div>
+			)}
+			{userId && (
+				<div className='absolute bottom-0 left-0 right-0 bg-white border-t rounded-lg border-gray-100 p-4 md:p-0'>
+					<Pagination
+						page={page}
+						setPage={setPage}
+						pages={pagesForUserQuery.data}
+					/>
+				</div>
+			)}
 		</div>
 	)
 }
