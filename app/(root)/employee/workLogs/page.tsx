@@ -7,7 +7,9 @@ import { Plus } from 'lucide-react'
 function Page() {
 	return (
 		<>
-			<TopPanel>Moje wpisy</TopPanel>
+			<header>
+				<TopPanel>Moje wpisy</TopPanel>
+			</header>
 			<main className='flex flex-col items-center py-4'>
 				<div className='w-full lg:w-[70vw] lg:max-w-300 pt-topPanel-height max-h-[60vh]'>
 					<div className='flex justify-end my-2'>

@@ -14,8 +14,8 @@ function Page() {
 				/>
 			</TopPanel>
 
-			<main className='flex flex-col items-center py-4 pt-topPanel-height'>
-				<div className='w-full lg:w-[50vw] lg:max-w-150 bg-white p-6 lg:p-8 lg:rounded-xl shadow-sm mt-4 mt-topPanel-height'>
+			<main className='flex flex-col items-center justify-center py-4 pt-topPanel-height h-screen'>
+				<div className='w-full lg:w-[50vw] lg:max-w-150 bg-white p-6 lg:p-8 lg:rounded-xl shadow-sm mt-topPanel-height'>
 					<h2 className='text-lg font-semibold text-gray-800 mb-6'>Dodaj nowego pracownika</h2>
 					<EmployeeForm mode='create' />
 				</div>

@@ -7,21 +7,26 @@ async function page(props: { params: Promise<{ id: string }> }) {
 	const params = await props.params
 
 	return (
-		<div>
-			<TopPanel>
-				<Breadcrumbs
-					breadcrumbs={[
-						{ label: 'Moje wpisy', href: '/employee/workLogs' },
-						{
-							label: 'Szczegóły',
-							href: `/employee/workLogs/${params.id}`,
-							active: true,
-						},
-					]}
-				/>
-			</TopPanel>
-			<WorkLog id={params.id} />
-		</div>
+		<>
+			<header>
+				<TopPanel>
+					<Breadcrumbs
+						breadcrumbs={[
+							{ label: 'Moje wpisy', href: '/employee/workLogs' },
+							{
+								label: 'Szczegóły',
+								href: `/employee/workLogs/${params.id}`,
+								active: true,
+							},
+						]}
+					/>
+				</TopPanel>
+			</header>
+
+			<main>
+				<WorkLog id={params.id} />
+			</main>
+		</>
 	)
 }
 

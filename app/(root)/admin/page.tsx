@@ -1,6 +1,7 @@
 // app/admin/page.tsx
 import { prisma } from '@/lib/prisma/prisma'
 import { CreateUserForm } from './_components/createUserform'
+import TopPanel from '@/app/components/TopPanel'
 
 export default async function AdminPage() {
 	const companies = await prisma.company.findMany({
@@ -8,9 +9,15 @@ export default async function AdminPage() {
 	})
 
 	return (
-		<div className='p-8'>
-			<h1 className='text-2xl font-bold mb-6'>Panel Admina</h1>
-			<CreateUserForm companies={companies} />
-		</div>
+		<>
+			<header>
+				<TopPanel>Panel Admina</TopPanel>
+			</header>
+			<main>
+				<div className='p-8'>
+					<CreateUserForm companies={companies} />
+				</div>
+			</main>
+		</>
 	)
 }

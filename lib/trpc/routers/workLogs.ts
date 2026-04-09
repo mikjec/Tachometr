@@ -74,9 +74,26 @@ export const workLogsRouter = router({
 	}),
 
 	getById: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
-		return ctx.prisma.workLog.findFirst({
+		const workLog = await ctx.prisma.workLog.findFirst({
 			where: { id: input },
 			select: { id: true, date: true, hours: true, paid: true, note: true },
+		})
+
+		return ctx.prisma.workLog.findFirst({
+			where: { id: input },
+			select: {
+				id: true,
+				date: true,
+				hours: true,
+				paid: true,
+				note: true,
+				user: {
+					select: {
+						id: true,
+						name: true,
+					},
+				},
+			},
 		})
 	}),
 
@@ -239,7 +256,7 @@ export const workLogsRouter = router({
 		})
 	}),
 
-	setPaid: protectedProcedure.input(z.array(z.string())).mutation(async ({ ctx, input }) => {
+	setPaid: managerProcedure.input(z.array(z.string())).mutation(async ({ ctx, input }) => {
 		if (input.length === 0) {
 			throw new TRPCError({
 				code: 'BAD_REQUEST',
@@ -268,7 +285,7 @@ export const workLogsRouter = router({
 		}
 
 		return ctx.prisma.workLog.updateMany({
-			where: { id: { in: input } },
+			where: { id: { in: input }, paid: false },
 			data: { paid: true },
 		})
 	}),
@@ -288,6 +305,21 @@ export const workLogsRouter = router({
 		return ctx.prisma.workLog.update({
 			where: { id: input },
 			data: { paid: !workLog.paid },
+		})
+	}),
+
+	getNewestForCompany: managerProcedure.query(async ({ ctx }) => {
+		const today = new Date()
+
+		console.log(today)
+
+		return ctx.prisma.workLog.findMany({
+			where: {
+				user: { companyId: ctx.profile.companyId },
+				userId: { not: ctx.profile.id },
+				date: today,
+			},
+			orderBy: { createdAt: 'desc' },
 		})
 	}),
 })

@@ -2,8 +2,10 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { trpc } from '@/lib/trpc/provider'
+import { trpc, TRPCProvider } from '@/lib/trpc/provider'
 import { Spinner } from '@/components/ui/spinner'
+import { EyeOff, Eye } from 'lucide-react'
+import { refreshPath } from '@/lib/actions/actions'
 
 interface EmployeeFormProps {
 	mode?: 'create' | 'edit'
@@ -16,17 +18,27 @@ interface EmployeeFormProps {
 }
 
 export default function EmployeeForm({ mode = 'create', employeeId, initialData }: EmployeeFormProps) {
+	const generatePassword = () => {
+		const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+		const array = new Uint32Array(12)
+		crypto.getRandomValues(array)
+		return Array.from(array, n => chars[n % chars.length]).join('')
+	}
+
+	const utils = trpc.useUtils()
 	const router = useRouter()
 	const [name, setName] = useState(initialData?.name ?? '')
 	const [email, setEmail] = useState(initialData?.email ?? '')
 	const [hourlyRate, setHourlyRate] = useState(initialData?.hourlyRate?.toString() ?? '')
-	const [password, setPassword] = useState('')
+	const [password, setPassword] = useState(generatePassword())
+	const [showPassword, setShowPassword] = useState(false)
 	const [error, setError] = useState<string | null>(null)
 
 	const isEditing = mode === 'edit'
 
 	const createMutation = trpc.user.createEmployee.useMutation({
 		onSuccess: () => {
+			utils.user.invalidate()
 			router.push('/manage/employees')
 		},
 		onError: err => {
@@ -36,6 +48,7 @@ export default function EmployeeForm({ mode = 'create', employeeId, initialData 
 
 	const updateMutation = trpc.user.updateEmployee.useMutation({
 		onSuccess: () => {
+			utils.user.invalidate()
 			router.push('/manage/employees')
 		},
 		onError: err => {
@@ -45,6 +58,7 @@ export default function EmployeeForm({ mode = 'create', employeeId, initialData 
 
 	const deleteMutation = trpc.user.deleteEmployee.useMutation({
 		onSuccess: () => {
+			utils.user.invalidate()
 			router.push('/manage/employees')
 		},
 		onError: err => {
@@ -54,7 +68,7 @@ export default function EmployeeForm({ mode = 'create', employeeId, initialData 
 
 	const isPending = isEditing ? updateMutation.isPending : createMutation.isPending
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		setError(null)
 
@@ -158,16 +172,24 @@ export default function EmployeeForm({ mode = 'create', employeeId, initialData 
 						className='text-sm font-medium text-gray-700'>
 						Hasło <span className='text-red-500'>*</span>
 					</label>
-					<input
-						type='password'
-						id='password'
-						value={password}
-						onChange={e => setPassword(e.target.value)}
-						placeholder='Minimum 8 znaków'
-						minLength={8}
-						className='w-full border-2 border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent text-gray-700'
-						required
-					/>
+					<div className='relative'>
+						<input
+							type={showPassword ? 'text' : 'password'}
+							id='password'
+							value={password}
+							onChange={e => setPassword(e.target.value)}
+							placeholder='Minimum 8 znaków'
+							minLength={8}
+							className='w-full border-2 border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent text-gray-700'
+							required
+						/>
+						<button
+							type='button'
+							onClick={() => setShowPassword(prev => !prev)}
+							className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600'>
+							{showPassword ? <Eye className='size-4' /> : <EyeOff className='size-4' />}
+						</button>
+					</div>
 				</div>
 			)}
 

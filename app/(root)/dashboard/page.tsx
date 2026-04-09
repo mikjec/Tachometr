@@ -3,6 +3,7 @@
 import { supabase } from '@/lib/supabase/client'
 import { trpc } from '@/lib/trpc/provider'
 import { useEffect, useState } from 'react'
+import TopPanel from '@/app/components/TopPanel'
 
 export default function Page() {
 	const { data, isLoading } = trpc.user.getUser.useQuery()
@@ -17,12 +18,19 @@ export default function Page() {
 	if (isLoading) return <p>Ładowanie...</p>
 
 	return (
-		<div>
-			<p>Profile: {profile?.name}</p>
-			<p>Role: {profile?.role}</p>
-			<p>Id: {profile?.id}</p>
-			<p>User: {user?.id}</p>
-			<p>Auth: {authData}</p>
-		</div>
+		<>
+			<header>
+				<TopPanel>Dashboard</TopPanel>
+			</header>
+			<main>
+				<div>
+					<p>Profile: {profile?.name}</p>
+					<p>Role: {profile?.role}</p>
+					<p>Id: {profile?.id}</p>
+					<p>User: {user?.id}</p>
+					<p>Auth: {authData}</p>
+				</div>
+			</main>
+		</>
 	)
 }

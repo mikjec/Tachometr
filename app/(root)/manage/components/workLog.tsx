@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { trpc } from '@/lib/trpc/provider'
 import { Spinner } from '@/components/ui/spinner'
 import Link from 'next/link'
@@ -41,6 +41,7 @@ function WorkLog({ id }: { id: string }) {
 
 	const handleTogglePaid = () => {
 		updatePaidMutation.mutate(workLog.id)
+		refreshPath('/manage/workLogs')
 	}
 
 	return (
@@ -64,7 +65,7 @@ function WorkLog({ id }: { id: string }) {
 			{error && <div className='p-3 rounded-xl bg-red-50 text-red-600 text-sm'>{error}</div>}
 
 			{/* Responsywny Grid */}
-			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8'>
+			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_2fr_1fr_1fr] gap-4 lg:gap-8'>
 				<div className='flex flex-col gap-1'>
 					<span className='text-xs text-gray-400 uppercase tracking-wide'>Godziny</span>
 					<span className='text-xl lg:text-2xl font-semibold text-gray-800'>{workLog.hours}h</span>
@@ -73,6 +74,16 @@ function WorkLog({ id }: { id: string }) {
 					<span className='text-xs text-gray-400 uppercase tracking-wide'>ID wpisu</span>
 					<span className='text-base lg:text-lg font-medium text-gray-700 break-all'>{workLog.id}</span>
 				</div>
+
+				<div className='flex flex-col gap-1'>
+					<span className='text-xs text-gray-400 uppercase tracking-wide'>Użytkownik</span>
+					<Link
+						className='text-base lg:text-lg font-medium text-gray-700 break-all'
+						href={`/manage/employees/${workLog.user.id}/workLogs`}>
+						{workLog.user.name}
+					</Link>
+				</div>
+
 				<div className='flex flex-col gap-1'>
 					<span className='text-xs text-gray-400 uppercase tracking-wide'>Status</span>
 					{workLog.paid ? (

@@ -20,15 +20,17 @@ async function Page({ params }: PageProps) {
 
 	return (
 		<>
-			<TopPanel>
-				<Breadcrumbs
-					breadcrumbs={[
-						{ label: 'Pracownicy', href: '/manage/employees' },
-						{ label: employee.name ?? 'Pracownik', href: `/manage/employees/${id}` },
-						{ label: 'Wpisy', href: `/manage/employees/${id}/workLogs`, active: true },
-					]}
-				/>
-			</TopPanel>
+			<header>
+				<TopPanel>
+					<Breadcrumbs
+						breadcrumbs={[
+							{ label: 'Pracownicy', href: '/manage/employees' },
+							{ label: employee.name ?? 'Pracownik', href: `/manage/employees/${id}` },
+							{ label: 'Wpisy', href: `/manage/employees/${id}/workLogs`, active: true },
+						]}
+					/>
+				</TopPanel>
+			</header>
 
 			<main className='flex flex-col items-center py-4'>
 				<div className='w-full lg:w-[70vw] lg:max-w-300 pt-topPanel-height max-h-[60vh]'>
