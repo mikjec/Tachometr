@@ -150,7 +150,7 @@ export default function EmployeeForm({ mode = 'create', employeeId, initialData 
 				<label
 					htmlFor='hourlyRate'
 					className='text-sm font-medium text-gray-700'>
-					Stawka godzinowa (zł)
+					Stawka godzinowa (zł) <span className='text-red-500'>*</span>
 				</label>
 				<input
 					type='number'
@@ -160,6 +160,7 @@ export default function EmployeeForm({ mode = 'create', employeeId, initialData 
 					placeholder='np. 35'
 					min='0'
 					step='0.01'
+					required
 					className='w-full border-2 border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent text-gray-700'
 				/>
 			</div>

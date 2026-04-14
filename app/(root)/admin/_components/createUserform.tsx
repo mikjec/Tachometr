@@ -34,7 +34,7 @@ export function CreateUserForm({ companies, onSuccess }: Props) {
 		onError: e => setError(String(e.message)),
 	})
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
 		if (!email || !name || !password || !companyId) {

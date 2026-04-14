@@ -5,7 +5,7 @@ import { trpc } from '@/lib/trpc/provider'
 import { Spinner } from '@/components/ui/spinner'
 import Pagination from '@/app/components/Pagination'
 import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
+import { Download, ChevronRight, Check } from 'lucide-react'
 
 interface WorkLogsProps {
 	userId?: string
@@ -98,16 +98,27 @@ function WorkLogs({ userId }: WorkLogsProps) {
 						disabled={isLoading || !data || data.filter(log => !log.paid).length === 0}
 					/>
 					<span className='text-xs sm:text-sm text-gray-600'>
-						{selectedIds.size > 0 ? `Wybrano ${selectedIds.size} wpisów` : 'Zaznacz wszystkie nieopłacone'}
+						{selectedIds.size > 0 ? `Wybrano ${selectedIds.size} wpisów` : 'Zaznacz nieopłacone'}
 					</span>
 				</div>
-				<button
-					onClick={handleMarkAsPaid}
-					disabled={selectedIds.size === 0 || setPaidMutation.isPending}
-					className='px-4 py-2 rounded-lg text-sm font-medium bg-green-100 text-green-700 hover:bg-green-200 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2'>
-					{setPaidMutation.isPending && <Spinner className='size-4' />}
-					Oznacz jako opłacone
-				</button>
+				<div className='flex items-center gap-2'>
+					<a
+						href='/api/export/worklogs'
+						download
+						className='px-4 py-2 rounded-lg text-sm font-medium bg-blue-50 text-gray-500 hover:bg-blue-100 transition-colors flex items-center gap-2'>
+						<Download className='size-5' />
+						<span className='hidden sm:inline'>Pobierz CSV</span>
+					</a>
+
+					<button
+						onClick={handleMarkAsPaid}
+						disabled={selectedIds.size === 0 || setPaidMutation.isPending}
+						className='px-4 py-2 rounded-lg text-sm font-medium bg-green-100 text-green-700 hover:bg-green-200 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2'>
+						{setPaidMutation.isPending && <Spinner className='size-4' />}
+						<span className='hidden md:inline'>Opłacono</span>
+						<Check className='size-5' />
+					</button>
+				</div>
 			</div>
 
 			<div
@@ -122,7 +133,7 @@ function WorkLogs({ userId }: WorkLogsProps) {
 			</div>
 
 			<div
-				className='overflow-y-scroll flex-1 flex flex-col md:pb-20'
+				className='overflow-y-scroll flex-1 flex flex-col pb-20'
 				ref={scrollContainerRef}>
 				{isLoading && (
 					<div className='flex w-full h-full items-center justify-center min-h-[100px]'>

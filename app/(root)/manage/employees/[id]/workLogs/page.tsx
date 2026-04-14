@@ -4,11 +4,7 @@ import WorkLogs from '../../../components/WorkLogs'
 import { prisma } from '@/lib/prisma/prisma'
 import { notFound } from 'next/navigation'
 
-interface PageProps {
-	params: Promise<{ id: string }>
-}
-
-async function Page({ params }: PageProps) {
+async function Page({ params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params
 
 	const employee = await prisma.user.findUnique({

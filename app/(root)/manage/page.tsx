@@ -2,6 +2,7 @@ import TopPanel from '@/app/components/TopPanel'
 import RecentLogs from './components/RecentLogs'
 import { createContext } from '@/lib/trpc/context'
 import { appRouter } from '@/lib/trpc/routers'
+import StatsChart from './components/StatsChart'
 
 async function Page() {
 	const context = await createContext()
@@ -16,6 +17,7 @@ async function Page() {
 			</header>
 			<main className='flex flex-col gap-4 md:gap-8 w-full h-full p-4 mx-auto max-w-280 mt-topPanel-height pt-topPanel-height'>
 				<RecentLogs logs={logs} />
+				<StatsChart />
 			</main>
 		</>
 	)

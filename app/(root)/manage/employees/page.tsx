@@ -7,9 +7,7 @@ import { Plus } from 'lucide-react'
 function Page() {
 	return (
 		<>
-			<TopPanel>
-				<Breadcrumbs breadcrumbs={[{ label: 'Pracownicy', href: '/manage/employees', active: true }]} />
-			</TopPanel>
+			<TopPanel>Pracownicy</TopPanel>
 
 			<main className='flex flex-col items-center py-4'>
 				<div className='w-full lg:w-[70vw] lg:max-w-300 pt-topPanel-height'>
