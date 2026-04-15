@@ -25,6 +25,9 @@ function assertNotFutureDate(date: Date) {
 }
 
 export const workLogsRouter = router({
+	// =========================
+	// COMPANY WORKLOGS
+	// =========================
 	getAllForCompany: protectedProcedure.input(z.number()).query(async ({ input, ctx }) => {
 		return ctx.prisma.workLog.findMany({
 			where: {
@@ -63,37 +66,22 @@ export const workLogsRouter = router({
 		return Math.ceil(count / 20)
 	}),
 
+	// =========================
+	// USER WORKLOGS
+	// =========================
 	getAll: protectedProcedure.input(z.number()).query(async ({ input, ctx }) => {
 		return ctx.prisma.workLog.findMany({
 			where: { userId: ctx.profile.id },
-			select: { id: true, date: true, hours: true, paid: true, note: true },
-			orderBy: { date: 'desc' },
-			take: 10,
-			skip: input - 10,
-		})
-	}),
-
-	getById: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
-		const workLog = await ctx.prisma.workLog.findFirst({
-			where: { id: input },
-			select: { id: true, date: true, hours: true, paid: true, note: true },
-		})
-
-		return ctx.prisma.workLog.findFirst({
-			where: { id: input },
 			select: {
 				id: true,
 				date: true,
 				hours: true,
 				paid: true,
 				note: true,
-				user: {
-					select: {
-						id: true,
-						name: true,
-					},
-				},
 			},
+			orderBy: { date: 'desc' },
+			take: 10,
+			skip: input - 10,
 		})
 	}),
 
@@ -101,7 +89,10 @@ export const workLogsRouter = router({
 		.input(z.object({ userId: z.string(), offset: z.number() }))
 		.query(async ({ ctx, input }) => {
 			const user = await ctx.prisma.user.findFirst({
-				where: { id: input.userId, companyId: ctx.profile.companyId },
+				where: {
+					id: input.userId,
+					companyId: ctx.profile.companyId,
+				},
 			})
 
 			if (!user) {
@@ -113,7 +104,13 @@ export const workLogsRouter = router({
 
 			return ctx.prisma.workLog.findMany({
 				where: { userId: input.userId },
-				select: { id: true, date: true, hours: true, paid: true, note: true },
+				select: {
+					id: true,
+					date: true,
+					hours: true,
+					paid: true,
+					note: true,
+				},
 				orderBy: { date: 'desc' },
 				take: 20,
 				skip: input.offset - 20,
@@ -132,7 +129,10 @@ export const workLogsRouter = router({
 
 	getPagesForUserId: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
 		const user = await ctx.prisma.user.findFirst({
-			where: { id: input, companyId: ctx.profile.companyId },
+			where: {
+				id: input,
+				companyId: ctx.profile.companyId,
+			},
 		})
 
 		if (!user) {
@@ -149,48 +149,75 @@ export const workLogsRouter = router({
 		return Math.ceil(count / 20)
 	}),
 
+	// =========================
+	// SINGLE WORKLOG
+	// =========================
+	getById: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
+		return ctx.prisma.workLog.findUnique({
+			where: { id: input },
+			select: {
+				id: true,
+				date: true,
+				hours: true,
+				paid: true,
+				note: true,
+				user: {
+					select: {
+						id: true,
+						name: true,
+					},
+				},
+			},
+		})
+	}),
+
+	// =========================
+	// CREATE
+	// =========================
 	create: protectedProcedure.input(createWorkLogSchema).mutation(async ({ ctx, input }) => {
 		const { hours, note, date } = input
 
 		assertNotFutureDate(date)
 
-		const existing = await ctx.prisma.workLog.findFirst({
-			where: {
-				userId: ctx.profile.id,
-				date: date,
-			},
-		})
-
-		if (existing)
-			throw new TRPCError({
-				code: 'CONFLICT',
-				message: 'Wpis na ten dzień już istnieje',
+		try {
+			return await ctx.prisma.workLog.create({
+				data: {
+					hours,
+					date,
+					note,
+					userId: ctx.profile.id,
+				},
 			})
+		} catch (e: unknown) {
+			if (e instanceof Error && 'code' in e && e.code === 'P2002') {
+				throw new TRPCError({
+					code: 'CONFLICT',
+					message: 'Wpis na ten dzień już istnieje',
+				})
+			}
 
-		return ctx.prisma.workLog.create({
-			data: {
-				hours: hours,
-				date: date,
-				note: note,
-				userId: ctx.profile.id,
-			},
-		})
+			throw e
+		}
 	}),
 
+	// =========================
+	// UPDATE
+	// =========================
 	update: protectedProcedure.input(updateWorkLogSchema).mutation(async ({ ctx, input }) => {
 		const { hours, note, id, date } = input
 
 		assertNotFutureDate(date)
 
-		const existing = await ctx.prisma.workLog.findFirst({
-			where: { userId: ctx.profile.id, id: id },
+		const existing = await ctx.prisma.workLog.findUnique({
+			where: { id },
 		})
 
-		if (!existing)
+		if (!existing || existing.userId !== ctx.profile.id) {
 			throw new TRPCError({
 				code: 'NOT_FOUND',
 				message: 'Nie odnaleziono wpisu',
 			})
+		}
 
 		if (existing.paid) {
 			throw new TRPCError({
@@ -199,47 +226,37 @@ export const workLogsRouter = router({
 			})
 		}
 
-		const conflict = await ctx.prisma.workLog.findFirst({
-			where: {
-				userId: ctx.profile.id,
-				date: date,
-				NOT: { id: id },
-			},
-		})
-
-		if (conflict) {
-			throw new TRPCError({
-				code: 'CONFLICT',
-				message: 'Wpis na ten dzień już istnieje',
+		try {
+			return await ctx.prisma.workLog.update({
+				where: { id },
+				data: { hours, date, note },
 			})
-		}
+		} catch (e: unknown) {
+			if (e instanceof Error && 'code' in e && e.code === 'P2002') {
+				throw new TRPCError({
+					code: 'CONFLICT',
+					message: 'Wpis na ten dzień już istnieje',
+				})
+			}
 
-		return ctx.prisma.workLog.update({
-			where: {
-				id: id,
-				userId: ctx.profile.id,
-			},
-			data: {
-				hours: hours,
-				date: date,
-				note: note,
-			},
-		})
+			throw e
+		}
 	}),
 
+	// =========================
+	// DELETE
+	// =========================
 	delete: protectedProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
-		const existing = await ctx.prisma.workLog.findFirst({
-			where: {
-				id: input,
-				userId: ctx.profile.id,
-			},
+		const existing = await ctx.prisma.workLog.findUnique({
+			where: { id: input },
 		})
 
-		if (!existing)
+		if (!existing || existing.userId !== ctx.profile.id) {
 			throw new TRPCError({
-				code: 'CONFLICT',
+				code: 'NOT_FOUND',
 				message: 'Nie można usunąć wpisu',
 			})
+		}
 
 		if (existing.paid) {
 			throw new TRPCError({
@@ -249,13 +266,13 @@ export const workLogsRouter = router({
 		}
 
 		return ctx.prisma.workLog.delete({
-			where: {
-				id: input,
-				userId: ctx.profile.id,
-			},
+			where: { id: input },
 		})
 	}),
 
+	// =========================
+	// MANAGER ACTIONS
+	// =========================
 	setPaid: managerProcedure.input(z.array(z.string())).mutation(async ({ ctx, input }) => {
 		if (input.length === 0) {
 			throw new TRPCError({
@@ -266,7 +283,13 @@ export const workLogsRouter = router({
 
 		const workLogs = await ctx.prisma.workLog.findMany({
 			where: { id: { in: input } },
-			include: { user: true },
+			include: {
+				user: {
+					select: {
+						companyId: true,
+					},
+				},
+			},
 		})
 
 		if (workLogs.length !== input.length) {
@@ -276,22 +299,26 @@ export const workLogsRouter = router({
 			})
 		}
 
-		const invalidLogs = workLogs.filter(log => log.user.companyId !== ctx.profile.companyId)
-		if (invalidLogs.length > 0) {
+		const invalid = workLogs.some(log => log.user.companyId !== ctx.profile.companyId)
+
+		if (invalid) {
 			throw new TRPCError({
 				code: 'FORBIDDEN',
-				message: 'Nie masz uprawnień do oznaczania tych wpisów jako opłacone',
+				message: 'Brak uprawnień',
 			})
 		}
 
 		return ctx.prisma.workLog.updateMany({
-			where: { id: { in: input }, paid: false },
+			where: {
+				id: { in: input },
+				paid: false,
+			},
 			data: { paid: true },
 		})
 	}),
 
 	togglePaid: managerProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
-		const workLog = await ctx.prisma.workLog.findFirst({
+		const workLog = await ctx.prisma.workLog.findUnique({
 			where: { id: input },
 		})
 
@@ -308,16 +335,26 @@ export const workLogsRouter = router({
 		})
 	}),
 
+	// =========================
+	// NEWEST
+	// =========================
 	getNewestForCompany: managerProcedure.query(async ({ ctx }) => {
-		const today = new Date()
+		const start = new Date()
+		start.setHours(0, 0, 0, 0)
 
-		console.log(today)
+		const end = new Date()
+		end.setHours(23, 59, 59, 999)
 
 		return ctx.prisma.workLog.findMany({
 			where: {
-				user: { companyId: ctx.profile.companyId },
+				user: {
+					companyId: ctx.profile.companyId,
+				},
 				userId: { not: ctx.profile.id },
-				date: today,
+				date: {
+					gte: start,
+					lte: end,
+				},
 			},
 			orderBy: { createdAt: 'desc' },
 		})

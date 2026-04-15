@@ -1,14 +1,51 @@
 import TopPanel from '@/app/components/TopPanel'
 import RecentLogs from './components/RecentLogs'
-import { createContext } from '@/lib/trpc/context'
-import { appRouter } from '@/lib/trpc/routers'
+import { prisma } from '@/lib/prisma/prisma'
+import { createClient } from '@/lib/supabase/server'
 import StatsChart from './components/StatsChart'
+import { getMonthlyStats } from '@/lib/cache/companyStats'
+import { th } from 'zod/v4/locales'
 
 async function Page() {
-	const context = await createContext()
-	const caller = appRouter.createCaller(context)
+	const supabase = await createClient()
 
-	const logs = await caller.workLog.getNewestForCompany()
+	const {
+		data: { user },
+		error,
+	} = await supabase.auth.getUser()
+
+	if (error) {
+		throw error
+	}
+
+	const profile = await prisma.user.findUnique({
+		where: { id: user?.id },
+	})
+
+	if (!profile) throw new Error('Profil użytkownika nie został znaleziony')
+
+	const start = new Date()
+	start.setHours(0, 0, 0, 0)
+
+	const end = new Date()
+	end.setHours(23, 59, 59, 999)
+
+	const logs = await prisma.workLog.findMany({
+		where: {
+			user: {
+				companyId: profile.companyId,
+			},
+			userId: { not: profile.id },
+			date: {
+				gte: start,
+				lte: end,
+			},
+		},
+		orderBy: { createdAt: 'desc' },
+	})
+
+	const data: { month: string; hours: number }[] = await getMonthlyStats(profile.companyId)
+	console.log(data)
 
 	return (
 		<>
@@ -17,7 +54,7 @@ async function Page() {
 			</header>
 			<main className='flex flex-col gap-4 md:gap-8 w-full h-full p-4 mx-auto max-w-280 mt-topPanel-height pt-topPanel-height'>
 				<RecentLogs logs={logs} />
-				<StatsChart />
+				<StatsChart data={data} />
 			</main>
 		</>
 	)

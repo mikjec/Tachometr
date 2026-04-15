@@ -2,7 +2,13 @@
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Label, LabelList } from 'recharts'
 
-function StatsChart({ isAnimationActive = true }: { isAnimationActive?: boolean }) {
+function StatsChart({
+	isAnimationActive = true,
+	data,
+}: {
+	isAnimationActive?: boolean
+	data: { month: string; hours: number }[]
+}) {
 	return (
 		<div className='bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100 block w-full my-2'>
 			<h2 className='text-lg md:text-xl lg:text-2xl font-semibold text-gray-800 mb-4'>
@@ -13,24 +19,7 @@ function StatsChart({ isAnimationActive = true }: { isAnimationActive?: boolean 
 				style={{ width: '100%', maxHeight: '70vh', aspectRatio: 1.618 }}
 				responsive
 				barCategoryGap='20%'
-				data={[
-					{
-						month: 'maj',
-						hours: 820,
-					},
-					{
-						month: 'czerwiec',
-						hours: 620,
-					},
-					{
-						month: 'lipiec',
-						hours: 690,
-					},
-					{
-						month: 'sierpień',
-						hours: 740,
-					},
-				]}
+				data={data}
 				margin={{
 					top: 15,
 					right: 0,
