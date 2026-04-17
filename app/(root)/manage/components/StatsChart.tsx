@@ -38,7 +38,7 @@ function StatsChart({
 				/>
 				<Bar
 					dataKey='hours'
-					fill='#8884d8'
+					fill='#93a5cf'
 					isAnimationActive={isAnimationActive}
 					maxBarSize={90}>
 					<LabelList

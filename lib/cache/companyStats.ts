@@ -16,8 +16,12 @@ export const getMonthlyStats = (companyId: string) =>
 
 			return Promise.all(
 				months.map(async ({ year, month, label }) => {
-					const start = new Date(year, month, 1)
-					const end = new Date(year, month + 1, 0)
+					console.log(year, month, label)
+
+					const start = new Date(Date.UTC(year, month, 1))
+					const end = new Date(Date.UTC(year, month + 1, 0))
+
+					console.log(start, ' xdd ', end)
 
 					const result = await prisma.workLog.aggregate({
 						where: {
@@ -33,7 +37,7 @@ export const getMonthlyStats = (companyId: string) =>
 		},
 		[`monthly-stats-${companyId}`],
 		{
-			revalidate: 60 * 60 * 3,
+			revalidate: 5,
 			tags: [`monthly-stats-${companyId}`],
 		},
 	)()
