@@ -231,7 +231,7 @@ function WorkLogs({ userId }: WorkLogsProps) {
 				)}
 			</div>
 			{!userId && (
-				<div className='absolute bottom-0 left-0 right-0 bg-white border-t rounded-lg border-gray-100 p-4 md:p-0'>
+				<div className='absolute bottom-0 left-0 right-0 bg-white border-t rounded-lg border-gray-100 p-0 md:p-0'>
 					<Pagination
 						page={page}
 						setPage={setPage}
@@ -240,7 +240,7 @@ function WorkLogs({ userId }: WorkLogsProps) {
 				</div>
 			)}
 			{userId && (
-				<div className='absolute bottom-0 left-0 right-0 bg-white border-t rounded-lg border-gray-100 p-4 md:p-0'>
+				<div className='absolute bottom-0 left-0 right-0 bg-white border-t rounded-lg border-gray-100 p-0 md:p-0'>
 					<Pagination
 						page={page}
 						setPage={setPage}

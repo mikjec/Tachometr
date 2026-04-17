@@ -4,6 +4,7 @@ import { trpc } from '@/lib/trpc/provider'
 import { Spinner } from '@/components/ui/spinner'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { Plus } from 'lucide-react'
 
 function EmployeesTable() {
 	const router = useRouter()
@@ -12,7 +13,19 @@ function EmployeesTable() {
 	})
 
 	return (
-		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg h-[70vh]  lg:max-w-300 lg:max-h-250'>
+		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg h-[80vh] lg:max-w-300 lg:max-h-250 relative mt-topPanel-height'>
+			<div className='w-full flex justify-end'>
+				<Link
+					href='/manage/employees/create'
+					className='px-4 py-2 rounded-lg text-sm font-medium bg-green-100 text-green-700 hover:bg-green-200 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2'>
+					<Plus
+						className='size-5 '
+						strokeWidth={1.5}
+					/>
+					Dodaj
+				</Link>
+			</div>
+
 			<div className='hidden lg:grid grid-cols-[2fr_2fr_1fr_1fr_50px] px-6 py-2 lg:text-sm xl:text-base'>
 				<span className='text-gray-400 uppercase tracking-wide'>Imię i nazwisko</span>
 				<span className='text-gray-400 uppercase tracking-wide'>Email</span>

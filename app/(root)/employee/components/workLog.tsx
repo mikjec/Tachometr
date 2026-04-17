@@ -49,7 +49,7 @@ function WorkLog({ id }: { id: string }) {
 					<h2 className='text-xl lg:text-2xl font-semibold text-gray-800'>Edytuj wpis</h2>
 					<button
 						onClick={() => setIsEditing(false)}
-						className='text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-200 transition-colors bg-gray-100 p-2 lg:p-3 rounded-4xl'>
+						className='text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-200 transition-colors bg-gray-100 p-2 lg:p-3 rounded-4xl cursor-pointer'>
 						<ArrowLeft />
 					</button>
 				</div>

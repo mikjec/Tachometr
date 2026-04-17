@@ -5,6 +5,7 @@ import { trpc } from '@/lib/trpc/provider'
 import { Spinner } from '@/components/ui/spinner'
 import Pagination from '@/app/components/Pagination'
 import Link from 'next/link'
+import { Plus } from 'lucide-react'
 
 function WorkLogs() {
 	const [page, setPage] = useState(1)
@@ -24,7 +25,18 @@ function WorkLogs() {
 	}, [page])
 
 	return (
-		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg h-[70vh] lg:max-w-300 lg:max-h-250 relative'>
+		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg h-[80vh] lg:max-w-300 lg:max-h-250 relative'>
+			<div className='w-full flex justify-end'>
+				<Link
+					href='/employee/workLogs/create'
+					className='px-4 py-2 rounded-lg text-sm font-medium bg-green-100 text-green-700 hover:bg-green-200 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2'>
+					<Plus
+						className='size-5 '
+						strokeWidth={1.5}
+					/>
+					<span className='hidden sm:inline-block'>Dodaj wpis</span>
+				</Link>
+			</div>
 			<div className='hidden lg:grid grid-cols-[1fr_1fr_3fr_1fr] px-6 py-2 lg:text-sm xl:text-base'>
 				<span className='text-gray-400 uppercase tracking-wide'>Data</span>
 				<span className='text-gray-400 uppercase tracking-wide'>Godziny</span>

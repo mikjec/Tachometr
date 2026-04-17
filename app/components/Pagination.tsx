@@ -65,7 +65,7 @@ function Pagination({
 	}, [page, totalPages, setPage])
 
 	return (
-		<div className='w-full flex items-center justify-center text-gray-400 text-xl rounded-b-lg bg-white md:bg-white md:shadow-lg md:border-t md:border-gray-100 py-2 lg:py-4 lg:gap-2'>
+		<div className='w-full flex items-center justify-center text-gray-400 text-xl rounded-b-lg bg-gray-50  border-t border-gray-200 lg:py-3 lg:gap-2 py-2'>
 			<button
 				onClick={() => {
 					if (page > 1) setPage(page - 1)
@@ -85,7 +85,7 @@ function Pagination({
 				) : (
 					<button
 						key={p}
-						className={clsx('px-3 py-2 m-0.5 cursor-pointer rounded', {
+						className={clsx('px-2 md:px-3 py-1 m-0.5 cursor-pointer rounded', {
 							'text-gray-700 font-semibold': page === p,
 							'text-gray-400 hover:text-gray-600': page !== p,
 						})}

@@ -11,14 +11,6 @@ function Page() {
 
 			<main className='flex flex-col items-center py-4'>
 				<div className='w-full lg:w-[70vw] lg:max-w-300 pt-topPanel-height'>
-					<div className='flex justify-end my-2'>
-						<Link
-							href='/manage/employees/create'
-							className='flex items-center gap-2 bg-white shadow-sm text-gray-500 px-4 py-4 rounded-2xl text-sm lg:text-xl font-medium hover:bg-gray-300 mt-4 hover:text-gray-700 transition-colors'>
-							<Plus />
-							Dodaj
-						</Link>
-					</div>
 					<EmployeesTable />
 				</div>
 			</main>
