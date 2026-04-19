@@ -66,7 +66,7 @@ async function Navigation() {
 		z-50
 
 		grid
-		grid-cols-[2fr_1fr]
+		grid-cols
 		lg:flex
 		items-center
 
@@ -93,10 +93,6 @@ async function Navigation() {
 						<span className='hidden 2xl:inline'>{link.label}</span>
 					</NavLink>
 				))}
-			</div>
-
-			<div className='flex w-full h-full lg:h-fit'>
-				<LogOut className='w-full py-2 lg:py-4 px-4 h-full flex items-center justify-center 2xl:justify-start text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition-all cursor-pointer' />
 			</div>
 		</nav>
 	)

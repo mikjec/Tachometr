@@ -11,8 +11,8 @@ export function LogOut({ ...props }) {
 				supabase.auth.signOut()
 				redirect('/login')
 			}}>
-			<LogOutIcon className='w-7 h-7' />
-			<span className='hidden 2xl:inline lg:ms-2 lg:text-lg'>Wyloguj</span>
+			<span className='inline   text-gray-700 uppercase me-2 text-sm'>Wyloguj</span>
+			<LogOutIcon className='size-4 inline' />
 		</button>
 	)
 }

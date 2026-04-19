@@ -45,14 +45,13 @@ async function Page() {
 	})
 
 	const data: { month: string; hours: number }[] = await getMonthlyStats(profile.companyId)
-	console.log(data)
 
 	return (
 		<>
 			<header>
 				<TopPanel>Strona główna</TopPanel>
 			</header>
-			<main className='flex flex-col gap-4 md:gap-8 w-full h-full p-4 mx-auto max-w-280 mt-topPanel-height pt-topPanel-height'>
+			<main className='flex flex-col gap-4 md:gap-8 w-full p-4 mx-auto max-w-280 pt-topPanel-height'>
 				<RecentLogs logs={logs} />
 				<StatsChart data={data} />
 			</main>

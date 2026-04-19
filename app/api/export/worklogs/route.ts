@@ -51,8 +51,6 @@ export async function GET() {
 		})
 		.join('\n')
 
-	console.log(rows)
-
 	const csv = BOM + header + rows
 
 	const today = new Date()

@@ -11,7 +11,7 @@ export async function proxy(request: NextRequest) {
 		},
 	})
 
-	if (pathname.startsWith('/api')) {
+	if (pathname.startsWith('/api') || pathname.startsWith('/profile')) {
 		return response
 	}
 

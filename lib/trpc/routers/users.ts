@@ -1,7 +1,7 @@
 import { RoleSchema } from '@/src/generated/zod'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { z } from 'zod'
-import { router, publicProcedure, managerProcedure, adminProcedure } from '../trpc'
+import { router, publicProcedure, managerProcedure, adminProcedure, protectedProcedure } from '../trpc'
 import { TRPCError } from '@trpc/server'
 
 export const createUserSchema = z.object({
@@ -25,6 +25,12 @@ export const updateEmployeeSchema = z.object({
 	email: z.string().email().optional(),
 	name: z.string().min(2).optional(),
 	hourlyRate: z.number().optional().nullable().optional(),
+})
+
+export const updateProfileSchema = z.object({
+	name: z.string().min(2).optional(),
+	email: z.email().optional(),
+	newPassword: z.string().min(8).optional(),
 })
 
 export const userRouter = router({
@@ -64,6 +70,34 @@ export const userRouter = router({
 
 	getUser: publicProcedure.query(async ({ ctx }) => {
 		return { user: ctx.user, profile: ctx.profile }
+	}),
+
+	updateProfile: protectedProcedure.input(updateProfileSchema).mutation(async ({ ctx, input }) => {
+		const { name, email, newPassword } = input
+
+		if (email || newPassword) {
+			const updateData: { email?: string; password?: string } = {}
+			if (email) updateData.email = email
+			if (newPassword) updateData.password = newPassword
+
+			const { error } = await supabaseAdmin.auth.admin.updateUserById(ctx.user.id, updateData)
+
+			if (error)
+				throw new TRPCError({
+					code: 'INTERNAL_SERVER_ERROR',
+					message: 'Błąd podczas aktualizacji danych autoryzacji',
+				})
+		}
+
+		const updateData: { name?: string; email?: string } = {}
+		if (name && ctx.profile.role === 'MANAGER') updateData.name = name
+		if (email) updateData.email = email
+
+		return ctx.prisma.user.update({
+			where: { id: ctx.user.id },
+			data: updateData,
+			select: { id: true, name: true, email: true, role: true, hourlyRate: true },
+		})
 	}),
 
 	getUserById: managerProcedure.input(z.string()).query(async ({ ctx, input }) => {
