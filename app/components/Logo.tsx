@@ -10,6 +10,7 @@ export default function Logo({ ...props }) {
 				width={80}
 				height={80}
 				className='2xl:w-25'
+				unoptimized={true}
 				{...props}
 			/>
 		</div>

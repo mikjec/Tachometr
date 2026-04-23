@@ -4,7 +4,6 @@ import { prisma } from '@/lib/prisma/prisma'
 import { createClient } from '@/lib/supabase/server'
 import StatsChart from './components/StatsChart'
 import { getMonthlyStats } from '@/lib/cache/companyStats'
-import { th } from 'zod/v4/locales'
 
 async function Page() {
 	const supabase = await createClient()

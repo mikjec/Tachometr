@@ -1,8 +1,5 @@
 import TopPanel from '@/app/components/TopPanel'
-import Breadcrumbs from '@/app/components/breadcrumbs'
 import EmployeesTable from '../components/EmployeesTable'
-import Link from 'next/link'
-import { Plus } from 'lucide-react'
 
 function Page() {
 	return (
