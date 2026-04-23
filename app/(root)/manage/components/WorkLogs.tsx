@@ -103,7 +103,7 @@ function WorkLogs({ userId }: WorkLogsProps) {
 				</div>
 				<div className='flex items-center gap-2'>
 					<a
-						href='/api/export/worklogs'
+						href={userId ? `/api/export/worklogs/${userId}` : '/api/export/worklogs'}
 						download
 						className='px-4 py-2 rounded-lg text-sm font-medium bg-blue-50 text-gray-500 hover:bg-blue-100 transition-colors flex items-center gap-2'>
 						<Download className='size-5' />

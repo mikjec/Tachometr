@@ -10,7 +10,7 @@ function Page() {
 			<TopPanel>Pracownicy</TopPanel>
 
 			<main className='flex flex-col items-center py-4'>
-				<div className='w-full lg:w-[70vw] lg:max-w-300 pt-topPanel-height'>
+				<div className='w-full lg:w-[70vw] lg:max-w-300 pt-topPanel-height mt-topPanel-height'>
 					<EmployeesTable />
 				</div>
 			</main>

@@ -25,7 +25,7 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
 				/>
 			</TopPanel>
 
-			<main className='flex flex-col items-center justify-center py-4 pt-topPanel-height h-screen'>
+			<main className='flex flex-col items-center justify-center py-4 pt-topPanel-height h-[90vh]'>
 				<div className='w-full lg:w-[50vw] lg:max-w-150 bg-white p-6 lg:p-8 lg:rounded-xl shadow-sm mt-4'>
 					<h2 className='text-lg font-semibold text-gray-800 mb-6'>Edytuj dane pracownika</h2>
 					<EmployeeForm

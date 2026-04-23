@@ -214,10 +214,9 @@ export default function EmployeeForm({ mode = 'create', employeeId, initialData 
 						{deleteMutation.isPending ? (
 							<>
 								<Spinner className='size-5' />
-								Usuwanie...
 							</>
 						) : (
-							'Usuń pracownika'
+							'Usuń'
 						)}
 					</button>
 				)}
@@ -231,9 +230,9 @@ export default function EmployeeForm({ mode = 'create', employeeId, initialData 
 							{isEditing ? 'Zapisywanie...' : 'Tworzenie...'}
 						</>
 					) : isEditing ? (
-						'Zapisz zmiany'
+						'Zapisz'
 					) : (
-						'Utwórz pracownika'
+						'Utwórz'
 					)}
 				</button>
 			</div>

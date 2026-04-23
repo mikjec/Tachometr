@@ -39,15 +39,15 @@ export default function UserMenu({ name }: { name: string }) {
 			</button>
 
 			{open && (
-				<div className='absolute right-0 top-full mt-2  bg-gray-100 rounded-xl shadow-lg border border-gray-100 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-150  text-gray-700m lg:min-w-40'>
+				<div className='absolute right-0 top-full mt-2  bg-gray-100 rounded-xl shadow-lg border border-gray-100 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-150  text-gray-700m min-w-40'>
 					<Link
 						href='/profile'
 						onClick={() => setOpen(false)}
-						className='flex items-center py-3 px-2  lg:px-6 text-sm  hover:bg-gray-200 transition-colors letter w-full'>
+						className='flex items-center py-3 px-4  lg:px-6 text-sm  hover:bg-gray-200 transition-colors letter w-full'>
 						<span>Profil</span>
 					</Link>
 
-					<LogOut className=' flex justify-between items-center w-full pe-2 hover:bg-gray-200 py-3 px-2 lg:px-6' />
+					<LogOut className=' flex justify-between items-center w-full hover:bg-gray-200 py-3 px-4 lg:px-6 cursor-pointer' />
 				</div>
 			)}
 		</div>

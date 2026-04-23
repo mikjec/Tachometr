@@ -13,7 +13,7 @@ function EmployeesTable() {
 	})
 
 	return (
-		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg h-[80vh] lg:max-w-300 lg:max-h-250 relative mt-topPanel-height'>
+		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg h-[80vh] lg:max-w-300 lg:max-h-250 relative '>
 			<div className='w-full flex justify-end'>
 				<Link
 					href='/manage/employees/create'
