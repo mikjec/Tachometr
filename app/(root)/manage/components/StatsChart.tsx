@@ -16,7 +16,7 @@ function StatsChart({
 			</h2>
 			<BarChart
 				className='p-1'
-				style={{ width: '100%', maxHeight: '70vh', aspectRatio: 1.618 }}
+				style={{ width: '100%', maxHeight: '40vh', aspectRatio: 1.618 }}
 				responsive
 				barCategoryGap='20%'
 				data={data}

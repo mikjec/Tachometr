@@ -1,6 +1,7 @@
 // middleware.ts
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { prisma } from './lib/prisma/prisma'
 
 export async function proxy(request: NextRequest) {
 	const { pathname } = request.nextUrl
@@ -33,12 +34,10 @@ export async function proxy(request: NextRequest) {
 		},
 	)
 
-	// Refresh session
 	const {
 		data: { user },
 	} = await supabase.auth.getUser()
 
-	//Unauthorized user has to login to use the app
 	if (!user && pathname !== '/login') {
 		const loginUrl = new URL('/login', request.url)
 		loginUrl.searchParams.set('redirectTo', pathname)
@@ -46,8 +45,16 @@ export async function proxy(request: NextRequest) {
 	}
 
 	if (user) {
-		const { data: profile } = await supabase.from('User').select('role').eq('id', user.id).single()
-		const role = profile?.role
+		const profile = await prisma.user.findUnique({
+			where: { id: user.id },
+			select: { role: true, companyId: true },
+		})
+
+		const { role, companyId } = profile ?? { role: null, companyId: null }
+
+		if (!companyId && role == 'MANAGER') {
+			return NextResponse.redirect(new URL('/manage/company', request.url))
+		}
 
 		if (role === 'ADMIN' && !pathname.startsWith('/admin')) {
 			return NextResponse.redirect(new URL('/admin', request.url))

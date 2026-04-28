@@ -11,7 +11,7 @@ interface Log {
 
 export function RecentLogs({ logs }: { logs: Log[] }) {
 	return (
-		<div className='bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100 block w-full my-2 mt-topPanel-height'>
+		<div className='bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100 block w-full my-2 '>
 			<h2 className='text-lg md:text-xl lg:text-2xl font-semibold text-gray-800 mb-4'>Dzisiejsze wpisy</h2>
 
 			{logs.length === 0 ? (

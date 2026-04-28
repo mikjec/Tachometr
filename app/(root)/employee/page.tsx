@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { StatsCards } from '@/app/(root)/employee/components/StatsCards'
 import { RecentLogs } from '@/app/(root)/employee/components/RecentLogs'
 import TopPanel from '@/app/components/TopPanel'
+import CompanyHeader from '@/app/components/CompanyHeader'
 import { Suspense } from 'react'
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
@@ -40,28 +41,28 @@ async function Page() {
 			<header>
 				<TopPanel>Strona główna</TopPanel>
 			</header>
-			<main>
-				<div className='flex flex-col gap-4 md:gap-8 w-full h-full p-4 mx-auto max-w-280 mt-topPanel-height pt-topPanel-height'>
-					<Suspense fallback={<Spinner />}>
-						<StatsCards
-							unpaidHours={unpaidHours}
-							hourlyRate={hourlyRate}
-						/>
-					</Suspense>
+			<main className='flex flex-col gap-4 md:gap-8 w-full h-full p-4 mx-auto max-w-280 pt-topPanel-height'>
+				<CompanyHeader />
 
-					<div className='mx-auto flex items-center justify-center'>
-						<Link
-							href='/employee/workLogs/create'
-							className='flex items-center justify-center gap-2 bg-white shadow-sm text-gray-500 px-4 py-4 rounded-2xl text-sm lg:text-lg font-medium hover:bg-gray-300 hover:text-gray-700 transition-colors'>
-							<Plus className='size-6 lg:size-8' />
-							<span>Dodaj wpis</span>
-						</Link>
-					</div>
+				<Suspense fallback={<Spinner />}>
+					<StatsCards
+						unpaidHours={unpaidHours}
+						hourlyRate={hourlyRate}
+					/>
+				</Suspense>
 
-					<Suspense fallback={<Spinner />}>
-						<RecentLogs logs={recentLogs} />
-					</Suspense>
+				<div className='mx-auto flex items-center justify-center'>
+					<Link
+						href='/employee/workLogs/create'
+						className='flex items-center justify-center gap-2 bg-white shadow-sm text-gray-500 px-4 py-4 rounded-2xl text-sm lg:text-lg font-medium hover:bg-gray-300 hover:text-gray-700 transition-colors'>
+						<Plus className='size-6 lg:size-8' />
+						<span>Dodaj wpis</span>
+					</Link>
 				</div>
+
+				<Suspense fallback={<Spinner />}>
+					<RecentLogs logs={recentLogs} />
+				</Suspense>
 			</main>
 		</>
 	)

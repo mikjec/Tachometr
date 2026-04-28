@@ -1,4 +1,5 @@
 import TopPanel from '@/app/components/TopPanel'
+import CompanyHeader from '@/app/components/CompanyHeader'
 import RecentLogs from './components/RecentLogs'
 import { prisma } from '@/lib/prisma/prisma'
 import { createClient } from '@/lib/supabase/server'
@@ -51,6 +52,7 @@ async function Page() {
 				<TopPanel>Strona główna</TopPanel>
 			</header>
 			<main className='flex flex-col gap-4 md:gap-8 w-full p-4 mx-auto max-w-280 pt-topPanel-height'>
+				<CompanyHeader />
 				<RecentLogs logs={logs} />
 				<StatsChart data={data} />
 			</main>

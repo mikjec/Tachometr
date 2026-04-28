@@ -2,7 +2,7 @@ import React from 'react'
 import NavLink from '@/app/components/NavLink'
 import LogOut from '@/app/components/LogOut'
 import Logo from '@/app/components/Logo'
-import { Users, LayoutDashboard, Clock } from 'lucide-react'
+import { Users, LayoutDashboard, Clock, Building2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { prisma } from '@/lib/prisma/prisma'
 
@@ -34,6 +34,11 @@ const managerNavLinks = [
 		href: '/manage/employees',
 		icon: <Users className='w-7 h-7' />,
 		label: 'Pracownicy',
+	},
+	{
+		href: '/manage/company',
+		icon: <Building2 className='w-7 h-7' />,
+		label: 'Moja Firma',
 	},
 ]
 
