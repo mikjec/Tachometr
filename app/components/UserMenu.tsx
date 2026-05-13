@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase/client'
+
 import userIcon from '@/public/userIcon.svg'
 import LogOut from './LogOut'
 

@@ -12,7 +12,7 @@ export async function proxy(request: NextRequest) {
 		},
 	})
 
-	if (pathname.startsWith('/api') || pathname.startsWith('/profile') || pathname === '/login/set-password') {
+	if (pathname === '/login/set-password' || pathname.startsWith('/api')) {
 		return response
 	}
 
@@ -38,7 +38,7 @@ export async function proxy(request: NextRequest) {
 		data: { user },
 	} = await supabase.auth.getUser()
 
-	if (!user && pathname !== '/login') {
+	if (!user && !pathname.startsWith('/login')) {
 		const loginUrl = new URL('/login', request.url)
 		loginUrl.searchParams.set('redirectTo', pathname)
 		return NextResponse.redirect(loginUrl)

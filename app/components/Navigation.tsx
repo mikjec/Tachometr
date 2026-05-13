@@ -48,8 +48,6 @@ async function Navigation() {
 		data: { user },
 	} = await supabase.auth.getUser()
 
-	if(!user) redirect('/login')
-
 	const profile = await prisma.user.findUnique({
 		where: { id: user?.id },
 		select: { role: true },

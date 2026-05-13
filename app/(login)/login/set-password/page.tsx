@@ -12,6 +12,11 @@ export default function SetPasswordPage() {
 	const router = useRouter()
 
 	useEffect(() => {
+		supabase.auth.getSession().then(({ data: { session } }) => {
+			console.log('sesja: ', session)
+			if (session) setReady(true)
+		})
+
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange((event, session) => {
@@ -38,8 +43,6 @@ export default function SetPasswordPage() {
 
 		router.push('/dashboard')
 	}
-
-	if (!ready) return <p>Weryfikowanie zaproszenia...</p>
 
 	return (
 		<div>
