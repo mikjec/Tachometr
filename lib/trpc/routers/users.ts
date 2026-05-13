@@ -1,18 +1,19 @@
 import { RoleSchema } from '@/src/generated/zod'
 import { supabaseAdmin } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 import { router, publicProcedure, managerProcedure, adminProcedure, protectedProcedure } from '../trpc'
 import { TRPCError } from '@trpc/server'
 
 export const signupSchema = z.object({
-	email: z.string().email(),
+	email: z.email(),
 	name: z.string().min(2),
 	password: z.string().min(8),
 	companyName: z.string().min(2),
 })
 
 export const createUserSchema = z.object({
-	email: z.string().email(),
+	email: z.email(),
 	name: z.string().min(2),
 	role: RoleSchema.optional(),
 	hourlyRate: z.number().optional().nullable(),
@@ -21,7 +22,7 @@ export const createUserSchema = z.object({
 })
 
 export const createEmployeeSchema = z.object({
-	email: z.string().email(),
+	email: z.email(),
 	name: z.string().min(2),
 	hourlyRate: z.number().optional().nullable(),
 	password: z.string().min(8),
@@ -29,7 +30,7 @@ export const createEmployeeSchema = z.object({
 
 export const updateEmployeeSchema = z.object({
 	id: z.string(),
-	email: z.string().email().optional(),
+	email: z.email().optional(),
 	name: z.string().min(2).optional(),
 	hourlyRate: z.number().optional().nullable().optional(),
 })
@@ -43,6 +44,8 @@ export const updateProfileSchema = z.object({
 export const userRouter = router({
 	signup: publicProcedure.input(signupSchema).mutation(async ({ ctx, input }) => {
 		const { password, companyName, ...userData } = input
+
+		const supabase = await createClient()
 
 		const existingUser = await ctx.prisma.user.findUnique({
 			where: { email: input.email },
@@ -62,15 +65,16 @@ export const userRouter = router({
 		if (existingCompany) {
 			throw new TRPCError({
 				code: 'CONFLICT',
-				message: 'Firma z tym nazwą już istnieje',
+				message: 'Firma z tą nazwą już istnieje',
 			})
 		}
 
-		// Create user in Supabase first
-		const { data, error } = await supabaseAdmin.auth.admin.createUser({
+		const { data, error } = await supabase.auth.signUp({
 			email: input.email,
 			password,
 		})
+
+		console.log('blad', error)
 
 		if (error || !data.user) {
 			throw new TRPCError({
@@ -79,14 +83,12 @@ export const userRouter = router({
 			})
 		}
 
-		// Create company
 		const company = await ctx.prisma.company.create({
 			data: {
 				name: companyName,
 			},
 		})
 
-		// Create user in Prisma with Supabase ID
 		return ctx.prisma.user.create({
 			data: {
 				...userData,
@@ -180,7 +182,7 @@ export const userRouter = router({
 	}),
 
 	createEmployee: managerProcedure.input(createEmployeeSchema).mutation(async ({ ctx, input }) => {
-		const { password, ...userData } = input
+		const { password: _, ...userData } = input
 
 		const existing = await ctx.prisma.user.findUnique({
 			where: { email: input.email },
@@ -192,17 +194,17 @@ export const userRouter = router({
 				message: 'Użytkownik z tym emailem już istnieje',
 			})
 
-		const { data, error } = await supabaseAdmin.auth.admin.createUser({
-			email: input.email,
-			password,
-			email_confirm: true,
+		const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(input.email, {
+			redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/login/set-password`,
 		})
+		console.log('blad: ', error)
 
-		if (error || !data.user)
+		if (error || !data.user) {
 			throw new TRPCError({
 				code: 'INTERNAL_SERVER_ERROR',
 				message: 'Błąd podczas tworzenia użytkownika, spróbuj ponownie później',
 			})
+		}
 
 		return ctx.prisma.user.create({
 			data: {
@@ -235,7 +237,7 @@ export const userRouter = router({
 
 		if (!existing) throw new TRPCError({ code: 'NOT_FOUND', message: 'Nie znaleziono pracownika' })
 
-		await ctx.prisma.user.delete({ where: { id: input } })
+		const {} = await ctx.prisma.user.delete({ where: { id: input } })
 
 		const { error } = await supabaseAdmin.auth.admin.deleteUser(input)
 

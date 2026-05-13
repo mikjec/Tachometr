@@ -9,12 +9,12 @@ import { prisma } from '@/lib/prisma/prisma'
 const employeeNavLinks = [
 	{
 		href: '/employee',
-		icon: <LayoutDashboard className='w-7 h-7' />,
+		icon: <LayoutDashboard className='w-5 h-5' />,
 		label: 'Pulpit',
 	},
 	{
 		href: '/employee/workLogs',
-		icon: <Clock className='w-7 h-7' />,
+		icon: <Clock className='w-5 h-5' />,
 		label: 'Wpisy',
 	},
 ]
@@ -22,22 +22,22 @@ const employeeNavLinks = [
 const managerNavLinks = [
 	{
 		href: '/manage',
-		icon: <LayoutDashboard className='w-7 h-7' />,
+		icon: <LayoutDashboard className='w-5 h-5' />,
 		label: 'Pulpit',
 	},
 	{
 		href: '/manage/workLogs',
-		icon: <Clock className='w-7 h-7' />,
+		icon: <Clock className='w-5 h-5' />,
 		label: 'Wpisy',
 	},
 	{
 		href: '/manage/employees',
-		icon: <Users className='w-7 h-7' />,
+		icon: <Users className='w-5 h-5' />,
 		label: 'Pracownicy',
 	},
 	{
 		href: '/manage/company',
-		icon: <Building2 className='w-7 h-7' />,
+		icon: <Building2 className='w-5 h-5' />,
 		label: 'Moja Firma',
 	},
 ]
@@ -47,6 +47,8 @@ async function Navigation() {
 	const {
 		data: { user },
 	} = await supabase.auth.getUser()
+
+	if(!user) redirect('/login')
 
 	const profile = await prisma.user.findUnique({
 		where: { id: user?.id },
@@ -62,7 +64,7 @@ async function Navigation() {
 		bottom-0
 		left-0
 		right-0
-		h-13
+		h-10
 		sm:h-17
 		bg-white
 		border-t

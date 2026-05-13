@@ -12,7 +12,7 @@ export async function proxy(request: NextRequest) {
 		},
 	})
 
-	if (pathname.startsWith('/api') || pathname.startsWith('/profile')) {
+	if (pathname.startsWith('/api') || pathname.startsWith('/profile') || pathname === '/login/set-password') {
 		return response
 	}
 

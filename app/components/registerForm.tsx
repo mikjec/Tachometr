@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { trpc } from '@/lib/trpc/provider'
 import { Spinner } from '@/components/ui/spinner'
+import { Mail } from 'lucide-react';
 import { useRouter } from 'next/navigation'
 
 function translateAuthError(message: string): string {
@@ -84,15 +85,15 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
 
 	if (success) {
 		return (
-			<div className='flex flex-col items-center justify-center h-full gap-4 sm:w-1/2 text-center'>
-				<div className='text-4xl'>✉️</div>
+			<div className='flex flex-col items-center justify-center h-full gap-5 p-2 text-center'>
+				<div className='text-4xl'><Mail size='40' /></div>
 				<p className='text-gray-700 font-medium'>Sprawdź swoją skrzynkę!</p>
-				<p className='text-gray-500 text-sm'>
+				<p className='text-gray-500 text-xs'>
 					Wysłaliśmy link aktywacyjny na adres <strong>{email}</strong>.
 				</p>
 				<button
 					onClick={onSwitchToLogin}
-					className='mt-4 text-sm text-gray-500 underline underline-offset-2 hover:text-gray-700 transition-colors cursor-pointer'>
+					className='text-sm text-gray-500 underline underline-offset-2 hover:text-gray-700 transition-colors cursor-pointer'>
 					Wróć do logowania
 				</button>
 			</div>

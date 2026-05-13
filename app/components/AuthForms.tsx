@@ -21,7 +21,6 @@ export default function AuthForms() {
 				<LoginForm onSwitchToRegister={() => setIsLogin(false)} />
 			</div>
 
-			{/* Register form — slides up from below */}
 			<div
 				className='transition-all duration-400 ease-in-out'
 				style={{

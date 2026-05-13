@@ -16,7 +16,7 @@ async function TopPanel({ children }: { children: React.ReactNode }) {
 	const name = profile?.name ?? user?.email ?? ''
 
 	return (
-		<div className='fixed top-0 w-screen h-topPanel-height bg-white ps-6 py-8 z-40 border-gray-100 shadow-sm lg:pe-nav-width'>
+		<div className='fixed top-0 w-screen h-topPanel-height bg-white ps-6 py-6 lg:py-8 z-40 border-gray-100 shadow-sm lg:pe-nav-width'>
 			<div className='w-full h-full max-w-400 flex items-center justify-between mx-auto uppercase'>
 				<h1 className='text-sm md:text-md lg:text-lg'>{children}</h1>
 				<UserMenu name={name} />

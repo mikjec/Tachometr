@@ -26,7 +26,7 @@ function WorkLogs() {
 
 	return (
 		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg h-[80vh] lg:max-w-300 lg:max-h-250 relative'>
-			<div className='w-full flex justify-end'>
+			<div className='w-full flex justify-end mb-2'>
 				<Link
 					href='/employee/workLogs/create'
 					className='px-4 py-2 rounded-lg text-sm font-medium bg-green-100 text-green-700 hover:bg-green-200 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2'>
