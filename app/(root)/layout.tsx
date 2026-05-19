@@ -27,7 +27,7 @@ export default function RootLayout({
 	return (
 		<html lang='pl-PL'>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased pb-16
+				className={`${geistSans.variable} ${geistMono.variable} antialiased
 		lg:pb-0
 		lg:ms-nav-width relative`}>
 				<TRPCProvider>

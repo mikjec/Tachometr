@@ -58,6 +58,10 @@ function WorkLogs({ userId }: WorkLogsProps) {
 			top: 0,
 			behavior: 'smooth',
 		})
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		})
 	}, [page])
 
 	const handleSelectAll = () => {
@@ -87,8 +91,8 @@ function WorkLogs({ userId }: WorkLogsProps) {
 	const allUnpaidSelected = unpaidLogs.length > 0 && unpaidLogs.every(log => selectedIds.has(log.id))
 
 	return (
-		<div className='w-full h-[80vh] mt-topPanel-height flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg md:h-[80vh] lg:max-w-300 lg:max-h-250 relative'>
-			<div className='flex items-center justify-between mb-2 ps-4 pb-2 border-b border-gray-100'>
+		<div className='w-full mt-topPanel-height pb-20 flex flex-col gap-2 md:w-[90vw] mx-auto lg:w-[70vw] px-4 md:px-8 md:rounded-lg md:h-[80vh] lg:max-w-300 lg:max-h-250 relative md:bg-white'>
+			<div className='flex items-center justify-between ps-4 pe-2 w-full py-4 border-b border-gray-300 bg-white rounded-xl md:rounded-none'>
 				<div className='flex items-center gap-2'>
 					<input
 						type='checkbox'
@@ -122,7 +126,7 @@ function WorkLogs({ userId }: WorkLogsProps) {
 			</div>
 
 			<div
-				className={`hidden lg:grid ${userId ? 'grid-cols-[50px_1fr_1fr_2fr_1fr_50px]' : 'grid-cols-[50px_1fr_1fr_1fr_2fr_1fr_50px]'} px-6 py-2 lg:text-sm xl:text-base`}>
+				className={`hidden lg:grid ${userId ? 'grid-cols-[50px_1fr_1fr_2fr_1fr_50px]' : 'grid-cols-[50px_1fr_1fr_1fr_2fr_1fr_50px]'} px-6 pb-2 lg:text-sm xl:text-base`}>
 				<span className='text-gray-400 uppercase tracking-wide'></span>
 				{!userId && <span className='text-gray-400 uppercase tracking-wide'>Użytkownik</span>}
 				<span className='text-gray-400 uppercase tracking-wide'>Data</span>
@@ -133,7 +137,7 @@ function WorkLogs({ userId }: WorkLogsProps) {
 			</div>
 
 			<div
-				className='overflow-y-scroll flex-1 flex flex-col pb-20'
+				className=' flex-1 flex flex-col md:pb-20 md:overflow-y-scroll'
 				ref={scrollContainerRef}>
 				{isLoading && (
 					<div className='flex w-full h-full items-center justify-center min-h-[100px]'>
@@ -231,7 +235,7 @@ function WorkLogs({ userId }: WorkLogsProps) {
 				)}
 			</div>
 			{!userId && (
-				<div className='absolute bottom-0 left-0 right-0 bg-white border-t rounded-lg border-gray-100 p-0 md:p-0'>
+				<div className='md:absolute md:bottom-0 md:left-0 md:right-0 md:border-t rounded-lg border-gray-100 md:p-0'>
 					<Pagination
 						page={page}
 						setPage={setPage}
@@ -240,7 +244,7 @@ function WorkLogs({ userId }: WorkLogsProps) {
 				</div>
 			)}
 			{userId && (
-				<div className='absolute bottom-0 left-0 right-0 bg-white border-t rounded-lg border-gray-100 p-0 md:p-0'>
+				<div className='md:absolute md:bottom-0 md:left-0 md:right-0 md:border-t rounded-lg border-gray-100 md:p-0'>
 					<Pagination
 						page={page}
 						setPage={setPage}
