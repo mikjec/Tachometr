@@ -45,7 +45,7 @@ function WorkLog({ id }: { id: string }) {
 	}
 
 	return (
-		<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-5 md:gap-8 w-screen h-[80vh] md:w-[60vw] md:h-[60vh] bg-white p-5 md:p-8 md:rounded-2xl shadow-sm max-w-300'>
+		<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-5 md:gap-8 w-[90vw] h-[70vh] sm:w-[80vw] md:w-[70vw] md:h-[60vh] bg-white p-5 md:p-8 rounded-xl shadow-sm max-w-300'>
 			<div className='flex items-center justify-between'>
 				<h1 className='text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-800'>
 					{new Date(workLog.date).toLocaleDateString('pl-PL', {
