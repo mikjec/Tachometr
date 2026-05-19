@@ -1,4 +1,4 @@
-# TimeTracker
+# Dutly
 
 Employee work hours management system.
 
