@@ -9,12 +9,12 @@ import { prisma } from '@/lib/prisma/prisma'
 const employeeNavLinks = [
 	{
 		href: '/employee',
-		icon: <LayoutDashboard className='w-5 h-5' />,
+		icon: <LayoutDashboard className='w-6 h-6 md:w-7 md:h-7' />,
 		label: 'Pulpit',
 	},
 	{
 		href: '/employee/workLogs',
-		icon: <Clock className='w-5 h-5' />,
+		icon: <Clock className='w-6 h-6 md:w-7 md:h-7' />,
 		label: 'Wpisy',
 	},
 ]
@@ -22,22 +22,22 @@ const employeeNavLinks = [
 const managerNavLinks = [
 	{
 		href: '/manage',
-		icon: <LayoutDashboard className='w-5 h-5' />,
+		icon: <LayoutDashboard className='w-6 h-6 md:w-7 md:h-7' />,
 		label: 'Pulpit',
 	},
 	{
 		href: '/manage/workLogs',
-		icon: <Clock className='w-5 h-5' />,
+		icon: <Clock className='w-6 h-6 md:w-7 md:h-7' />,
 		label: 'Wpisy',
 	},
 	{
 		href: '/manage/employees',
-		icon: <Users className='w-5 h-5' />,
+		icon: <Users className='w-6 h-6 md:w-7 md:h-7' />,
 		label: 'Pracownicy',
 	},
 	{
 		href: '/manage/company',
-		icon: <Building2 className='w-5 h-5' />,
+		icon: <Building2 className='w-6 h-6 md:w-7 md:h-7' />,
 		label: 'Moja Firma',
 	},
 ]
@@ -62,7 +62,7 @@ async function Navigation() {
 		bottom-0
 		left-0
 		right-0
-		h-10
+		h-12
 		sm:h-17
 		bg-white
 		border-t

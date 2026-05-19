@@ -33,7 +33,7 @@ export const getMonthlyStats = (companyId: string) =>
 		},
 		[`monthly-stats-${companyId}`],
 		{
-			revalidate: 5,
+			revalidate: 3600,
 			tags: [`monthly-stats-${companyId}`],
 		},
 	)()

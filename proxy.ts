@@ -39,9 +39,8 @@ export async function proxy(request: NextRequest) {
 	} = await supabase.auth.getUser()
 
 	if (!user && !pathname.startsWith('/login')) {
-		const loginUrl = new URL('/login', request.url)
-		loginUrl.searchParams.set('redirectTo', pathname)
-		return NextResponse.redirect(loginUrl)
+		const path = process.env.NEXT_PUBLIC_APP_URL + '/login'
+		return NextResponse.redirect(path)
 	}
 
 	if (user) {
@@ -49,6 +48,8 @@ export async function proxy(request: NextRequest) {
 			where: { id: user.id },
 			select: { role: true, companyId: true },
 		})
+
+		if (pathname.startsWith('/profile')) return response
 
 		const { role, companyId } = profile ?? { role: null, companyId: null }
 
