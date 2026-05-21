@@ -30,8 +30,6 @@ export default function EmployeeForm({ mode = 'create', employeeId, initialData 
 	const [name, setName] = useState(initialData?.name ?? '')
 	const [email, setEmail] = useState(initialData?.email ?? '')
 	const [hourlyRate, setHourlyRate] = useState(initialData?.hourlyRate?.toString() ?? '')
-	const [password, setPassword] = useState(generatePassword())
-	const [showPassword, setShowPassword] = useState(false)
 	const [error, setError] = useState<string | null>(null)
 
 	const isEditing = mode === 'edit'
@@ -86,15 +84,11 @@ export default function EmployeeForm({ mode = 'create', employeeId, initialData 
 				hourlyRate: rate,
 			})
 		} else {
-			if (password.length < 8) {
-				setError('Hasło musi mieć co najmniej 8 znaków')
-				return
-			}
 			createMutation.mutate({
 				name,
 				email,
 				hourlyRate: rate,
-				password,
+				password: generatePassword(),
 			})
 		}
 	}
@@ -164,35 +158,6 @@ export default function EmployeeForm({ mode = 'create', employeeId, initialData 
 					className='w-full border-2 border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent text-gray-700'
 				/>
 			</div>
-
-			{/* Password (create only) */}
-			{!isEditing && (
-				<div className='flex flex-col gap-2'>
-					<label
-						htmlFor='password'
-						className='text-sm font-medium text-gray-700'>
-						Hasło <span className='text-red-500'>*</span>
-					</label>
-					<div className='relative'>
-						<input
-							type={showPassword ? 'text' : 'password'}
-							id='password'
-							value={password}
-							onChange={e => setPassword(e.target.value)}
-							placeholder='Minimum 8 znaków'
-							minLength={8}
-							className='w-full border-2 border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent text-gray-700'
-							required
-						/>
-						<button
-							type='button'
-							onClick={() => setShowPassword(prev => !prev)}
-							className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600'>
-							{showPassword ? <Eye className='size-4' /> : <EyeOff className='size-4' />}
-						</button>
-					</div>
-				</div>
-			)}
 
 			{/* Error Message */}
 			{error && <div className='p-3 rounded-xl bg-red-50 text-red-600 text-sm'>{error}</div>}

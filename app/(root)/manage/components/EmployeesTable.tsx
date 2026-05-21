@@ -13,7 +13,7 @@ function EmployeesTable() {
 	})
 
 	return (
-		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg h-[80vh] lg:max-w-300 lg:max-h-250 relative '>
+		<div className='w-full sm:w-[80vw] flex flex-col gap-2 lg:w-[70vw] md:bg-white p-8 pb-20 md:pb-8 md:rounded-xl md:h-[80vh] lg:max-w-300 lg:max-h-250 relative '>
 			<div className='w-full flex justify-end'>
 				<Link
 					href='/manage/employees/create'
@@ -34,7 +34,7 @@ function EmployeesTable() {
 				<span className='text-gray-400 uppercase tracking-wide'></span>
 			</div>
 
-			<div className='overflow-y-scroll h-full flex flex-col'>
+			<div className='md:overflow-y-scroll h-full flex flex-col'>
 				{isLoading && (
 					<div className='flex w-full h-full items-center justify-center min-h-[100px]'>
 						<Spinner className='size-8' />

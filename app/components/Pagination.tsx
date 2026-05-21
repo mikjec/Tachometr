@@ -65,7 +65,7 @@ function Pagination({
 	}, [page, totalPages, setPage])
 
 	return (
-		<div className='w-full flex items-center justify-center text-gray-400 text-xl rounded-xl md:rounded-b-lg  bg-gray-50 border-t border-gray-200 lg:py-3 lg:gap-2 py-2'>
+		<div className='w-full flex items-center justify-center text-gray-400 text-xl rounded-xl md:rounded-b-lg md:rounded-t-none  bg-white border-t border-gray-200 lg:py-3 lg:gap-2 py-2'>
 			<button
 				onClick={() => {
 					if (page > 1) setPage(page - 1)

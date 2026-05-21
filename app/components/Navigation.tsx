@@ -5,6 +5,7 @@ import Logo from '@/app/components/Logo'
 import { Users, LayoutDashboard, Clock, Building2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { prisma } from '@/lib/prisma/prisma'
+import LogoIcon from './LogoIcon'
 
 const employeeNavLinks = [
 	{
@@ -86,7 +87,12 @@ async function Navigation() {
 		lg:border-r
 	'>
 			<div className='hidden lg:flex h-topPanel-height items-center justify-center w-full py-8'>
-				<Logo />
+				<div className='hidden 2xl:block'>
+					<Logo />
+				</div>
+				<div>
+					<LogoIcon className='2xl:hidden' />
+				</div>
 			</div>
 
 			<div className='flex w-full h-full justify-around lg:flex-col lg:flex-1 lg:justify-start'>
