@@ -44,7 +44,7 @@ function WorkLog({ id }: { id: string }) {
 
 	if (isEditing) {
 		return (
-			<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen max-h-[80vh] sm:h-fit  lg:w-full sm:max-w-lg bg-white sm:rounded-2xl shadow-sm p-5 lg:p-8 flex flex-col justify-between'>
+			<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-h-[80vh] sm:h-fit  lg:w-full sm:max-w-lg bg-white rounded-2xl shadow-sm p-5 lg:p-8 flex flex-col justify-between'>
 				<div className='flex items-center justify-between mb-6 h-[10%]'>
 					<h2 className='text-xl lg:text-2xl font-semibold text-gray-800'>Edytuj wpis</h2>
 					<button
@@ -73,7 +73,7 @@ function WorkLog({ id }: { id: string }) {
 	}
 
 	return (
-		<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-5 md:gap-8 w-screen h-[80vh] md:w-[60vw] md:h-[60vh] bg-white p-5 md:p-8 md:rounded-2xl shadow-sm max-w-300'>
+		<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-5 md:gap-8 w-[90vw] h-[60vh] md:w-[60vw] md:h-[60vh] bg-white p-5 md:p-8 rounded-2xl shadow-sm max-w-300'>
 			<div className='flex items-center justify-between'>
 				<h1 className='text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-800'>
 					{new Date(workLog.date).toLocaleDateString('pl-PL', {

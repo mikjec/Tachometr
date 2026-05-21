@@ -38,10 +38,10 @@ async function Page() {
 
 	return (
 		<>
-			<header>
+			<header className='mb-4 md:mb-0'>
 				<TopPanel>Strona główna</TopPanel>
 			</header>
-			<main className='flex flex-col gap-4 md:gap-8 w-full h-full p-4 mx-auto max-w-280 pt-topPanel-height'>
+			<main className='flex flex-col gap-4 md:gap-8 w-full h-full p-4 mx-auto max-w-280 pt-topPanel-height pb-20 lg:pb-0'>
 				<CompanyHeader />
 
 				<Suspense fallback={<Spinner />}>

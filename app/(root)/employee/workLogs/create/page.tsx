@@ -18,7 +18,7 @@ export default function CreateWorkLogPage() {
 			</header>
 
 			<main>
-				<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen max-h-[80vh] sm:max-w-lg bg-white sm:rounded-2xl shadow-sm p-5 lg:p-8 flex flex-col justify-between'>
+				<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-h-[80vh] sm:max-w-lg bg-white rounded-xl shadow-sm p-5 lg:p-8 flex flex-col justify-between'>
 					{/* Header */}
 					<div className='mb-6'>
 						<h2 className='text-2xl font-semibold text-gray-800'>Dodaj nowy wpis</h2>

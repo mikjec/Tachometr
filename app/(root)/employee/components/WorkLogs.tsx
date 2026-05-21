@@ -25,16 +25,16 @@ function WorkLogs() {
 	}, [page])
 
 	return (
-		<div className='w-full flex flex-col gap-2 lg:w-[70vw] bg-white p-4 lg:rounded-lg h-[80vh] lg:max-w-300 lg:max-h-250 relative'>
+		<div className='w-full flex flex-col gap-2 lg:w-[70vw] md:bg-white rounded-xl md:h-[80vh] lg:max-w-300 lg:max-h-250 relative pb-20 md:pb-0 md:p-6'>
 			<div className='w-full flex justify-end mb-2'>
 				<Link
 					href='/employee/workLogs/create'
-					className='px-4 py-2 rounded-lg text-sm font-medium bg-green-100 text-green-700 hover:bg-green-200 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2'>
+					className='px-4 py-4 rounded-xl text-sm font-medium bg-green-100 text-green-700 hover:bg-green-200 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2'>
 					<Plus
 						className='size-5 '
 						strokeWidth={1.5}
 					/>
-					<span className='hidden sm:inline-block'>Dodaj wpis</span>
+					<span className='sm:inline-block'>Dodaj wpis</span>
 				</Link>
 			</div>
 			<div className='hidden lg:grid grid-cols-[1fr_1fr_3fr_1fr] px-6 py-2 lg:text-sm xl:text-base'>
@@ -45,7 +45,7 @@ function WorkLogs() {
 			</div>
 
 			<div
-				className='overflow-y-scroll flex-1 flex flex-col md:pb-20'
+				className='md:overflow-y-scroll flex-1 flex flex-col md:pb-20'
 				ref={scrollContainerRef}>
 				{isLoading && (
 					<div className='flex w-full h-full items-center justify-center min-h-[100px]'>
@@ -56,7 +56,9 @@ function WorkLogs() {
 				{!isLoading && data && data.length > 0 && (
 					<ul className='list-none p-0 m-0'>
 						{data.map(log => (
-							<li key={log.id}>
+							<li
+								key={log.id}
+								className='mb-3'>
 								<Link
 									href={`/employee/workLogs/${log.id}`}
 									className='block'>
@@ -109,7 +111,7 @@ function WorkLogs() {
 					</p>
 				)}
 			</div>
-			<div className='absolute bottom-0 left-0 right-0 bg-white border-t rounded-b-lg border-gray-100 md:p-0'>
+			<div className='md:absolute md:bottom-0 md:left-0 md:right-0 bg-white md:border-t  rounded-xl md:rounded-b-lg border-gray-100 md:p-0'>
 				<Pagination
 					page={page}
 					setPage={setPage}
