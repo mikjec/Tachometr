@@ -7,6 +7,9 @@ interface Log {
 	hours: number
 	paid: boolean
 	note: string | null
+	user: {
+		name: string | null
+	}
 }
 
 export function RecentLogs({ logs }: { logs: Log[] }) {
@@ -18,20 +21,25 @@ export function RecentLogs({ logs }: { logs: Log[] }) {
 				<p className='text-gray-400 text-sm md:text-base'>Brak wpisów</p>
 			) : (
 				<div className='flex flex-col gap-2'>
-					<div className='hidden md:grid grid-cols-[1fr_1fr_3fr_1fr] px-4 py-2 text-xs lg:text-sm text-gray-400 uppercase tracking-wide'>
+					<div className='hidden md:grid grid-cols-[1fr_1fr_1fr_2fr_1fr] px-4 py-2 lg:py-4 text-xs lg:text-sm text-gray-400 uppercase tracking-wide border-b border-gray-200'>
+						<span>Użytkownik</span>
 						<span>Data</span>
 						<span>Godziny</span>
 						<span>Notatka</span>
 						<span>Status</span>
 					</div>
 
-					<ul className='flex flex-col gap-2 m-0 p-0 list-none'>
+					<ul className='flex flex-col gap-2 m-0 p-0 list-none lg:pt-2'>
 						{logs.map(log => (
 							<li key={log.id}>
 								<Link
 									href={`/manage/workLogs/${log.id}`}
 									className='block'>
-									<div className='flex flex-col gap-2 md:grid md:grid-cols-[1fr_1fr_3fr_1fr] p-4 md:px-4 md:py-3 rounded-xl hover:bg-gray-50 transition-colors md:items-center border border-gray-100 md:border-transparent'>
+									<div className='flex flex-col gap-2 md:grid md:grid-cols-[1fr_1fr_1fr_2fr_1fr] p-4 md:px-4 md:py-3 lg:py-4 rounded-xl hover:bg-gray-100 transition-colors md:items-center border border-gray-100 md:border-transparent'>
+										<span className='text-sm md:text-base lg:text-lg text-gray-700'>
+											<span className='md:hidden text-sm text-gray-400 uppercase mr-2'>Użytkownik:</span>
+											{log.user.name ?? '—'}
+										</span>
 										<div className='flex justify-between items-center md:contents'>
 											<span className='text-sm md:text-base lg:text-lg text-gray-700'>
 												<span className='md:hidden text-sm text-gray-400 uppercase mr-2'>Data:</span>

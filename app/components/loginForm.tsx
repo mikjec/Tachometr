@@ -27,23 +27,18 @@ export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
 	const [password, setPassword] = useState('')
 	const [error, setError] = useState<string | null>(null)
 	const [loading, setLoading] = useState(false)
-
 	const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		setLoading(true)
 		setError(null)
-
 		const { error } = await supabase.auth.signInWithPassword({ email, password })
-
 		if (error) {
 			setError(translateAuthError(error.message))
 			setLoading(false)
 			return
 		}
-
 		redirect('/')
 	}
-
 	return (
 		<form
 			onSubmit={handleLogin}
@@ -73,13 +68,19 @@ export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
 				className='w-full bg-gray-500 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-colors text-white p-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2'>
 				{loading ? <Spinner className='mx-auto my-1' /> : 'Zaloguj się'}
 			</button>
-
-			<button
-				type='button'
-				onClick={onSwitchToRegister}
-				className='text-sm text-gray-500 underline underline-offset-2 hover:text-gray-700 transition-colors cursor-pointer'>
-				Nie masz konta? Zarejestruj się
-			</button>
+			<div className='w-full flex flex-col items-end gap-4'>
+				<button
+					type='button'
+					onClick={onSwitchToRegister}
+					className='text-sm text-gray-500 underline underline-offset-2 hover:text-gray-700 transition-colors cursor-pointer'>
+					Nie masz konta? Zarejestruj się
+				</button>
+				<a
+					href='/login/reset-password'
+					className='text-sm text-gray-500 underline underline-offset-2 hover:text-gray-700 transition-colors cursor-pointer'>
+					Nie pamiętasz hasła? Resetuj hasło
+				</a>
+			</div>
 		</form>
 	)
 }

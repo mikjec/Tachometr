@@ -1,13 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase/client'
 import Logo from '@/app/components/Logo'
 import { Spinner } from '@/components/ui/spinner'
+import { useSearchParams } from 'next/navigation'
 
 export default function SetPasswordPage() {
 	const router = useRouter()
+	const searchParams = useSearchParams()
 
 	const [ready, setReady] = useState(false)
 	const [loading, setLoading] = useState(false)
@@ -17,29 +19,46 @@ export default function SetPasswordPage() {
 	const [confirm, setConfirm] = useState('')
 
 	useEffect(() => {
-		const hash = window.location.hash
-		const params = new URLSearchParams(hash.slice(1))
+		const init = async () => {
+			const code = searchParams.get('code')
 
-		const accessToken = params.get('access_token')
-		const refreshToken = params.get('refresh_token')
+			if (code) {
+				const { error } = await supabase.auth.exchangeCodeForSession(code)
 
-		if (!accessToken || !refreshToken) {
-			setError('Brak tokenu – link jest nieprawidłowy lub wygasł.')
-			return
-		}
-
-		supabase.auth
-			.setSession({
-				access_token: accessToken,
-				refresh_token: refreshToken,
-			})
-			.then(({ error }) => {
 				if (error) {
-					setError(error.message)
-				} else {
-					setReady(true)
+					setError('Wystąpił błąd, spróbuj ponownie później.')
+					return
 				}
-			})
+
+				setReady(true)
+				return
+			}
+
+			const hash = window.location.hash
+			const params = new URLSearchParams(hash.slice(1))
+
+			const accessToken = params.get('access_token')
+			const refreshToken = params.get('refresh_token')
+
+			if (!accessToken || !refreshToken) {
+				setError('Link jest nieprawidłowy lub wygasł.')
+				return
+			}
+
+			supabase.auth
+				.setSession({
+					access_token: accessToken,
+					refresh_token: refreshToken,
+				})
+				.then(({ error }) => {
+					if (error) {
+						setError(error.message)
+					} else {
+						setReady(true)
+					}
+				})
+		}
+		init()
 	}, [])
 
 	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {

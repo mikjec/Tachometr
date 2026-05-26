@@ -26,7 +26,7 @@ function EmployeesTable() {
 				</Link>
 			</div>
 
-			<div className='hidden lg:grid grid-cols-[2fr_2fr_1fr_1fr_50px] px-6 py-2 lg:text-sm xl:text-base'>
+			<div className='hidden border-b border-gray-200 py-4 lg:grid grid-cols-[2fr_2fr_1fr_1fr_50px] px-6 py-2 lg:text-sm xl:text-base'>
 				<span className='text-gray-400 uppercase tracking-wide'>Imię i nazwisko</span>
 				<span className='text-gray-400 uppercase tracking-wide'>Email</span>
 				<span className='text-gray-400 uppercase tracking-wide'>Stawka</span>

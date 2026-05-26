@@ -42,6 +42,18 @@ async function Page() {
 			},
 		},
 		orderBy: { createdAt: 'desc' },
+		select: {
+			id: true,
+			date: true,
+			hours: true,
+			note: true,
+			paid: true,
+			user: {
+				select: {
+					name: true,
+				},
+			},
+		},
 	})
 
 	const data: { month: string; hours: number }[] = await getMonthlyStats(profile.companyId)
