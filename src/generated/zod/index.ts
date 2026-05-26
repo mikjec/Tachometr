@@ -327,11 +327,21 @@ export const WorkLogOrderByWithRelationInputSchema: z.ZodType<Prisma.WorkLogOrde
   user: z.lazy(() => UserOrderByWithRelationInputSchema).optional(),
 });
 
-export const WorkLogWhereUniqueInputSchema: z.ZodType<Prisma.WorkLogWhereUniqueInput> = z.object({
-  id: z.uuid(),
-})
+export const WorkLogWhereUniqueInputSchema: z.ZodType<Prisma.WorkLogWhereUniqueInput> = z.union([
+  z.object({
+    id: z.uuid(),
+    userId_date: z.lazy(() => WorkLogUserIdDateCompoundUniqueInputSchema),
+  }),
+  z.object({
+    id: z.uuid(),
+  }),
+  z.object({
+    userId_date: z.lazy(() => WorkLogUserIdDateCompoundUniqueInputSchema),
+  }),
+])
 .and(z.strictObject({
   id: z.uuid().optional(),
+  userId_date: z.lazy(() => WorkLogUserIdDateCompoundUniqueInputSchema).optional(),
   AND: z.union([ z.lazy(() => WorkLogWhereInputSchema), z.lazy(() => WorkLogWhereInputSchema).array() ]).optional(),
   OR: z.lazy(() => WorkLogWhereInputSchema).array().optional(),
   NOT: z.union([ z.lazy(() => WorkLogWhereInputSchema), z.lazy(() => WorkLogWhereInputSchema).array() ]).optional(),
@@ -782,6 +792,11 @@ export const StringNullableFilterSchema: z.ZodType<Prisma.StringNullableFilter> 
 export const UserScalarRelationFilterSchema: z.ZodType<Prisma.UserScalarRelationFilter> = z.strictObject({
   is: z.lazy(() => UserWhereInputSchema).optional(),
   isNot: z.lazy(() => UserWhereInputSchema).optional(),
+});
+
+export const WorkLogUserIdDateCompoundUniqueInputSchema: z.ZodType<Prisma.WorkLogUserIdDateCompoundUniqueInput> = z.strictObject({
+  userId: z.string(),
+  date: z.coerce.date(),
 });
 
 export const WorkLogCountOrderByAggregateInputSchema: z.ZodType<Prisma.WorkLogCountOrderByAggregateInput> = z.strictObject({

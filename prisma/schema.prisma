@@ -38,7 +38,7 @@ model User {
   companyId  String
   company    Company     @relation(fields: [companyId], references: [id])
   createdAt  DateTime    @default(now())
-  workLogs WorkLog[]
+  workLogs WorkLog[]     
 
   @@index([companyId, role])
 }
@@ -52,7 +52,7 @@ enum Role {
 model WorkLog {
   id        String   @id @default(uuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   date      DateTime
   hours     Float
   paid      Boolean  @default(false)
