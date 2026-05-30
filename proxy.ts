@@ -3,8 +3,6 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { prisma } from './lib/prisma/prisma'
 
 export async function proxy(request: NextRequest) {
-	console.log('middleware start')
-
 	try {
 		const { pathname } = request.nextUrl
 

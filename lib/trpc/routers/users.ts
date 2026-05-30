@@ -74,8 +74,6 @@ export const userRouter = router({
 			password,
 		})
 
-		console.log('blad', error)
-
 		if (error || !data.user) {
 			throw new TRPCError({
 				code: 'INTERNAL_SERVER_ERROR',
@@ -197,7 +195,6 @@ export const userRouter = router({
 		const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(input.email, {
 			redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/login/set-password`,
 		})
-		console.log('blad: ', error)
 
 		if (error || !data.user) {
 			throw new TRPCError({

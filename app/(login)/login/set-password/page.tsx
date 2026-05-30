@@ -22,8 +22,6 @@ export default function SetPasswordPage() {
 		const init = async () => {
 			// const code = searchParams.get('code')
 
-			// console.log('Code from URL: ', code)
-
 			// if (code) {
 			// 	const { error } = await supabase.auth.exchangeCodeForSession(code)
 

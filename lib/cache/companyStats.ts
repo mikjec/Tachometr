@@ -31,8 +31,6 @@ export const getMonthlyStats = (companyId: string) =>
 						_sum: { hours: true },
 					})
 
-					console.log(`Stats for ${label}:`, result._sum.hours)
-
 					return { month: label, hours: result._sum.hours ?? 0 }
 				}),
 			)
