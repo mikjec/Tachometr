@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase/client'
 import Logo from '@/app/components/Logo'
 import { Spinner } from '@/components/ui/spinner'
@@ -9,7 +9,7 @@ import { useSearchParams } from 'next/navigation'
 
 export default function SetPasswordPage() {
 	const router = useRouter()
-	const searchParams = useSearchParams()
+	// const searchParams = await useSearchParams()
 
 	const [ready, setReady] = useState(false)
 	const [loading, setLoading] = useState(false)
@@ -20,22 +20,22 @@ export default function SetPasswordPage() {
 
 	useEffect(() => {
 		const init = async () => {
-			const code = searchParams.get('code')
+			// const code = searchParams.get('code')
 
-			console.log('Code from URL: ', code)
+			// console.log('Code from URL: ', code)
 
-			if (code) {
-				const { error } = await supabase.auth.exchangeCodeForSession(code)
+			// if (code) {
+			// 	const { error } = await supabase.auth.exchangeCodeForSession(code)
 
-				if (error) {
-					// setError('Wystąpił błąd, spróbuj ponownie później.')
-					setError(error.message)
-					return
-				}
+			// 	if (error) {
+			// 		// setError('Wystąpił błąd, spróbuj ponownie później.')
+			// 		setError(error.message)
+			// 		return
+			// 	}
 
-				setReady(true)
-				return
-			}
+			// 	setReady(true)
+			// 	return
+			// }
 
 			const hash = window.location.hash
 			const params = new URLSearchParams(hash.slice(1))
