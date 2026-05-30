@@ -1,4 +1,3 @@
-// middleware.ts
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { prisma } from './lib/prisma/prisma'
@@ -39,8 +38,7 @@ export async function proxy(request: NextRequest) {
 	} = await supabase.auth.getUser()
 
 	if (!user && !pathname.startsWith('/login')) {
-		const path = process.env.NEXT_PUBLIC_APP_URL + '/login'
-		return NextResponse.redirect(path)
+		return NextResponse.redirect(new URL('/login', request.url))
 	}
 
 	if (user) {
