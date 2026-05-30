@@ -16,37 +16,55 @@ function Pagination({
 	const totalPages = pages ?? 0
 
 	const getPageNumbers = (): (number | '...')[] => {
-		if (totalPages <= 7) {
-			return Array.from({ length: totalPages }, (_, i) => i + 1)
+		const total = totalPages
+
+		if (total <= 7) {
+			return Array.from({ length: total }, (_, i) => i + 1)
 		}
 
-		const delta = 1
-		const left = page - delta
-		const right = page + delta
+		const visible = new Set<number>()
 
-		const pages_: (number | '...')[] = []
+		// zawsze pokazujemy pierwszą i ostatnią
+		visible.add(1)
+		visible.add(total)
 
-		pages_.push(1)
-
-		if (left > 2) {
-			pages_.push('...')
-		} else if (left === 2) {
-			pages_.push(2)
+		// aktualna strona i sąsiedzi
+		for (let i = page - 1; i <= page + 1; i++) {
+			if (i > 1 && i < total) {
+				visible.add(i)
+			}
 		}
 
-		for (let i = Math.max(2, left); i <= Math.min(totalPages - 1, right); i++) {
-			pages_.push(i)
+		// gdy jesteśmy blisko początku
+		if (page <= 3) {
+			visible.add(2)
+			visible.add(3)
+			visible.add(4)
 		}
 
-		if (right < totalPages - 1) {
-			pages_.push('...')
-		} else if (right === totalPages - 1) {
-			pages_.push(totalPages - 1)
+		// gdy jesteśmy blisko końca
+		if (page >= total - 2) {
+			visible.add(total - 1)
+			visible.add(total - 2)
+			visible.add(total - 3)
 		}
 
-		pages_.push(totalPages)
+		const sorted = [...visible].filter(n => n >= 1 && n <= total).sort((a, b) => a - b)
 
-		return pages_
+		const result: (number | '...')[] = []
+
+		for (let i = 0; i < sorted.length; i++) {
+			const current = sorted[i]
+			const previous = sorted[i - 1]
+
+			if (i > 0 && current - previous > 1) {
+				result.push('...')
+			}
+
+			result.push(current)
+		}
+
+		return result
 	}
 
 	const pageNumbers = getPageNumbers()
