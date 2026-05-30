@@ -1,6 +1,6 @@
 'use client'
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Label, LabelList } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, LabelList } from 'recharts'
 
 function StatsChart({
 	isAnimationActive = true,
@@ -40,7 +40,7 @@ function StatsChart({
 					dataKey='hours'
 					fill='#93a5cf'
 					isAnimationActive={isAnimationActive}
-					maxBarSize={90}>
+					maxBarSize={80}>
 					<LabelList
 						dataKey='hours'
 						position='top'

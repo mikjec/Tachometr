@@ -77,7 +77,7 @@ export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
 				</button>
 				<a
 					href='/login/reset-password'
-					className='text-sm text-gray-500 underline underline-offset-2 hover:text-gray-700 transition-colors cursor-pointer'>
+					className='text-sm text-gray-500 underline underline-offset-2 hover:text-gray-700 transition-colors cursor-pointer hidden'>
 					Nie pamiętasz hasła? Resetuj hasło
 				</a>
 			</div>
